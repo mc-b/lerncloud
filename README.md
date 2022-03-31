@@ -3,7 +3,7 @@ LernCloud
 
 Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem Projekt zusammen und vermindert *Copy & Paste*.
 
-Dieses Projekt basiert auf den Erfahrungen von [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernkube).
+Dieses Projekt basiert auf den Erfahrungen von [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas).
 
 **Das Repository ist im Aufbau und beinhaltet Fehler oder Scripts welche nicht sauber funktionieren!**
 
