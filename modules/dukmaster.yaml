@@ -20,5 +20,5 @@ runcmd:
   - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8smaster.sh | bash -"
   - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8saddons.sh | bash -"
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8swebui.sh | bash -s https://raw.githubusercontent.com/mc-b/lernmaas/master/doc/dukmaster.md master
-  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/misegr/master/scripts/install.sh | bash -"
-  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/duk/master/scripts/install.sh | bash -"
+  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/scripts/repository.sh | bash -s https://github.com/mc-b/misegr"
+  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/scripts/repository.sh | bash -s https://github.com/mc-b/duk"
