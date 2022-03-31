@@ -4,6 +4,8 @@
 #
 HOME=/home/ubuntu
 
+ln -s /home/ubuntu/data /data
+
 # obsolet durch Container Cache
 # sudo kubeadm config images pull
 
