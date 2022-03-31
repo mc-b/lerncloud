@@ -30,6 +30,7 @@ sudo chown -R ubuntu:ubuntu $HOME/.kube
 # aus Kompatilitaet zur Vagrant Installation
 sudo mkdir -p /home/vagrant/.kube
 sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+sudo chmod 644 /home/vagrant/.kube/config
 
 # this for loop waits until kubectl can access the api server that kubeadm has created
 for i in {1..150}; do # timeout for 5 minutes
