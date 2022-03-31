@@ -71,7 +71,7 @@ cat <<%EOF% | sudo tee -a /var/www/html/index.html
                 <div class="tab-content">
                     <!--  Intro -->
                     <div id="Intro" class="tab-pane fade in active">
-                         $(curl -sfL h $1 | markdown | envsubst)
+                         $(curl -sfL $1 | markdown | envsubst)
                     </div>  
 %EOF%
 

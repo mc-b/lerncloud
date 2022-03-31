@@ -17,7 +17,7 @@ runcmd:
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/samba.sh | bash -
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/docker.sh | bash -
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8sbase.sh | bash -
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8smaster.sh | bash -
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8saddons.sh | bash -
+  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8smaster.sh | bash -"
+  - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8saddons.sh | bash -"
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/k8swebui.sh | bash - https://raw.githubusercontent.com/mc-b/lernmaas/master/doc/dukmaster.md master
   
