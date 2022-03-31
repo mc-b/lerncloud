@@ -84,7 +84,7 @@ cat <<%EOF% | sudo tee -a /var/www/html/index.html
                 <div class="tab-content">
                     <!--  Intro -->
                     <div id="Intro" class="tab-pane fade in active">
-                        $(markdown README.md | envsubst)
+                        $(markdown /home/ubuntu/README.md | envsubst)
                     </div> 
 %EOF%
                     

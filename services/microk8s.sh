@@ -93,7 +93,7 @@ fi
 ###
 # Intro
     
-cat <<%EOF% | sudo tee README.md
+cat <<%EOF% | sudo tee /home/ubuntu/README.md
     
 ### microk8s Kubernetes
 
@@ -106,4 +106,3 @@ Weitere Informationen: [https://microk8s.io/](https://microk8s.io/)
   
 %EOF%
 
-bash -x helper/intro
