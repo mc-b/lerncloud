@@ -36,7 +36,7 @@ sudo microk8s ctr image list
 
 ###
 # Add-ons  
-sudo microk8s enable dns 
+sudo microk8s enable dns ingress 
 
 # hub.docker.com entfernen fuer Overlay Network calico
 sudo sed -i -e 's|image: calico|image: quay.io/calico|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
