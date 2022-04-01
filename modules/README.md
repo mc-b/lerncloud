@@ -11,11 +11,16 @@ Dazu ist zuerst diese Repository zu klonen
 Und anschliessend kann eine [Basisumgebung](base.yaml) mit vorbereiteten Verzeichnis, SSH-Keys, WireGuard und Introseite gestartet werden.    
     
     multipass launch --name base --cloud-init modules/base.yaml
-    ssh -i ssh/lerncloud ubuntu@base.mshome.net
-    
-Browser öffnen und [http://base.mshome.net](http://base.mshome.net) anwählen.
+    multipass set client.primary-name=base
+    multipass shell base
 
-Dateiexplorer öffnen und mittels `\\base.mshome.net` Share öffnen.
+Alternativ kann mittels `ssh` auf die VM zugegriffen werden.    
+
+    ssh -i ssh/lerncloud ubuntu@base
+    
+Browser öffnen und [http://base](http://base) anwählen.
+
+Dateiexplorer öffnen und mittels `\\base` Share öffnen.
 
  
 ### Beispiele
