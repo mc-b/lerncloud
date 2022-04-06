@@ -17,6 +17,7 @@ write_files:
    path: /home/ubuntu/README.md
    permissions: '0644' 
  - content: |
+    
     Zugriff mittels `ssh -i ssh/lerncloud ubuntu@base`
    path: /home/ubuntu/ACCESSING.md
    permissions: '0644'  
@@ -24,7 +25,6 @@ write_files:
     Es stehen keine Services zur Verfügung.
    path: /home/ubuntu/SERVICES.md
    permissions: '0644'    
-             
 runcmd:
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -

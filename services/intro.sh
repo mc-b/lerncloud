@@ -56,7 +56,7 @@ cat <<%EOF% | sudo tee /var/www/html/index.html
 if [ -f /home/ubuntu/ACCESSING.md ]
 then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html
-                    #<li><a data-toggle="tab" href="#ACCESSING">Accessing</a></li>
+                    <li><a data-toggle="tab" href="#ACCESSING">Accessing</a></li>
 %EOF%
 fi
 
@@ -95,7 +95,7 @@ cat <<%EOF% | sudo tee -a /var/www/html/index.html
 %EOF%
 fi                     
 
-if [ -f SERVICES.md ]
+if [ -f /home/ubuntu/SERVICES.md ]
 then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html                                        
                     <!--  Services -->
