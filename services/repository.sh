@@ -14,7 +14,7 @@ then
     bash -x scripts/install.sh
     
     # Dateien fuer Willkommenseite aufbereiten
-    [ -f README.md ] && [ cp README.md /home/ubuntu/; ]
-    [ -f ACCESSING.md ] && [ cp ACCESSING.md /home/ubuntu/; ]
-    [ -f SERVICES.md ] && [ cp SERVICES.md /home/ubuntu/; ]
+    [ -f README.md ] && { cp README.md /home/ubuntu/; }
+    [ -f ACCESSING.md ] && { cp ACCESSING.md /home/ubuntu/; }
+    [ -f SERVICES.md ] && { cp SERVICES.md /home/ubuntu/; }
 fi
