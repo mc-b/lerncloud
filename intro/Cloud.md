@@ -1,5 +1,5 @@
-Cloud
------
+Quick Start - Cloud
+-------------------
 
 ![](../images/cloud-init-ui.png)
 
