@@ -7,6 +7,15 @@ Dieses Projekt basiert auf den Erfahrungen von [LernKube](https://github.com/mc-
 
 **Das Repository ist im Aufbau und kann Fehler oder Scripts, welche nicht sauber funktionieren, beinhalten!**
 
+Quick Start
+-----------
+
+* [Lokaler Computer](intro/)
+* [Cloud inkl. LernMAAS](intro/Cloud.md)
+* [Terraform](intro/Terraform.md)
+
+Für die Einbindung der Scripts in eigene "Cloud-init" Deklarationen siehe [Services](services/) und [Scripts](scripts/).
+
 Hintergrund
 -----------
 
@@ -15,19 +24,6 @@ Beim Erstellen von Deklaration/Scripts für "Infrastructure as Code" wiederholen
 Z.B. die Installation von Kubernetes ist 1:1 in den Projekten [iotkitv3](https://github.com/iotkitv3/edge), [CNT](https://gitlab.com/ch-tbz-hf/Stud/cnt/-/blob/main/2_Unterrichtsressourcen/K/kubernetes.md) etc. vorhanden.
 
 Dieses Projekt fasst diese Deklaration/Scripts zusammen und vermindert damit den Wartungsaufwand für andere Projekte.
-
-Einsatz in eigenen Deklaration/Scripts
---------------------------------------
-
-Das nachfolgende Beispiel zeigt, wie ein Script in die eigenen Cloud-init Scripte integriert werden kann.
-
-    #cloud-config
-    runcmd:
-     - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
-
-Welche [Services](services/) und [Scripte](scripts/) vorhanden, siehe entsprechende Unterverzeichnisse.
-
-Im Verzeichnis [Modules](modules/) befindet sich, sofort einsatzfähige Beispiele, für immer wieder verwendetete Module. 
 
 Upgrade
 -------
