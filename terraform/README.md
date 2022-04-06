@@ -80,3 +80,29 @@ Anpassen der Zugriffsinformationen auf die MAAS Umgebung in `maas/main.tf`, Vari
 Die Nummer hinter dem Modulnamen, ergibt den Hostanteil für das VPN, siehe [Einbinden der Clients und Portweiterleitung](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/GatewayClient.md).
 
 **Hinweis**: der Terraform Provider von MAAS unterstützt leider, einige Parameter wie RAM Grösse, AZ nicht und sollte nur verwendet werden, wenn man sich mit MAAS.io auskennt.
+
+### Terraform in eigene Module Einbinden
+
+Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit ungefähr folgendem Inhalt anzulegen:
+
+    module "m122" {
+      #source     = "./lerncloud/terraform/aws"
+      #source     = "./lerncloud/terraform/azure"
+      #source     = "./lerncloud/terraform/maas"
+      module     = "m122"
+      userdata   = "./lerncloud/modules/m122.yaml"
+    }
+    
+Die Variable `module` und `userdata` sind auf den Namen des Moduls und dessen Cloud-init Datei zu ändern.    
+    
+Anschliessend ist das Repository und innerhalb dieses Repositories `lernkube` zu klonen.
+
+    git clone https://github.com/tbz-it/m122
+    cd m122
+    git clone https://github.com/mc-b/lerncloud
+    
+Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `source` Einträge zu entfernen. Dann noch die VM Anlegen und fertig.
+
+    terraform init
+    terraform apply
+    
