@@ -13,6 +13,7 @@ Quick Start
 * [Lokaler Computer](intro/)
 * [Cloud inkl. LernMAAS](intro/Cloud.md)
 * [Terraform](terraform/)
+* [Terraform in eigene Module Einbinden](terraform#terraform-in-eigene-module-einbinden)
 
 Für die Einbindung der Scripts in eigene "Cloud-init" Deklarationen siehe [Services](services/) und [Scripts](scripts/).
 

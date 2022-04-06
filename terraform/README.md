@@ -90,7 +90,7 @@ Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `
       #source     = "./lerncloud/terraform/azure"
       #source     = "./lerncloud/terraform/maas"
       module     = "m122"
-      userdata   = "./lerncloud/modules/m122.yaml"
+      userdata   = "cloud-init.yaml"
     }
     
 Die Variable `module` und `userdata` sind auf den Namen des Moduls und dessen Cloud-init Datei zu ändern.    
