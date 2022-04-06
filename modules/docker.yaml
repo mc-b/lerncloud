@@ -12,9 +12,9 @@ users:
 ssh_pwauth: true
 disable_root: false 
 runcmd:
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/nfs.sh | bash -
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/wireguard.sh | bash -
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/samba.sh | bash -
+  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
+  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -
+  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/share.sh | bash -
   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/docker.sh | bash -
-  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/scripts/intro.sh | bash -
+  - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/intro.sh | bash -
   

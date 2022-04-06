@@ -92,4 +92,46 @@ Bindet Repositories, welche für [LernMAAS](https://github.com/mc-b/lernmaas) er
 **Voraussetzungen**
 * Vorgängig müssen die Services/Script laut [config.yaml](https://github.com/mc-b/lernmaas/blob/master/config.yaml) bzw. deren LernCloud Entsprechungen ausgeführt werden.
 
- 
+### k3.sh
+
+Installiert eine [K3s](https://k3s.io/) Umgebung, ein Lightweight Kubernetes.
+
+[K3s](https://k3s.io/) stammt von Rancher, welche von SuSE aufgekauft wurde.
+
+Um eine homogene Umgebung zur Verfügung zu stellen, sollte statt [K3s](https://k3s.io/) - [MicroK8s](https://microk8s.io/) verwendet werden.
+
+**Voraussetzungen**
+* Vorgängig müssen die Services/Script laut [config.yaml](https://github.com/mc-b/lernmaas/blob/master/config.yaml) bzw. deren LernCloud Entsprechungen ausgeführt werden.
+
+### microk8s.sh
+
+Installiert eine Kubernetes Umgebung basierend auf [MicroK8s](https://microk8s.io/).
+
+Sollte anstelle von `k3.sh` verwendet werden.
+
+**Einbindung in Scripts**
+
+    runcmd:
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/share.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/microk8s.sh | bash -
+      - microk8s enable ingress
+      - microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/addons/dashboard-skip-login-no-ingress.yaml 
+      - microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lernkube/master/data/DataVolume.yaml
+
+Installiert die MicroK8s Umgebung und zusätzlich (letzte drei Zeilen):
+* den Ingress Dienst (Reverse Proxy) nginx.
+* das Kubernetes Dashboard. Erreichbar mittels `https://<ip vm>:8443
+* richtet [PersistentVolumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) und [Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) ein.
+
+**Hinweis**: da der Port 80 und 443 vom Ingress Dienst belegt ist, führt die Verwendung von `intro.sh` zu Port Konflikten und wurde deshalb weggelassen.
+
+### docker.sh und k8s*.sh 
+
+Sind Spezial Scripte für eine Kubernetes Umgebung mit unterliegendem Docker.
+
+Da diese Zusammenstellung von Kubernetes per 31.12.21 als "deprecated" gekennzeichnet wurde, sollte diese nicht mehr verwendet werden.
+
+Die Scripts können ohne Vorwarnung gelöscht werden.
+

@@ -19,6 +19,3 @@ runcmd:
   - microk8s enable ingress
   - microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/addons/dashboard-skip-login-no-ingress.yaml 
   - microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lernkube/master/data/DataVolume.yaml
-  
-
-  
