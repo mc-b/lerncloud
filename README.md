@@ -12,7 +12,7 @@ Quick Start
 
 * [Lokaler Computer](intro/)
 * [Cloud inkl. LernMAAS](intro/Cloud.md)
-* [Terraform](intro/Terraform.md)
+* [Terraform](terraform/)
 
 Für die Einbindung der Scripts in eigene "Cloud-init" Deklarationen siehe [Services](services/) und [Scripts](scripts/).
 
