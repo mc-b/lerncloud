@@ -49,38 +49,6 @@ sudo mkdir -p /home/ubuntu/.kube
 sudo microk8s config | sudo tee  /home/ubuntu/.kube/config
 sudo chown -f -R ubuntu:ubuntu /home/ubuntu/.kube
 
-SERVER_IP=$(sudo cat /var/lib/cloud/instance/datasource | cut -d: -f3 | cut -d/ -f3)
-MASTER=$(hostname | cut -d- -f 3,4)
-
-###
-# Master vorhanden? - Join mit Master (nur wenn microk8s in Namen!)
-if  [ "${SERVER_IP}" != "" ] && [ "${MASTER}" != "" ] && [[ "${MASTER}" == *"microk8s"* ]]
-then
-
-    # Master statt Worker Node mounten
-    sudo umount /home/ubuntu/data
-    sudo mount -t nfs ${SERVER_IP}:/data/storage/${MASTER} /home/ubuntu/data/
-    sudo sed -i -e "s/$(hostname)/${MASTER}/g" /etc/fstab
-    
-    # loop bis Master bereit, Timeout zwei Minuten
-    for i in {1..60}
-    do
-        if  [ -f /home/ubuntu/data/.ssh/id_rsa ]
-        then
-            # Password und ssh-key wie Master
-            sudo chpasswd <<<ubuntu:$(cat /home/ubuntu/data/.ssh/passwd)
-            cat /home/ubuntu/data/.ssh/id_rsa.pub >>/home/ubuntu/.ssh/authorized_keys
-            # Node joinen
-            sudo chmod 600 /home/ubuntu/data/.ssh/id_rsa
-            echo $(ssh -i /home/ubuntu/data/.ssh/id_rsa -o StrictHostKeyChecking=no ${MASTER} microk8s add-node | awk 'NR==2 { print $0 }') >/tmp/join-${MASTER}
-            sudo bash -x /tmp/join-${MASTER}
-            sudo chmod 666 /home/ubuntu/data/.ssh/id_rsa
-            break
-        fi
-        sleep 2
-    done
-fi
-
 ###
 # Intro
     
