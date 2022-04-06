@@ -60,8 +60,16 @@ Diese Willkommensseite kann mittels folgenden Dateien angepasst werden:
 
 Diese Dateien können z.B. mittels dem `Cloud-init` Script erzeugt werden. Siehe z.B. [base.yaml](../modules/base.yaml).
 
+**Einbindung in Scripts**
 
+    write_files:
+     - content: |
+        # Willkommen
+       path: /home/ubuntu/README.md
+       permissions: '0644' 
+    runcmd:
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/share.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/intro.sh | bash -
 
-
-
-         
