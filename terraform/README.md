@@ -64,6 +64,8 @@ In der AWS Cloud eine VM für das Modul M122 erstellen:
     cd lerncloud/terraform/aws
     terraform init
     terraform apply -var module=m122 -var userdata=../../modules/m122.yaml
+    
+**Tipp** AWS Academy: statt Credentials in `~/.aws/credentials` zu Speichern. Credentials, z.B. in `config.txt` speichern und Umgebungsvariable `AWS_CONFIG_FILE` auf `config.txt` setzen.    
 
 ### MAAS.io
 
