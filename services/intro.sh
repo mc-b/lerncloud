@@ -19,12 +19,9 @@ sudo apt-get install -y apache2 jq markdown
 export ADDR=$(ip -f inet addr show wg0 | grep -Po 'inet \K[\d.]+')
 [ "${ADDR}" == "" ] && { export ADDR=$(hostname -f); }
 
-# Home Verzeichnis unter http://<host>/data/ verfuegbar machen, wenn Zugriff via Password erlaubt
-if [ -f /home/ubuntu/.ssh/passwd ] || [ -f ACCESSING.md ]
-then
-    mkdir -p /home/ubuntu/data/
-    sudo ln -s /home/ubuntu/data /var/www/html/data
-fi
+# Home Verzeichnis unter http://<host>/data/ verfuegbar machen
+sudo ln -s /home/ubuntu/data /var/www/html/data
+sudo chmod -R g=u,o=u /home/ubuntu/data/
 
 cat <<%EOF% | sudo tee /var/www/html/index.html
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -56,14 +53,14 @@ cat <<%EOF% | sudo tee /var/www/html/index.html
                     <li class="active"><a data-toggle="tab" href="#Intro">Intro</a></li>
 %EOF%
 
-if [ -f /home/ubuntu/.ssh/passwd ] || [ -f ACCESSING.md ]
+if [ -f /home/ubuntu/ACCESSING.md ]
 then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html
-                    #<li><a data-toggle="tab" href="#Accessing">Accessing</a></li>
+                    #<li><a data-toggle="tab" href="#ACCESSING">Accessing</a></li>
 %EOF%
 fi
 
-if [ -f SERVICES.md ]
+if [ -f /home/ubuntu/SERVICES.md ]
 then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html
                     <li><a data-toggle="tab" href="#Services">Services</a></li>
@@ -88,29 +85,12 @@ cat <<%EOF% | sudo tee -a /var/www/html/index.html
                     </div> 
 %EOF%
                     
-if [ -f ACCESSING.md ]      
+if [ -f /home/ubuntu/ACCESSING.md ]      
 then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html                                        
                     <!--  Access -->
-                    <div id="Accessing" class="tab-pane fade">
-                        $(markdown ACCESSING.md | envsubst)
-                    </div>
-%EOF%
-elif [ -f /home/ubuntu/.ssh/passwd ]
-then
-cat <<%EOF% | sudo tee -a /var/www/html/index.html                                        
-                    <!--  Access -->
-                    <div id="Accessing" class="tab-pane fade">
-                        <h2>Zugriff auf den Server</h2>
-                        <p><strong>User / Password</strong></p>
-                        <p>Der User ist <code>ubuntu</code>, dass Password steht in der Datei <a href="/data/.ssh/passwd">/data/.ssh/passwd</a>.</p>
-                        <p>Einloggen mittels</p>
-                        <pre><code>ssh ubuntu@${ADDR}</code></pre>
-                        <p><strong>SSH</strong></p>
-                        <p>Auf der Server kann mittels <a href="https://wiki.ubuntuusers.de/SSH/">ssh</a> zugegriffen werden.</p>
-                        <p>Der private SSH Key ist auf dem Installierten Server unter <a href="/data/.ssh/id_rsa">/data/.ssh/id_rsa</a> zu finden. Downloaden und dann wie folgt auf den Server einloggen:</p>
-                        <pre><code>ssh -i id_rsa ubuntu@${ADDR}</code></pre>
-                        <p><strong>Hinweis</strong>: Windows User verwenden <a href="https://www.bitvise.com/">bitvise</a> und legen den privaten SSH Key im "Client key manager" ab.</p>                    
+                    <div id="ACCESSING" class="tab-pane fade">
+                        $(markdown /home/ubuntu/ACCESSING.md | envsubst)
                     </div>
 %EOF%
 fi                     
@@ -120,7 +100,7 @@ then
 cat <<%EOF% | sudo tee -a /var/www/html/index.html                                        
                     <!--  Services -->
                     <div id="Services" class="tab-pane fade">
-                        $(markdown SERVICES.md | envsubst)
+                        $(markdown /home/ubuntu/SERVICES.md | envsubst)
                     </div>
                 </div>  
 %EOF%
@@ -154,8 +134,3 @@ cat <<%EOF% | sudo tee -a /var/www/html/index.html
 </body>
 </html>
 %EOF%
-
-if [ -f /home/ubuntu/.ssh/passwd ] || [ -f ACCESSING.md ]
-then
-    sudo chmod -R g=u,o=u /home/ubuntu/data/
-fi
