@@ -36,7 +36,7 @@ sudo microk8s ctr image list
 
 ###
 # Add-ons  
-sudo microk8s enable dns ingress 
+sudo microk8s enable dns 
 
 # hub.docker.com entfernen fuer Overlay Network calico
 sudo sed -i -e 's|image: calico|image: quay.io/calico|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
@@ -48,15 +48,6 @@ sudo usermod -a -G microk8s ubuntu
 sudo mkdir -p /home/ubuntu/.kube
 sudo microk8s config | sudo tee  /home/ubuntu/.kube/config
 sudo chown -f -R ubuntu:ubuntu /home/ubuntu/.kube
-
-###
-# buildah Installieren
-sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /' | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_18.04/Release.key -O /tmp/Release.key
-sudo apt-key add - </tmp/Release.key
-sudo apt-get update -qq
-sudo apt-get -qq -y install buildah 
-sudo apt-get -qq -y install fuse-overlayfs
 
 SERVER_IP=$(sudo cat /var/lib/cloud/instance/datasource | cut -d: -f3 | cut -d/ -f3)
 MASTER=$(hostname | cut -d- -f 3,4)
