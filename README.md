@@ -5,7 +5,7 @@ Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem Projekt zus
 
 Dieses Projekt basiert auf den Erfahrungen von [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas).
 
-**Das Repository ist im Aufbau und beinhaltet Fehler oder Scripts welche nicht sauber funktionieren!**
+**Das Repository ist im Aufbau und kann Fehler oder Scripts, welche nicht sauber funktionieren, beinhalten!**
 
 Hintergrund
 -----------
@@ -23,12 +23,25 @@ Das nachfolgende Beispiel zeigt, wie ein Script in die eigenen Cloud-init Script
 
     #cloud-config
     runcmd:
-     - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/nfs.sh | bash -
+     - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
 
 Welche [Services](services/) und [Scripte](scripts/) vorhanden, siehe entsprechende Unterverzeichnisse.
 
 Im Verzeichnis [Modules](modules/) befindet sich, sofort einsatzfähige Beispiele, für immer wieder verwendetete Module. 
 
+Upgrade
+-------
+
+Upgrade bestehender [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas) Scripts.
+
+* [Upgrade von LernKube](upgrade/lernkube.md) 
+* [Upgrade von LernMAAS](upgrade/lernmaas.md) 
+
+
 - - -
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Namensnennung 4.0 International Lizenz</a>.
+
+Copyright (C) mc-b.ch, Marcel Bernet
+
+*Verlinkte Scripte können andere Copyrights beinhalten!*
