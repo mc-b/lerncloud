@@ -73,3 +73,23 @@ Diese Dateien können z.B. mittels dem `Cloud-init` Script erzeugt werden. Siehe
       - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/share.sh | bash -
       - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/intro.sh | bash -
 
+**Voraussetzungen**
+* `storage.sh` Script wurde vorgängig ausgeführt.
+
+### repository.sh
+
+Bindet Repositories, welche für [LernMAAS](https://github.com/mc-b/lernmaas) erstellt wurden, ein.
+
+**Einbindung in Scripts**
+
+    runcmd:
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/storage.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/share.sh | bash -
+      - sudo su - ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/repository.sh | bash -s https://github.com/tbz-it/M122"
+      - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/intro.sh | bash -
+
+**Voraussetzungen**
+* Vorgängig müssen die Services/Script laut [config.yaml](https://github.com/mc-b/lernmaas/blob/master/config.yaml) bzw. deren LernCloud Entsprechungen ausgeführt werden.
+
+ 
