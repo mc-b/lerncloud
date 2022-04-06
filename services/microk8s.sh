@@ -49,6 +49,9 @@ sudo mkdir -p /home/ubuntu/.kube
 sudo microk8s config | sudo tee  /home/ubuntu/.kube/config
 sudo chown -f -R ubuntu:ubuntu /home/ubuntu/.kube
 
+# Persistente Datenablage
+sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml
+
 ###
 # Intro
     
