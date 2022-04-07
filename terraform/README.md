@@ -89,9 +89,10 @@ Die Nummer hinter dem Modulnamen, ergibt den Hostanteil für das VPN, siehe [Ein
 
 ### Terraform in eigene Module Einbinden
 
-Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit ungefähr folgendem Inhalt anzulegen:
+Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit folgendem Inhalt anzulegen:
 
     module "lerncloud" {
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"      
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
