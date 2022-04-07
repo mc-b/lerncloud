@@ -30,6 +30,19 @@ Basiert auf [base.yaml](base.yaml) mit folgenden Erweiterungen
 * Kubernetes Dashboard
 * Persistente Ablage, bzw. `PersistenVolume` in Kubernetes.
 
+### [Modul 122](https://github.com/tbz-it/M122/blob/master/cloud-init.yaml)
+
+[Abläufe mit einer Scriptsprache automatisieren](https://www.modulbaukasten.ch/module/122/3/de-DE?title=Abl%C3%A4ufe-mit-einer-Scriptsprache-automatisieren) mit:
+* Apache PHP Umgebung
+* PowerShell
+* Introseite
+
+### [Modul 437](https://github.com/tbz-it/M437/blob/master/cloud-init.yaml) 
+
+[Im Support arbeiten](https://www.modulbaukasten.ch/module/437/1/de-DE?title=Im-Support-arbeiten) mit:
+* OS Ticket Applikation
+* MySQL Datenbank
+
 ### [k8smaster.yaml](k8smaster.yaml)
 
 Kubernetes Umgebung wie sie von [LernKube](https://github.com/mc-b/lernkube) verwendet wird.

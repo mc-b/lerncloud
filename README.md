@@ -15,7 +15,9 @@ Quick Start
 * [Terraform](terraform/)
 * [Terraform in eigene Module Einbinden](terraform#terraform-in-eigene-module-einbinden)
 
-Für die Einbindung der Scripts in eigene "Cloud-init" Deklarationen siehe [Services](services/) und [Scripts](scripts/).
+Für die Einbindung der Scripts in eigene "Cloud-init" Scripts siehe [Services](services/) und [Scripts](scripts/).
+
+Vorbereitete Umgebungen, für Module und Kurse, sind [hier](modules/) zu finden.
 
 Hintergrund
 -----------
