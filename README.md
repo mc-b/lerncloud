@@ -34,6 +34,7 @@ Migration
 Migration bestehender [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas) Scripts.
 
 * [Migration](migration/)
+* [Migration K3s nach MicroK8s](https://github.com/mc-b/lerncloud/tree/main/migration#migration-k3s-nach-microk8s)
 
 - - -
 
