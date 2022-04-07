@@ -29,15 +29,18 @@ Um eine VM in einer der Cloud Umgebungen (AWS, Azure, MAAS) zu erstellen, genüg
 
     git clone https://github.com/mc-b/lerncloud
     # In der Cloud Anmelden
-    cd lerncloud/terraform/<Cloud>
+    cd lerncloud/terraform
+    # main.tf Eintrag `source` aktivieren
     terraform init
-    terraform apply -var module=<Module> -var userdata=<cloud-init-script>
+    terraform apply 
     
 Wird die VM nicht mehr benötigt, kann sie wieder gelöscht werden:
 
-    terraform destroy -var module=<Module>    
+    terraform destroy    
     
-Für eine Liste der Module siehe [Module](../modules/). Statt einer Cloud-init Datei aus dem Verzeichnis, kann irgendeine Cloud-init Datei angegeben werden. 
+Für eine Liste der Module siehe [Module](../modules/). Statt einer Cloud-init Datei aus dem Verzeichnis, kann eine eigene Cloud-init Datei angegeben werden. 
+
+    terraform apply -var module=<Modulname> -var userdata=<meine Cloud-init Datei>
 
 ### Azure Cloud
 
@@ -45,7 +48,8 @@ In der Azure Cloud eine VM für das Modul M122 erstellen:
 
     git clone https://github.com/mc-b/lerncloud
     az login
-    cd lerncloud/terraform/azure
+    cd lerncloud/terraform
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"` aktivieren    
     terraform init
     terraform apply -var module=m122 -var userdata=../../modules/m122.yaml
     
@@ -62,10 +66,11 @@ In der AWS Cloud eine VM für das Modul M122 erstellen:
         Default output format [None]:    
     
     cd lerncloud/terraform/aws
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"` aktivieren    
     terraform init
-    terraform apply -var module=m122 -var userdata=../../modules/m122.yaml
+    terraform apply 
     
-**Tipp** AWS Academy: statt Credentials in `~/.aws/credentials` zu Speichern. Credentials, z.B. in `config.txt` speichern und Umgebungsvariable `AWS_CONFIG_FILE` auf `config.txt` setzen.    
+**Tipp** AWS Academy: statt Credentials in `~/.aws/credentials` zu Speichern. Credentials, z.B. in `config.txt` speichern und Umgebungsvariable `AWS_CONFIG_FILE` setzen.    
 
 ### MAAS.io
 
@@ -74,8 +79,9 @@ In der AWS Cloud eine VM für das Modul M122 erstellen:
 Anpassen der Zugriffsinformationen auf die MAAS Umgebung in `maas/main.tf`, Variablen `api_key` und `api_url`.
 
     cd lerncloud/terraform/maas
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"` aktivieren    
     terraform init
-    terraform apply -var module=m122-11 -var userdata=../../modules/m122.yaml
+    terraform apply 
     
 Die Nummer hinter dem Modulnamen, ergibt den Hostanteil für das VPN, siehe [Einbinden der Clients und Portweiterleitung](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/GatewayClient.md).
 
@@ -85,21 +91,19 @@ Die Nummer hinter dem Modulnamen, ergibt den Hostanteil für das VPN, siehe [Ein
 
 Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit ungefähr folgendem Inhalt anzulegen:
 
-    module "m122" {
-      #source     = "./lerncloud/terraform/aws"
-      #source     = "./lerncloud/terraform/azure"
-      #source     = "./lerncloud/terraform/maas"
+    module "lerncloud" {
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
       module     = "m122"
       userdata   = "cloud-init.yaml"
     }
     
 Die Variable `module` und `userdata` sind auf den Namen des Moduls und dessen Cloud-init Datei zu ändern.    
     
-Anschliessend ist das Repository und innerhalb dieses Repositories `lernkube` zu klonen.
+Anschliessend ist das Repository zu klonen.
 
     git clone https://github.com/tbz-it/m122
-    cd m122
-    git clone https://github.com/mc-b/lerncloud
     
 Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `source` Einträge zu entfernen. Dann noch die VM Anlegen und fertig.
 
