@@ -111,3 +111,25 @@ Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `so
     terraform init
     terraform apply
     
+**Mehrere VMs anlegen**
+
+Sollen gleichzeitig mehrere VMs angelegt werden, ist der `module` Eintrag zu kopieren und der Name `lerncloud`, der Modulname und ggf. der Cloud-init Parameter, zu ändern.   
+
+
+    module "master" {
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "master"
+      userdata   = "../modules/k8smaster.yaml"
+    }
+    
+    module "worker-01" {
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "worker-01"
+      userdata   = "../modules/k8sworker.yaml"
+    } 
