@@ -1,7 +1,7 @@
 Quick Start - lokaler Computer
 ------------------------------
 
-Installiert [Multipass](https://multipass.run/), mit dem Default Hypervisorm für das entsprechende Betriebssystem.
+Installiert [Multipass](https://multipass.run/), mit dem Default Hypervisor für das entsprechende Betriebssystem.
 
 Erstellt eine Standard Ubuntu VM mit einer Introseite.
 

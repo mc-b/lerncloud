@@ -41,21 +41,34 @@ Wird die VM nicht mehr benötigt, kann sie wieder gelöscht werden:
 Für eine Liste der Module siehe [Module](../modules/). Statt einer Cloud-init Datei aus dem Verzeichnis, kann eine eigene Cloud-init Datei angegeben werden. 
 
     terraform apply -var module=<Modulname> -var userdata=<meine Cloud-init Datei>
+    
+### Lokaler Computer
+
+Installiert [Multipass](https://multipass.run/), mit dem Default Hypervisor für das entsprechende Betriebssystem.
+
+Um dann  eine VM mit einer Introseite zu erstellen:
+
+    git clone https://github.com/lerncloud
+    az login
+    cd lerncloud/terraform
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"` aktivieren, andere deaktivieren  
+    terraform init
+    terraform apply 
 
 ### Azure Cloud
 
-In der Azure Cloud eine VM für das Modul M122 erstellen: 
+In der Azure Cloud eine VM mit einer Introseite erstellen: 
 
-    git clone https://github.com/mc-b/lerncloud
+    git clone https://github.com/tbz-it/lerncloud
     az login
     cd lerncloud/terraform
-    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"` aktivieren    
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"` aktivieren, andere deaktivieren  
     terraform init
-    terraform apply -var module=m122 -var userdata=../../modules/m122.yaml
+    terraform apply 
     
 ### AWS Cloud
 
-In der AWS Cloud eine VM für das Modul M122 erstellen:
+In der AWS Cloud eine VM mit einer Introseite erstellen:
 
     git clone https://github.com/mc-b/lerncloud
     
@@ -65,8 +78,8 @@ In der AWS Cloud eine VM für das Modul M122 erstellen:
         Default region name [us-west-2]: us-east-1
         Default output format [None]:    
     
-    cd lerncloud/terraform/aws
-    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"` aktivieren    
+    cd lerncloud/terraform
+    # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"` aktivieren, andere deaktivieren    
     terraform init
     terraform apply 
     

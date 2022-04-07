@@ -5,8 +5,6 @@ Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem Projekt zus
 
 Dieses Projekt basiert auf den Erfahrungen von [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas).
 
-**Das Repository ist im Aufbau und kann Fehler oder Scripts, welche nicht sauber funktionieren, beinhalten!**
-
 Quick Start
 -----------
 
