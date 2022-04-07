@@ -26,14 +26,12 @@ Z.B. die Installation von Kubernetes ist 1:1 in den Projekten [iotkitv3](https:/
 
 Dieses Projekt fasst diese Deklaration/Scripts zusammen und vermindert damit den Wartungsaufwand für andere Projekte.
 
-Upgrade
--------
+Migration
+---------
 
-Upgrade bestehender [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas) Scripts.
+Migration bestehender [LernKube](https://github.com/mc-b/lernkube) und [LernMAAS](https://github.com/mc-b/lernmaas) Scripts.
 
-* [Upgrade von LernKube](upgrade/lernkube.md) 
-* [Upgrade von LernMAAS](upgrade/lernmaas.md) 
-
+* [Migration](migration/)
 
 - - -
 
