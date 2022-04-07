@@ -3,26 +3,38 @@ Module und Kurse
 
 In diesem Kapitel befindet sich voll funktionsfähige Cloud-init Scripts welche zum Erstellen von eigenen VMs verwendet werden können.
 
-Dazu ist zuerst diese Repository zu klonen 
-
-    git clone https://github.com/mc-b/lerncloud.git
-    cd lerncloud
-    
-Und anschliessend kann eine [Basisumgebung](base.yaml) mit vorbereiteten Verzeichnis, SSH-Keys, WireGuard und Introseite gestartet werden.    
-    
-    multipass launch --name base --cloud-init modules/base.yaml
-    multipass set client.primary-name=base
-    multipass shell base
-
-Alternativ kann mittels `ssh` auf die VM zugegriffen werden.    
-
-    ssh -i ssh/lerncloud ubuntu@base
-    
-Browser öffnen und [http://base](http://base) anwählen.
-
-Dateiexplorer öffnen und mittels `\\base` Share öffnen.
-
+Zum Starten, siehe Kapitel **Quick Start**
+* [Lokaler Computer](../intro/)
+* [Cloud inkl. LernMAAS](../intro/Cloud.md)
+* [Terraform](../terraform/)
  
-### Beispiele
+### [base.yaml](base.yaml)
 
-       
+Einfache Umgebung mit 
+* Persistenter Ablage auf dem Rack Server (sofern vorhanden)
+* VPN
+* SMB Freigabe von `/home/ubuntu/data` als `<Server IP>\data`
+* Einer Introseite
+
+### [docker.yaml](docker.yaml)
+
+Docker Umgebung, ohne Kubernetes, zum Erstellen von Container Images.
+
+### [microk8s.yaml](microk8s.yaml)
+
+Kubernetes Umgebung, basierend auf [MicroK8s](https://microk8s.io/).
+
+Basiert auf [base.yaml](base.yaml) mit folgenden Erweiterungen
+* [MicroK8s](https://microk8s.io/) kleine Kubernetes Umgebung mit integriertem DNS Server
+* Ingress Dienst (Reverse Proxy)
+* Kubernetes Dashboard
+* Persistente Ablage, bzw. `PersistenVolume` in Kubernetes.
+
+### [k8smaster.yaml](k8smaster.yaml)
+
+Kubernetes Umgebung wie sie von [LernKube](https://github.com/mc-b/lernkube) verwendet wird.
+
+
+
+
+
