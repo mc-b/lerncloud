@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+terraform_lerncloud_aws/
+terraform_lerncloud_azure/
+terraform_lerncloud_maas/
+terraform_lerncloud_multipass/
+
+
