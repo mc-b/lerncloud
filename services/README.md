@@ -5,7 +5,7 @@ Scripts welche System Dienste wie z.B. Docker, Kubernetes, NFS etc. installieren
 
 Bestimmte Scripts haben Abhängigkeiten. Z.B. muss vor `share.sh` das Script `storage.sh` ausgeführt werden.
 
-### nfs.sh 
+### [storage.sh](storage.sh)
 
 Dient zum Einrichten vom Persistenten Speicher, welcher nicht in der VM gespeichert wird. I.d. Regel das Verzeichnis `/home/ubuntu/data`.
 
@@ -17,7 +17,7 @@ Dient zum Einrichten vom Persistenten Speicher, welcher nicht in der VM gespeich
 **Voraussetzungen**
 * Vorhandener NFS Share, z.B. auf dem Rack Server. Siehe [Gemeinsame Datenablage](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/Install.md#gemeinsame-datenablage-optional).
 
-### vpn.ch
+### [vpn.ch](vpn.sh)
 
 Installiert und Konfiguriert den VPN Zugriff. Siehe [Einbinden der VPN Clients](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/GatewayClient.md#einbinden-der-vpn-clients).
 
@@ -31,7 +31,7 @@ Installiert und Konfiguriert den VPN Zugriff. Siehe [Einbinden der VPN Clients](
 * `storage.sh` Script wurde vorgängig ausgeführt.    
 * WireGuard Konfigurationen und Gateway. Siehe [VPN](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/Gateway.md#vpn).
 
-### share.sh
+### [share.sh](share.sh)
 
 Stellt einen SMB Share, i.d. Regel das Verzeichnis `/home/ubuntu/data` als Share `\\<ip vm>\data` zu Verfügung.
 
@@ -47,7 +47,7 @@ Ermöglicht es Windows User Dateien auf der Linux VM abzulegen oder zu veränder
 **Voraussetzungen**
 * `storage.sh` Script wurde vorgängig ausgeführt.    
 
-### intro.sh
+### [intro.sh](intro.sh)
 
 Erzeugt eine "Willkommenswebseite" mit weiteren Anweisungen für die Benutzer der VM.
 
@@ -76,7 +76,7 @@ Diese Dateien können z.B. mittels dem `Cloud-init` Script erzeugt werden. Siehe
 **Voraussetzungen**
 * `storage.sh` Script wurde vorgängig ausgeführt.
 
-### repository.sh
+### [repository.sh](repository.sh)
 
 Bindet Repositories, welche für [LernMAAS](https://github.com/mc-b/lernmaas) erstellt wurden, ein.
 
@@ -92,7 +92,7 @@ Bindet Repositories, welche für [LernMAAS](https://github.com/mc-b/lernmaas) er
 **Voraussetzungen**
 * Vorgängig müssen die Services/Script laut [config.yaml](https://github.com/mc-b/lernmaas/blob/master/config.yaml) bzw. deren LernCloud Entsprechungen ausgeführt werden.
 
-### k3.sh
+### [k3.sh](k3s.sh)
 
 Installiert eine [K3s](https://k3s.io/) Umgebung, ein Lightweight Kubernetes.
 
@@ -103,7 +103,7 @@ Um eine homogene Umgebung zur Verfügung zu stellen, sollte statt [K3s](https://
 **Voraussetzungen**
 * Vorgängig müssen die Services/Script laut [config.yaml](https://github.com/mc-b/lernmaas/blob/master/config.yaml) bzw. deren LernCloud Entsprechungen ausgeführt werden.
 
-### microk8s.sh
+### [microk8s.sh](microk8s.sh)
 
 Installiert eine Kubernetes Umgebung basierend auf [MicroK8s](https://microk8s.io/).
 
