@@ -113,13 +113,17 @@ Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `
       userdata   = "cloud-init.yaml"
     }
     
-Die Variable `module` und `userdata` sind auf den Namen des Moduls und dessen Cloud-init Datei zu ändern.    
+Die Variable `module` ist auf den Namen des Moduls zu ändern.    
+
+Als nächstes ist eine `cloud-init.yaml` anzulegen. In dieser Datei Erfolgt die eigentliche Installation der Software. Für Beispiele siehe [Migration](../migration/) und [Services](../services).
+
+Als letztes braucht es noch eine `outputs.tf` Datei, wo nach Erstellung der Umgebung, IP-Adresse und FQDN ausgibt. Dabei kann die [outputs.tf](outputs.tf) Vorlage 1:1 verwendet werden.
     
 Anschliessend ist das Repository zu klonen.
 
     git clone https://github.com/tbz-it/m122
     
-Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `source` Einträge zu entfernen. Dann noch die VM Anlegen und fertig.
+Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `source` Einträge zu entfernen. Dann noch die Umgebung Anlegen und fertig.
 
     terraform init
     terraform apply
