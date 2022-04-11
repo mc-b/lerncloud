@@ -115,7 +115,7 @@ Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `
     
 Die Variable `module` ist auf den Namen des Moduls zu ändern.    
 
-Als nächstes ist eine `cloud-init.yaml` anzulegen. In dieser Datei Erfolgt die eigentliche Installation der Software. Für Beispiele siehe [Migration](../migration/) und [Services](../services).
+Als nächstes ist eine `cloud-init.yaml` anzulegen. In dieser Datei erfolgt die eigentliche Installation der Software. Für Beispiele siehe [Migration](../migration/) und [Services](../services).
 
 Als letztes braucht es noch eine `outputs.tf` Datei, wo nach Erstellung der Umgebung, IP-Adresse und FQDN ausgibt. Dabei kann die [outputs.tf](outputs.tf) Vorlage 1:1 verwendet werden.
     
