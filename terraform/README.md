@@ -166,7 +166,7 @@ Sollen mehrere VMs vom gleichen Type angelegt werden, kann `count` verwendet wer
 
 #### Kubernetes
 
-Ein Kubernetes Cluster besteht, in der Regel, aus mehrere Unterschiedlichen VMs. Die Master Node und die Worker Nodes.
+Ein Kubernetes Cluster besteht, in der Regel, aus mehreren VMs. Diese unterteilen sich in Master und Worker Nodes.
 
 Dazu braucht es eine Kombination unterschiedlicher VMs in unterschiedlicher Anzahl.
 
