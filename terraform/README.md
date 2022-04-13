@@ -239,3 +239,7 @@ Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
       userdata   = "../modules/microk8sworker.yaml"
     }
     
+### Links
+
+* [Terraform tips & tricks: loops, if-statements, and gotchas](https://blog.gruntwork.io/terraform-tips-tricks-loops-if-statements-and-gotchas-f739bbae55f9)
+* [Why we use Terraform and not Chef, Puppet, Ansible, SaltStack, or CloudFormation](https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c)    
