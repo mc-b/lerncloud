@@ -168,29 +168,16 @@ Leider funktioniert das letzte Beispiel nicht in der Cloud, weil `count` nicht a
 
 Mit ein paar Anpassen kann es jedoch zum laufen gebracht werden.
 
-Gewünschtes Modul, z.B. AWS clonen
+Gewünschtes Modul, z.B. AWS, ins eigene Repository als Unterverzeichnis clonen
 
+    git clone https://github.com/tbz-it/m122
+    cd m122
     git clone https://github.com/mc-b/terraform_lerncloud_aws
     
-Einträge `terraform` und `provider` von `terraform_lerncloud_aws/main.tf` vor `module "lerncloud"` einfügen. Und `source` auf lokales Verzeichnis ändern.
+`provider.tf` Datei vom Verzeichnis `terraform_lerncloud_aws` ins aktuelle (m122) Verzeichnis verschieben und `source` auf Modul (terraform_lerncloud_aws) Verzeichnis umswitchen.
 
-Das Ergebnis sieht wie folgt aus:
+Das Ergebnis, in `main.tf`, sieht wie folgt aus:
 
-    terraform {
-      required_providers {
-        aws = {
-          source  = "hashicorp/aws"
-          version = "~> 3.27"
-        }
-      }
-      required_version = ">= 0.14.9"
-    }
-    
-    provider "aws" {
-      profile = "default"
-      region  = "us-east-1"
-    }
-    
     module "lerncloud" {
       source = "./terraform_lerncloud_aws"
       count    = 24
