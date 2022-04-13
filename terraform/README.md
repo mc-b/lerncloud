@@ -162,7 +162,41 @@ Sollen mehrere VMs vom gleichen Type angelegt werden, kann `count` verwendet wer
       userdata   = "../modules/base.yaml"
     } 
     
-**Hinweis**: funktioniert leider nur lokal, weil `count` nicht auf Provider angewandt werden kann. Die obere Variante, mit mehreren Modulen funktioniert aber. 
+**Provider Problem in Modulen**
+
+Leider funktioniert das letzte Beispiel nicht in der Cloud, weil `count` nicht auf Provider angewandt werden kann.
+
+Mit ein paar Anpassen kann es jedoch zum laufen gebracht werden.
+
+Gewünschtes Modul, z.B. AWS clonen
+
+    git clone https://github.com/mc-b/terraform_lerncloud_aws
+    
+Einträge `terraform` und `provider` von `terraform_lerncloud_aws/main.tf` vor `module "lerncloud"` einfügen. Und `source` auf lokales Verzeichnis ändern.
+
+Das Ergebnis sieht wie folgt aus:
+
+    terraform {
+      required_providers {
+        aws = {
+          source  = "hashicorp/aws"
+          version = "~> 3.27"
+        }
+      }
+      required_version = ">= 0.14.9"
+    }
+    
+    provider "aws" {
+      profile = "default"
+      region  = "us-east-1"
+    }
+    
+    module "lerncloud" {
+      source = "./terraform_lerncloud_aws"
+      count    = 24
+      module   = "base-${format("%02d", count.index + 1)}"
+      userdata = "../modules/base.yaml"
+    } 
 
 #### Kubernetes
 
