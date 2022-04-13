@@ -128,10 +128,47 @@ Je nach dem welche Cloud angesprochen werden soll, ist der `#` aus einem der `so
     terraform init
     terraform apply
     
-**Mehrere VMs anlegen**
+#### Mehrere VMs anlegen
 
-Sollen gleichzeitig mehrere VMs angelegt werden, ist der `module` Eintrag zu kopieren und der Name `lerncloud`, der Modulname und ggf. der Cloud-init Parameter, zu ändern.   
+Sollen gleichzeitig mehrere VMs angelegt werden, ist der `module` Eintrag zu kopieren und der Name `lerncloud`, der Modulname und ggf. der Cloud-init Parameter, zu ändern. 
 
+    module "base" {
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "base"
+      userdata   = "../modules/base.yaml"
+    }
+    
+    module "docker" {
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "docker"
+      userdata   = "../modules/docker.yaml"
+    } 
+
+Sollen mehrere VMs vom gleichen Type angelegt werden, kann `count` verwendet werden.
+
+    module "lerncloud" {
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      count       = 24
+      module     = "base-${format("%02d", count.index + 1)}"
+      userdata   = "../modules/base.yaml"
+    } 
+    
+**Hinweis**: funktioniert leider nur lokal, weil `count` nicht auf Provider angewandt werden kann. Die obere Variante, mit mehreren Modulen funktioniert aber. 
+
+#### Kubernetes
+
+Ein Kubernetes Cluster besteht, in der Regel, aus mehrere Unterschiedlichen VMs. Die Master Node und die Worker Nodes.
+
+Dazu braucht es eine Kombination unterschiedlicher VMs in unterschiedlicher Anzahl.
 
     module "master" {
       source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
@@ -139,14 +176,45 @@ Sollen gleichzeitig mehrere VMs angelegt werden, ist der `module` Eintrag zu kop
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
       module     = "master"
-      userdata   = "../modules/k8smaster.yaml"
+      userdata   = "../modules/microk8smaster.yaml"
     }
     
-    module "worker-01" {
+    module "worker" {
       source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
-      module     = "worker-01"
-      userdata   = "../modules/k8sworker.yaml"
+      count       = 2
+      module     = "worker-${format("%02d", count.index + 1)}"
+      userdata   = "../modules/microk8sworker.yaml"
     } 
+    
+Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
+
+    module "master" {
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "master"
+      userdata   = "../modules/microk8smaster.yaml"
+    }
+    
+    module "worker-01" {
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "worker-01"
+      userdata   = "../modules/microk8sworker.yaml"
+    }
+
+    module "worker-02" {
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_multipass.git"
+      source     = "git::https://github.com/mc-b/terraform_lerncloud_aws.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_azure.git"
+      #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas.git"
+      module     = "worker-02"
+      userdata   = "../modules/microk8sworker.yaml"
+    }
+    

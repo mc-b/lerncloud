@@ -20,15 +20,19 @@ Einfache Umgebung mit
 
 Docker Umgebung, ohne Kubernetes, zum Erstellen von Container Images.
 
-### [microk8s.yaml](microk8s.yaml)
+### [microk8smaster.yaml](microk8smaster.yaml) und [microk8sworker.yaml](microk8sworker.yaml)
 
-Kubernetes Umgebung, basierend auf [MicroK8s](https://microk8s.io/).
+Kubernetes Umgebung, basierend auf [MicroK8s](https://microk8s.io/). Mit zwei Cloud-init Scripts, für Master und Worker Nodes.
 
-Basiert auf [base.yaml](base.yaml) mit folgenden Erweiterungen
+Basiert auf [base.yaml](base.yaml) mit folgenden Erweiterungen für den Master
 * [MicroK8s](https://microk8s.io/) kleine Kubernetes Umgebung mit integriertem DNS Server
 * Ingress Dienst (Reverse Proxy)
 * Kubernetes Dashboard
 * Persistente Ablage, bzw. `PersistenVolume` in Kubernetes.
+
+Die Worker Nodes beinhalten nur [MicroK8s](https://microk8s.io/).
+
+Für die Verwendung mit Terraform siehe [hier](../terraform#kubernetes)
 
 ### [Modul 122](https://github.com/tbz-it/M122/blob/master/cloud-init.yaml)
 
