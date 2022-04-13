@@ -174,7 +174,7 @@ Gewünschtes Modul, z.B. AWS, ins eigene Repository als Unterverzeichnis clonen
     cd m122
     git clone https://github.com/mc-b/terraform_lerncloud_aws
     
-`provider.tf` Datei vom Verzeichnis `terraform_lerncloud_aws` ins aktuelle (m122) Verzeichnis verschieben und `source` auf Modul (terraform_lerncloud_aws) Verzeichnis umswitchen.
+`provider.tf` Datei vom Verzeichnis `terraform_lerncloud_aws` ins aktuelle (m122) Verzeichnis verschieben und `source` auf Modul (terraform_lerncloud_aws) Verzeichnis umswitchen. Ist eine Datei `required_providers.tf` vorhanden, ist diese ins aktuelle (m122) Verzeichnis zu kopieren.
 
 Das Ergebnis, in `main.tf`, sieht wie folgt aus:
 
