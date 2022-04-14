@@ -198,6 +198,8 @@ Dazu braucht es eine Kombination unterschiedlicher VMs in unterschiedlicher Anza
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas"
       module     = "master"
       userdata   = "../modules/microk8smaster.yaml"
+      mem        = "4GB"
+      cpu        = 2
     }
     
     module "worker" {
@@ -208,6 +210,8 @@ Dazu braucht es eine Kombination unterschiedlicher VMs in unterschiedlicher Anza
       count       = 2
       module     = "worker-${format("%02d", count.index + 1)}"
       userdata   = "../modules/microk8sworker.yaml"
+      mem        = "4GB"
+      cpu        = 2
     } 
     
 Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
@@ -219,6 +223,8 @@ Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas"
       module     = "master"
       userdata   = "../modules/microk8smaster.yaml"
+      mem        = "4GB"
+      cpu        = 2
     }
     
     module "worker-01" {
@@ -228,6 +234,8 @@ Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas"
       module     = "worker-01"
       userdata   = "../modules/microk8sworker.yaml"
+      mem        = "4GB"
+      cpu        = 2
     }
 
     module "worker-02" {
@@ -237,6 +245,8 @@ Gleiches Problem, wie oben mit `count`. Die Lösung, sind mehrere Einträge.
       #source     = "git::https://github.com/mc-b/terraform_lerncloud_maas"
       module     = "worker-02"
       userdata   = "../modules/microk8sworker.yaml"
+      mem        = "4GB"
+      cpu        = 2
     }
     
 ### Links
