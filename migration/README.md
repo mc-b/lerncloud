@@ -99,6 +99,33 @@ Für **Terraform** wir ein [main.tf](https://github.com/tbz-it/M122/blob/master/
 
 Für **Terraform** wir ein [main.tf](https://github.com/tbz-it/M437/blob/master/main.tf) benötigt.
 
+Migration Introseite
+--------------------
+
+Grundsätzlich kann die "alte" Variante der Intro Seiten beibehalten werden. Dazu ist das Script [services/intro.sh](../services#introsh) in die Cloud-init Datei zu integrieren (siehe oben).
+
+Besser ist es jedoch, die Introseiten in Terraform bzw. `outputs.tf` zu integrieren. Dann kann das [services/intro.sh](../services#introsh) Script weggelassen werden. 
+Damit entfällt auch das Installieren des Apache Web Servers und spart damit CPU und Memory.
+
+Um das gleiche Verhalten wie [services/intro.sh](../services#introsh) zu Erzeugen können die gleichen Dateien verwendet werden.
+
+Um diese Auszugeben ist `outputs.tf` wie folgt zu erweiteren:
+
+    output "README" {
+      value = templatefile( "README.md", { ip = module.lerncloud.ip_vm, fqdn = module.lerncloud.fqdn_vm, ADDR = module.lerncloud.ip_vm } )
+    } 
+    
+    output "ACCESSING" {
+      value = templatefile( "ACCESSING.md", { ip = module.lerncloud.ip_vm, fqdn = module.lerncloud.fqdn_vm, ADDR = module.lerncloud.ip_vm } )
+    } 
+    
+    output "SERVICES" {
+      value = templatefile( "SERVICES.md", { ip = module.lerncloud.ip_vm, fqdn = module.lerncloud.fqdn_vm, ADDR = module.lerncloud.ip_vm } )
+    }       
+
+Fehlen `ACCESSING.md` und/oder `SERVICES.md` müssen diese Einträge weggelassen werden. 
+
+
 Migration K3s nach MicroK8s
 ---------------------------
 
