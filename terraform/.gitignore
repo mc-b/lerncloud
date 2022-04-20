@@ -4,3 +4,4 @@
 /terraform.tfstate.backup
 /.terraform.tfstate.lock.info
 /config.*
+/terraform.tfstate.d/
