@@ -98,7 +98,7 @@ Anpassen der Zugriffsinformationen auf die MAAS Umgebung in `maas/main.tf`, Vari
     
 Die Nummer hinter dem Modulnamen, ergibt den Hostanteil für das VPN, siehe [Einbinden der Clients und Portweiterleitung](https://github.com/mc-b/lernmaas/blob/master/doc/MAAS/GatewayClient.md).
 
-**Hinweis**: der Terraform Provider von MAAS unterstützt leider, einige Parameter wie RAM Grösse, AZ nicht und sollte nur verwendet werden, wenn man sich mit MAAS.io auskennt.
+Weitere Beispiele siehe Terraform Modul [terraform-lerncloud-maas](https://github.com/mc-b/terraform-lerncloud-maas/blob/main/examples/main.tf).
 
 ### Terraform in eigene Module Einbinden
 
