@@ -1,7 +1,7 @@
 ###
 #   Outputs wie IP-Adresse und DNS Name
-#  
-
+#
+#   Funktioniert nicht mit git::https://github.com/mc-b/terraform-lerncloud-lernmaas, weil Array   
 
 output "ip_vm" {
   value       = module.lerncloud.ip_vm
@@ -17,3 +17,4 @@ output "description" {
   value       = module.lerncloud.description
   description = "Description VM"
 }
+
