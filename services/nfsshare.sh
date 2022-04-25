@@ -5,9 +5,13 @@
 sudo apt-get update
 sudo apt-get install -y nfs-kernel-server
 
-sudo mkdir -p /data 
-sudo chown -R ubuntu:ubuntu /data
-sudo chmod 777 /data
+# Standard Verzeichnisse
+sudo mkdir -p /home/ubuntu/data /home/ubuntu/templates /home/ubuntu/config
+sudo chown -R ubuntu:ubuntu /home/ubuntu/data /home/ubuntu/templates /home/ubuntu/config
+sudo chmod 777 /home/ubuntu/data
+
+# /home/ubuntu/data fuer K8s Verfuegbar machen
+sudo ln -s /home/ubuntu/data /data
 
 cat <<%EOF% | sudo tee /etc/exports
 # /etc/exports: the access control list for filesystems which may be exported
