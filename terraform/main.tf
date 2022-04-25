@@ -2,14 +2,16 @@
 # Basis VM
 
 module "lerncloud" {
-  source     = "git::https://github.com/mc-b/terraform-lerncloud-maas"
+  #source      = "./terraform-lerncloud-module"
+  #source     = "git::https://github.com/mc-b/terraform-lerncloud-maas"
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-lernmaas"    
-  #source     = "git::https://github.com/mc-b/terraform-lerncloud-multipass"
+  source     = "git::https://github.com/mc-b/terraform-lerncloud-multipass"
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-aws"
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-azure"
 
+
   # Module Info
-  module      = "base-11"
+  module      = "base-${format("%02d", var.host_no)}-${terraform.workspace}"
   description = "Basis Modul"
   userdata    = "../modules/base.yaml"
 
@@ -20,8 +22,8 @@ module "lerncloud" {
   #ports    = [ 22, 80 ]
 
   # Server Access Info
-  url      = "http://10.6.37.8:5240/MAAS"
+  url      = "${var.url}"
   key      = "${var.key}"
-  vpn      = "10-6-37-0"
+  vpn      = "${var.vpn}"
 }
 
