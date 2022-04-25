@@ -88,7 +88,7 @@ In der AWS Cloud eine VM mit einer Introseite erstellen:
 ### MAAS.io
 
     git clone https://github.com/mc-b/lerncloud
-    cd lerncloud/terraform/maas
+    cd lerncloud/terraform
     
     # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform-lerncloud-maas"` aktivieren  
     # und Variablen nachtragen bzw. setzen
@@ -108,7 +108,7 @@ Weitere Beispiele siehe Terraform Modul [terraform-lerncloud-maas](https://githu
 Neben dem Erzeugen einzelner VMs können auch VMs für gesamte Klassen erstellt werden. Dazu werden [Terraform Workspaces](https://www.terraform.io/language/state/workspaces) und das Modul [terraform-lerncloud-lernmaas](https://github.com/mc-b/terraform-lerncloud-lernmaas) verwendet.
 
     git clone https://github.com/mc-b/lerncloud
-    cd lerncloud/terraform/maas
+    cd lerncloud/terraform
     
     # main.tf Eintrag `source = "git::https://github.com/mc-b/terraform-lerncloud-lernmaas"` aktivieren bzw. eintragen  
     # und Variablen nachtragen bzw. setzen
@@ -119,19 +119,19 @@ Neben dem Erzeugen einzelner VMs können auch VMs für gesamte Klassen erstellt 
     vm_per_host = 4
     vm_offset = 10 
     
-Pro Klasse ist ein neuer Terraform Workspace anzulegen
+Weil `outputs.tf` nur von einer VM ausgeht, jetzt aber eine List von VMs kommt, ist `outputs.tf` entweder Umzubauen oder zu löschen.
+
+Dann kann pro Klasse ein neuer Terraform Workspace angelegt werden
     
     terraform workspace new ap19a
     terraform workspace select ap19a
      
-Anschliessen dann, wie gewohnt Terraform ausgeführt werden:
+und wie gewohnt Terraform ausgeführt werden:
 
     terraform init
     terraform apply 
     
 Es werden `Anzahl KVM * 4` VMs angelegt. Als Hostname wird `<modul>-<host-no>-<terraform workspace>`, z.B. `m122-10-ap19a`, `m122-11-ap19a` etc. verwendet.
-
-**Hinweis**: eine evtl. Datei `outputs.tf` Datei ist wegzulöschen oder umzubauen, dass alle VMs berücksichtigt werden.
 
 ### Terraform in eigene Module Einbinden
 
