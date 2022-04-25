@@ -3,7 +3,7 @@
 #   Installiert den NFS Server und gibt das Verzeichnis `/data` frei.
 
 sudo apt-get update
-sudo apt install -y nfs-kernel-server
+sudo apt-get install -y nfs-kernel-server
 
 sudo mkdir -p /data 
 sudo chown -R ubuntu:ubuntu /data
