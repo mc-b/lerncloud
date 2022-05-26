@@ -11,10 +11,10 @@ sudo apt-get install -y wireguard
 sudo chmod 750 /etc/wireguard
 
 # Aktivierung nur wenn Konfigurationsdatei = hostname vorhanden ist
-if [ -f "/home/ubuntu/config/wireguard/$(hostname).conf" ]
+if [ -f "/etc/wireguard/$(hostname).conf" ]
 then
 
-    sudo cp /home/ubuntu/config/wireguard/$(hostname).conf /etc/wireguard/wg0.conf
+    sudo mv /etc/wireguard/$(hostname).conf /etc/wireguard/wg0.conf
     sudo chown root:root  /etc/wireguard/wg0.conf
     sudo chmod 600 /etc/wireguard/wg0.conf
     sudo systemctl enable wg-quick@wg0.service
