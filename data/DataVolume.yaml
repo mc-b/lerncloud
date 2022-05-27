@@ -19,7 +19,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/home/ubuntu/data"
+    path: "/data"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -46,7 +46,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/data/01"  
+    path: "/data/01"  
   persistentVolumeReclaimPolicy: Recycle  
 ---
 kind: PersistentVolume
@@ -62,7 +62,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/data/02" 
+    path: "/data/02" 
   persistentVolumeReclaimPolicy: Recycle  
 ---
 kind: PersistentVolume
@@ -78,7 +78,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/data/03" 
+    path: "/data/03" 
   persistentVolumeReclaimPolicy: Recycle  
 ---
 kind: PersistentVolume
@@ -94,7 +94,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/data/04"
+    path: "/data/04"
   persistentVolumeReclaimPolicy: Recycle  
 ---
 kind: PersistentVolume
@@ -110,6 +110,6 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/data/05"                         
+    path: "/data/05"                         
   persistentVolumeReclaimPolicy: Recycle  
 
