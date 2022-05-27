@@ -69,3 +69,5 @@ Weitere Informationen: [https://microk8s.io/](https://microk8s.io/)
   
 %EOF%
 
+sudo chown -f ubuntu:ubuntu /home/ubuntu/README.md
+
