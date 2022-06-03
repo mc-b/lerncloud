@@ -34,6 +34,18 @@ Die Worker Nodes beinhalten nur [MicroK8s](https://microk8s.io/).
 
 Für die Verwendung mit Terraform siehe [hier](../terraform#kubernetes)
 
+#### .kube/config Datei
+
+`kubectl` holt aus der Datei `$HOME/.kube/config` die Zugriffsinformationen für den Kubernetes Cluster.
+
+Diese Datei kann jederzeit, im Kubernetes Cluster mittels `sudo microk8s config` erzeugt werden.
+
+Ggf. ist der Eintrag `server: https://<Cluster IP>:16443` anzupassen, z.B. bei Zugriff via WireGuard.
+
+Sollte der Zugriff dann mit **Unable to connect to the server: x509: certificate is valid for ...** verweigert werden, ist die Datei `/var/snap/microk8s/current/certs/csr.conf.template` um DNS oder IP des Kubernetes Cluster zu erweitern.
+
+* [Unable to connect to the server](https://stackoverflow.com/questions/63451290/microk8s-devops-unable-to-connect-to-the-server-x509-certificate-is-valid-f)
+
 ### [Modul 122](https://github.com/tbz-it/M122/blob/master/cloud-init.yaml)
 
 [Abläufe mit einer Scriptsprache automatisieren](https://www.modulbaukasten.ch/module/122/3/de-DE?title=Abl%C3%A4ufe-mit-einer-Scriptsprache-automatisieren) mit:
@@ -50,8 +62,3 @@ Für die Verwendung mit Terraform siehe [hier](../terraform#kubernetes)
 ### [k8smaster.yaml](k8smaster.yaml)
 
 Kubernetes Umgebung wie sie von [LernKube](https://github.com/mc-b/lernkube) verwendet wird.
-
-
-
-
-
