@@ -1,0 +1,51 @@
+#cloud-config
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    shell: /bin/bash
+    lock_passwd: false
+    plain_text_passwd: 'insecure'       
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUHol1mBvP5Nwe3Bzbpq4GsHTSw96phXLZ27aPiRdrzhnQ2jMu4kSgv9xFsnpZgBsQa84EhdJQMZz8EOeuhvYuJtmhAVzAvNjjRak+bpxLPdWlox1pLJTuhcIqfTTSfBYJYB68VRAXJ29ocQB7qn7aDj6Cuw3s9IyXoaKhyb4n7I8yI3r0U30NAcMjyvV3LYOXx/JQbX+PjVsJMzp2NlrC7snz8gcSKxUtL/eF0g+WnC75iuhBbKbNPr7QP/ItHaAh9Tv5a3myBLNZQ56SgnSCgmS0EUVeMNsO8XaaKr2H2x5592IIoz7YRyL4wlOmj35bQocwdahdOCFI7nT9fr6f insecure@lerncloud
+# login ssh and console with password
+ssh_pwauth: true
+disable_root: false 
+write_files:
+ - content: |
+      version: "3.0"
+      services:
+        wg-access-server:
+          image: ghcr.io/freifunkmuc/wg-access-server:latest
+          container_name: wg-access-server
+          cap_add:
+            - NET_ADMIN
+          volumes:
+            - "wg-access-server-data:/data"
+          environment:
+            - "WG_ADMIN_PASSWORD=$${WG_ADMIN_PASSWORD}"
+            - "WG_WIREGUARD_PRIVATE_KEY=$${WG_WIREGUARD_PRIVATE_KEY}"
+            - "WG_VPN_CIDRV6=0" # to disable IPv6
+          ports:
+            - "8000:8000/tcp"
+            - "51820:51820/udp"
+          devices:
+            - "/dev/net/tun:/dev/net/tun"
+      volumes:
+        wg-access-server-data:
+          driver: local
+   path: /root/docker-compose.yml
+   permissions: '0644' 
+packages:
+  - docker.io
+  - docker-compose
+  - wireguard
+runcmd:
+  - modprobe ip_tables && modprobe ip6_tables && modprobe wireguard
+  - echo ip_tables >> /etc/modules
+  - echo ip6_tables >> /etc/modules
+  - echo wireguard >> /etc/modules
+  - export WG_ADMIN_PASSWORD="insecure"
+  - export WG_WIREGUARD_PRIVATE_KEY=$(wg genkey)
+  - cd /root && docker-compose up -d
+ 
