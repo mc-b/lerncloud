@@ -26,6 +26,12 @@ write_files:
             - "WG_ADMIN_PASSWORD=$${WG_ADMIN_PASSWORD}"
             - "WG_WIREGUARD_PRIVATE_KEY=$${WG_WIREGUARD_PRIVATE_KEY}"
             - "WG_VPN_CIDRV6=0" # to disable IPv6
+            - "WG_DNS_ENABLED=false"
+            - "WG_IPV6_NAT_ENABLED=false"
+            - "WG_IPV4_NAT_ENABLED=true"
+            - "WG_VPN_CLIENT_ISOLATION=false"
+            - "WG_VPN_ALLOWED_IPS=10.9.37.0/24"
+            - "WG_VPN_CIDR=10.9.37.0/24"
           ports:
             - "8000:8000/tcp"
             - "51820:51820/udp"
