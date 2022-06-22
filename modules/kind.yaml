@@ -21,3 +21,5 @@ runcmd:
   - sudo mv ./kind /usr/local/bin/
   - snap install kubectl --classic
   - kind create cluster --image=kindest/node:v1.24.0
+  - sudo mv /.kube /home/ubuntu/
+  - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
