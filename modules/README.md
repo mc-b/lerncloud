@@ -59,6 +59,21 @@ Sollte der Zugriff dann mit **Unable to connect to the server: x509: certificate
 * OS Ticket Applikation
 * MySQL Datenbank
 
+### [kind.yaml](kind.yaml)
+
+Kubernetes Umgebung, welche ein einem Docker Container betrieben wird.
+
+Ideal für Testzwecke.
+
+Starten mit genug Ressourcen
+
+    multipass launch -m4G -c2 -d32G --name kind --cloud-init kind.yaml
+    multipass set client.primary-name=kind
+
+* [Dokumentation](https://kind.sigs.k8s.io/)
+
 ### [k8smaster.yaml](k8smaster.yaml)
 
 Kubernetes Umgebung wie sie von [LernKube](https://github.com/mc-b/lernkube) verwendet wird.
+
+
