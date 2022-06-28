@@ -34,3 +34,20 @@ Wechselt in die VM mittels
 oder via `SSH` (nur Git clone Variante)
     
     ssh -i ssh/lerncloud ubuntu@base    
+    
+### Troubleshooting Windows
+
+Folgende Symptome treten auf Windows auf, wenn viele VMs erstellt und auch wieder zerstört werden.
+
+**Laufwerk C: ist voll**
+
+Wechselt in das Verzeichnis 'C:\ProgramData\Multipass\data\vault\instances' und löscht alle nicht verwendeten Instanzen weg.
+
+**multipass timed out waiting for response**
+
+Neue VMs können zwar noch erstellt werden, eine Verbindung (Shell) ist jedoch nicht möglich.
+
+Abhilfe: Alle Einträge in `C:\WINDOWS\System32\drivers\etc\hosts.ics` löschen. 
+
+
+    
