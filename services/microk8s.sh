@@ -71,7 +71,4 @@ Weitere Informationen: [https://microk8s.io/](https://microk8s.io/)
 
 sudo chown -f ubuntu:ubuntu /home/ubuntu/README.md
 
-# AWS Hack - Hostname richtig setzen
-export AWS_HOST=$(curl --max-time 2 http://169.254.169.254/latest/meta-data/public-hostname)
-[ "${AWS_HOST}" != "" ] && { sudo hostname ${AWS_HOST}; }
 
