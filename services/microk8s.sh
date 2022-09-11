@@ -12,32 +12,6 @@ export AWS_HOST=$(curl --max-time 2 http://169.254.169.254/latest/meta-data/publ
 sudo snap install microk8s --classic
 sudo snap install kubectl --classic
 
-####
-# Abhandlung Container Cache
-
-# Hostname ohne Nummer
-HOST=$(hostname | cut -d- -f 1)
-
-# Modul spezifische Images
-if  [ -d /home/ubuntu/templates/cr-cache/${HOST} ]
-then
-
-    # Kubernetes Images 
-    if  [ -d /home/ubuntu/templates/cr-cache/microk8s ]
-    then
-        for image in /home/ubuntu/templates/cr-cache/microk8s/*.tar
-        do
-            sudo microk8s ctr image import ${image}
-        done
-    fi
-
-    for image in /home/ubuntu/templates/cr-cache/${HOST}/*.tar
-    do
-        sudo microk8s ctr image import ${image}
-    done
-fi
-sudo microk8s ctr image list
-
 ###
 # Add-ons  
 sudo microk8s enable dns 
