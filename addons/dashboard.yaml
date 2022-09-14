@@ -190,7 +190,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: kubernetes-dashboard
-          image: registry.gitlab.com/mc-b/misegr/kubernetesui/dashboard:v2.5.0
+          image: registry.gitlab.com/mc-b/misegr/kubernetesui/dashboard:v2.6.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8443
