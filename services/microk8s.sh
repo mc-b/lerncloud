@@ -3,10 +3,6 @@
 #   Installiert die Microk8s Umgebung
 #
 
-# AWS Hack - Hostname richtig setzen
-export AWS_HOST=$(curl --max-time 2 http://169.254.169.254/latest/meta-data/public-hostname)
-[ "${AWS_HOST}" != "" ] && { sudo hostname ${AWS_HOST}; }
-
 # Basic Installation
 
 sudo snap install microk8s --classic
