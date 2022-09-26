@@ -3,10 +3,13 @@
 #   Installiert die Microk8s Umgebung
 #
 
-# Basic Installation (1.24 ab 1.25 laeuft Docker in Docker nicht mehr)
+# Basic Installation
 
-sudo snap install microk8s --classic --channel=1.24/stable
-sudo snap install kubectl --classic --channel=1.24/stable
+#sudo snap install microk8s --classic --channel=1.24/stable
+#sudo snap install kubectl --classic --channel=1.24/stable
+
+sudo snap install microk8s --classic
+sudo snap install kubectl --classic
 
 
 ###
