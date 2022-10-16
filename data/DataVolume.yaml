@@ -3,7 +3,7 @@ kind: StorageClass
 metadata:
   name: local-storage
   annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
+    storageclass.kubernetes.io/is-default-class: "false"
 provisioner: kubernetes.io/no-provisioner
 ---
 kind: PersistentVolume
@@ -32,84 +32,3 @@ spec:
   resources:
     requests:
       storage: 5Gi 
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: rwo-volume-01
-  labels:
-    type: local
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/01"  
-  persistentVolumeReclaimPolicy: Recycle  
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: rwo-volume-02
-  labels:
-    type: local
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/02" 
-  persistentVolumeReclaimPolicy: Recycle  
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: rwo-volume-03
-  labels:
-    type: local
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/03" 
-  persistentVolumeReclaimPolicy: Recycle  
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: rwo-volume-04
-  labels:
-    type: local
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/04"
-  persistentVolumeReclaimPolicy: Recycle  
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: rwo-volume-05
-  labels:
-    type: local
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/05"                         
-  persistentVolumeReclaimPolicy: Recycle  
-
