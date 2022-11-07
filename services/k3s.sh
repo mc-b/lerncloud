@@ -3,7 +3,7 @@
 #   Installiert Rancher k3s ohne Ingress Controller traefik
 #
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--no-deploy=traefik" sh -s -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik" sh -s -
 
 # ubuntu User als Admin zulassen
 sudo mkdir -p /home/ubuntu/.kube
