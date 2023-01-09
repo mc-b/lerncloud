@@ -21,4 +21,9 @@ else
     sudo apt-get update -qq
     sudo apt-get install -y podman buildah skopeo
 fi
+
+# Enable remote access @see https://www.redhat.com/sysadmin/podman-clients-macos-windows
+sudo su - ubuntu -c "systemctl --user enable podman.socket"
+sudo loginctl enable-linger ubuntu
+sudo systemctl restart podman
     
