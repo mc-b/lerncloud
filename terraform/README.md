@@ -133,6 +133,27 @@ und wie gewohnt Terraform ausgeführt werden:
     
 Es werden `Anzahl KVM * 4` VMs angelegt. Als Hostname wird `<modul>-<host-no>-<terraform workspace>`, z.B. `m122-10-ap19a`, `m122-11-ap19a` etc. verwendet.
 
+### Proxmox
+
+Neu gibt es eine rudimentäre Unterstützung von [Proxmox](https://www.proxmox.com/de/). Rudimentär, weil die Cloud-init und Terraform Unterstützung von Proxmox einige Einschränkungen hat, u.a.:
+
+* Die Cloud-init Dateien müssen zwingend im Verzeichnis `/var/lib/vz/snippets` Verzeichnis abgelegt werden. Relative Pfade, z.B. `../modules.base.yaml` sind nicht zulässig.
+* Meta Daten, z.B. wie im MAAS um z.B. automatisch WireGuard zu Konfigurieren wird nicht unterstützt.
+* Das IP-Netzwerk (192.168.1.1) und GW-Adresse ist fix im [lerncloud-proxmox](https://github.com/mc-b/terraform-lerncloud-proxmox) Modul hinterlegt und muss ggf. angepasst werden. 
+* Die effektive IP-Adresse ergibt sich aus der fixen Vorgabe und der Nummern im Hostnamen, z.B. base-10 ergibt IP-Adresse 192.168.1.110.
+
+Ausserdem muss zuerst ein Cloud-init VM Template angelegt werden, wie im [lerncloud-proxmox](https://github.com/mc-b/terraform-lerncloud-proxmox) Modul beschrieben.
+
+Anschliessend in die Proxmox Maschine einloggen, Snippets Verzeichnis anlegen und ein paar Cloud-init Scripte aufbereiten als Snippets.
+
+    mkdir -p /var/lib/vz/snippets
+    
+    wget -O /var/lib/vz/snippets/base.yaml https://github.com/mc-b/lerncloud/raw/main/modules/base.yaml
+    wget -O /var/lib/vz/snippets/microk8smaster.yaml https://github.com/mc-b/lerncloud/raw/main/modules/microk8smaster.yaml
+    wget -O /var/lib/vz/snippets/microk8sworker.yaml https://github.com/mc-b/lerncloud/raw/main/modules/microk8sworker.yaml
+    
+Dann kann in der `main.tf` Datei als `userdata` eines der drei Scripte, z.B. `base.yaml`, angegeben werden.
+
 ### Terraform in eigene Module Einbinden
 
 Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit folgendem Inhalt anzulegen:
@@ -142,6 +163,8 @@ Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `
       #source     = "git::https://github.com/mc-b/terraform-lerncloud-aws"
       #source     = "git::https://github.com/mc-b/terraform-lerncloud-azure"
       #source     = "git::https://github.com/mc-b/terraform-lerncloud-maas"
+      #source     = "git::https://github.com/mc-b/terraform-lerncloud-proxmox"
+               
       module     = "m122"
       userdata   = "cloud-init.yaml"
     }
