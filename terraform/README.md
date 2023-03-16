@@ -154,6 +154,17 @@ Anschliessend in die Proxmox Maschine einloggen, Snippets Verzeichnis anlegen un
     
 Dann kann in der `main.tf` Datei als `userdata` eines der drei Scripte, z.B. `base.yaml`, angegeben werden.
 
+ProxMox User, für Zugriff via Terraform anlegen, Password ggf. ändern
+
+    pveum role add TerraformProv -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Monitor VM.PowerMgmt"
+    pveum user add terraform-prov@pve --password insecure
+    pveum aclmod / -user terraform-prov@pve -role TerraformProv
+    
+Und zum Schluss, mittels Umgebungsvariablen `TF_VAR_xxx` festlegen welche Proxmox Umgebung angesprochen werden soll, z.B.:
+
+    TF_VAR_url=https://localhost:8006/api2/json
+    TF_VAR_key=insecure
+
 ### Terraform in eigene Module Einbinden
 
 Um Terraform in seine eigenen Module einzubinden, ist im Repository eine Datei `main.tf` mit folgendem Inhalt anzulegen:
