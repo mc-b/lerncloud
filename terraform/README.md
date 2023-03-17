@@ -164,6 +164,31 @@ Und zum Schluss, mittels Umgebungsvariablen `TF_VAR_xxx` festlegen welche Proxmo
 
     TF_VAR_url=https://localhost:8006/api2/json
     TF_VAR_key=insecure
+    
+**WireGuard**
+
+Um wie bei MAAS WireGuard zu aktivieren, ist im Cloud-image die WireGuard Konfiguration zu hinterlegen. Bei mehreren VPNs ist mit mehreren Cloud-images zu arbeiten.
+Die WireGuard Konfiguration muss Base64 encoded sein, siehe [updateaz](https://github.com/mc-b/lernmaas/tree/master/helper#updateaz).
+
+    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --mkdir /opt/lernmmas
+    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --copy-in wireguard:/opt/wireguard/wireguard
+
+Leider wird, wenn im Cloud-init Script nicht explizit angegeben, der Hostname nicht gesetzt. Somit kann das VPN Script auch WireGuard nicht aktivieren.
+
+Abhilfe schafft eine Erweiterungen des [Cloud-init Moduls](https://github.com/mc-b/terraform-lerncloud-proxmox), welche den Hostnamen setzt und anschliessend das VPN Script nochmals ausführt.
+
+      connection {
+        type     = "ssh"
+        host     = self.default_ipv4_address
+        user     = "ubuntu"
+        password = "insecure"
+      }
+      provisioner "remote-exec" {
+        inline = [
+          "sudo hostnamectl set-hostname  ${var.module}",
+          "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/vpn.sh | bash -",    
+        ]
+      } 
 
 ### Terraform in eigene Module Einbinden
 
