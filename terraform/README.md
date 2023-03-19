@@ -170,8 +170,8 @@ Und zum Schluss, mittels Umgebungsvariablen `TF_VAR_xxx` festlegen welche Proxmo
 Um wie bei MAAS WireGuard zu aktivieren, ist im Cloud-image die WireGuard Konfiguration zu hinterlegen. Bei mehreren VPNs ist mit mehreren Cloud-images zu arbeiten.
 Die WireGuard Konfiguration muss Base64 encoded sein, siehe [updateaz](https://github.com/mc-b/lernmaas/tree/master/helper#updateaz).
 
-    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --mkdir /opt/lernmmas
-    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --copy-in wireguard:/opt/wireguard/wireguard
+    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --mkdir /opt/wireguard
+    virt-customize -a /var/lib/vz/cloudimg/jammy-server-cloudimg-amd64.img --copy-in wireguard:/opt/wireguard/
 
 Leider wird, wenn im Cloud-init Script nicht explizit angegeben, der Hostname nicht gesetzt. Somit kann das VPN Script auch WireGuard nicht aktivieren.
 
