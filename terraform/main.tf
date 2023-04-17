@@ -9,6 +9,7 @@ module "lerncloud" {
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-aws"
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-azure"
   #source     = "git::https://github.com/mc-b/terraform-lerncloud-proxmox"   
+  #source     = "git::https://github.com/mc-b/terraform-lerncloud-gns3"   
 
   # Module Info
   module      = "base-${format("%02d", var.host_no)}-${terraform.workspace}"
