@@ -8,7 +8,6 @@ sudo apt-add-repository -y ppa:maas/3.3-next
 sudo apt -y update
 sudo apt install -y maas jq markdown nmap traceroute git curl wget zfsutils-linux cloud-image-utils virtinst qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils whois
 sudo maas createadmin --username ubuntu --password insecure --email marcel.bernet@tbz.ch --ssh-import gh:mc-b
-sudo snap refresh
 
 # Password ist 'insecure'
 echo "insecure" >/home/ubuntu/.ssh/passwd
