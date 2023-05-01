@@ -50,18 +50,19 @@ cat <<%EOF% >>$HOME/.bashrc
 export PROFILE=ubuntu
 %EOF%
 
+set -xe
+export PROFILE=ubuntu
 # MAAS User und Defaults setzen
 RC=2
-until [ $RC -gt 0 ]
+until [ $RC -eq 0 ]
 do
-    sudo maas createadmin --username ubuntu --password insecure --email marcel.bernet@tbz.ch --ssh-import gh:mc-b
+    sudo maas createadmin --username $PROFILE --password insecure --email marcel.bernet@tbz.ch --ssh-import gh:mc-b
     RC=$?
 done 
-    
-export PROFILE=ubuntu
+
 sudo maas apikey --username=$PROFILE | head -1 >/tmp/$$
 RC=2
-until [ $RC -gt 0 ]
+until [ $RC -eq 0 ]
 do
     maas login $PROFILE http://localhost:5240/MAAS/api/2.0 - < /tmp/$$
     RC=$?
