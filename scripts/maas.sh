@@ -3,6 +3,8 @@
 #   Hilfsscript um einen MAAS Rack und Region Server zu installieren 
 #
 
+trap '' 1 2 9
+
 # MAAS installieren, User: ubuntu, PW: insecure
 sudo apt-add-repository -y ppa:maas/3.3-next
 sudo apt -y update
