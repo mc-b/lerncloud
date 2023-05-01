@@ -7,7 +7,6 @@
 sudo apt-add-repository -y ppa:maas/3.3-next
 sudo apt -y update
 sudo apt install -y maas jq markdown nmap traceroute git curl wget zfsutils-linux cloud-image-utils virtinst qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils whois
-sudo maas createadmin --username ubuntu --password insecure --email marcel.bernet@tbz.ch --ssh-import gh:mc-b
 
 # Password ist 'insecure'
 echo "insecure" >/home/ubuntu/.ssh/passwd
@@ -51,6 +50,14 @@ cat <<%EOF% >>$HOME/.bashrc
 export PROFILE=ubuntu
 %EOF%
 
+# MAAS User und Defaults setzen
+RC=2
+until [ $RC -gt 0 ]
+do
+    sudo maas createadmin --username ubuntu --password insecure --email marcel.bernet@tbz.ch --ssh-import gh:mc-b
+    RC=$?
+done 
+    
 export PROFILE=ubuntu
 sudo maas apikey --username=$PROFILE | head -1 >/tmp/$$
 RC=2
@@ -80,7 +87,7 @@ maas $PROFILE ipranges create type=dynamic start_ip="192.168.123.190" end_ip="19
 maas $PROFILE vlan update "fabric-1" "untagged" dhcp_on=True primary_rack=$(hostname)
 
 # Allgemeiner SSH Key einfuegen
-maas $PROFILE sshkeys create "key=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPvLEdsh/Vpu22zN3M/lmLE8zEO1alk/aWzIbZVwXJYa1RbNHocyZlvE8XDcv1WqeuVqoQ2DPflkQxdrbp2G08AWYgPNiQrMDkZBHG4GlU2Jhe9kCRiWVx/oVDeK8v3+w2nhFt8Jk/eeQ1+E19JlFak1iYveCpHqa68W3NIWj5b10I9VVPmMJVJ4KbpEpuWNuKH0p0YsUKfTQdvrn42fz5jYS1aV7qCCOOzB3WC833QRy04iHZObxDWIi/IFeIp1Gw2FkzPhoZyx4Fk9bsXfm301IePp9cwzArI2LdcOhwEZ3RW2F7ie2WJlVy5tzJjMGCaE1tZTjiCahLNEeTiTQp public-key@cloud.tbz.ch"
+maas $PROFILE sshkeys create "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUHol1mBvP5Nwe3Bzbpq4GsHTSw96phXLZ27aPiRdrzhnQ2jMu4kSgv9xFsnpZgBsQa84EhdJQMZz8EOeuhvYuJtmhAVzAvNjjRak+bpxLPdWlox1pLJTuhcIqfTTSfBYJYB68VRAXJ29ocQB7qn7aDj6Cuw3s9IyXoaKhyb4n7I8yI3r0U30NAcMjyvV3LYOXx/JQbX+PjVsJMzp2NlrC7snz8gcSKxUtL/eF0g+WnC75iuhBbKbNPr7QP/ItHaAh9Tv5a3myBLNZQ56SgnSCgmS0EUVeMNsO8XaaKr2H2x5592IIoz7YRyL4wlOmj35bQocwdahdOCFI7nT9fr6f insecure@lerncloud"
 
 # AZ (VPN) einrichten
 if [ -d $HOME/config/$(hostname) ]
