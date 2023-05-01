@@ -53,7 +53,12 @@ export PROFILE=ubuntu
 
 export PROFILE=ubuntu
 sudo maas apikey --username=$PROFILE | head -1 >/tmp/$$
-maas login $PROFILE http://localhost:5240/MAAS/api/2.0 - < /tmp/$$
+RC=2
+until [ $RC -gt 0 ]
+do
+    maas login $PROFILE http://localhost:5240/MAAS/api/2.0 - < /tmp/$$
+    RC=$?
+done    
 rm /tmp/$$
 
 # MAAS DNS forwarder setzen
