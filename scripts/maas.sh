@@ -5,6 +5,10 @@
 
 trap '' 1 2 3 9
 
+# Fehlermeldungen mit fehlendem Floppy Disk eleminieren - Nebeneffekt: OpenWrt bekommt in GNS3 Hostnamen nicht mehr!
+echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
+sudo dpkg-reconfigure initramfs-tools
+
 # MAAS installieren, User: ubuntu, PW: insecure
 sudo apt-add-repository -y ppa:maas/3.3-next
 sudo apt -y update
@@ -113,6 +117,3 @@ then
     
 fi  
 
-# Fehlermeldungen mit fehlendem Floppy Disk eleminieren - Nebeneffekt: OpenWrt bekommt in GNS3 Hostnamen nicht mehr!
-echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
-sudo dpkg-reconfigure initramfs-tools
