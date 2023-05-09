@@ -90,6 +90,7 @@ maas $PROFILE subnet update $SUBNET_CIDR gateway_ip="192.168.123.1"
 maas $PROFILE subnet update $SUBNET_CIDR dns_servers="$MY_NAMESERVER"
 
 # Enable DHCP
+sleep 10
 maas $PROFILE ipranges create type=dynamic start_ip="192.168.123.190" end_ip="192.168.123.253" 
 maas $PROFILE vlan update "fabric-0" "untagged" dhcp_on=True primary_rack=$(hostname)
 
