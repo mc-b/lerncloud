@@ -11,7 +11,7 @@ sudo apt-get install -y ethtool etherwake
 export ETH=$(ls -1 /sys/class/net/ | grep en)
 
 # nur Aktivieren wenn unterstuetzt
-/sbin/ethtool -s ${ETH} wol g
+sudo /sbin/ethtool -s ${ETH} wol g
 if  [ $? -eq 0 ]
 then
 
