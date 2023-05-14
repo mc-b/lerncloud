@@ -71,5 +71,5 @@ EOF
 sudo sed -i -e 's/MACAddressPolicy=persistent/MACAddressPolicy=none/g' /usr/lib/systemd/network/99-default.link
 
 sudo netplan generate
-sudo netplan apply
+#sudo netplan apply - reboot in cloud-init Script vorsehen!
 
