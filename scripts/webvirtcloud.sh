@@ -33,6 +33,13 @@ sudo chown -R www-data:www-data /srv/webvirtcloud
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo chown -R www-data:www-data /srv/webvirtcloud
 
+# Standard SSH Key 
+sudo mkdir /var/www/.ssh
+curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud | sudo tee /var/www/.ssh/id_rsa
+sudo chown -R www-data:www-data /var/www/.ssh
+sudo chmod 700 /var/www/.ssh
+sudo chmod 600 /var/www/.ssh/id_rsa 
+
 sudo service nginx restart
 sudo service supervisor restart
 

@@ -45,6 +45,11 @@ sudo useradd -s /bin/bash -d /home/virsh  -m virsh
 sudo usermod -aG libvirt virsh
 sudo usermod -aG libvirt-qemu virsh
 sudo chpasswd <<<virsh:insecure
+sudo mkdir /home/virsh/.ssh
+curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud.pub | sudo tee /home/virsh/.ssh/authorized_keys
+sudo chown -R virsh:virsh /home/virsh
+sudo chmod 700 /home/virsh/.ssh
+sudo chmod 600 /home/virsh/.ssh/authorized_keys 
 
 # Network Bridge
 
