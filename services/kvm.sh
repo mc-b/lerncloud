@@ -19,11 +19,11 @@ sudo virsh pool-start --build default
 
 # Default Images
 sudo wget -q -O /vmdisks/jammy-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
-sudo qemu-img create -b /vmdisks/jammy-server-cloudimg-amd64.img -f qcow2 -F qcow2 /vmdisks/ubuntu-22.04.img 30G
+sudo qemu-img create -b /vmdisks/jammy-server-cloudimg-amd64.img -f qcow2 -F qcow2 /vmdisks/ubuntu-server-22.04.img 30G
 
 # Default Cloud-init CD-ROM
 
-echo -e "instance-id: ubuntu-01\nlocal-hostname: ubuntu-01" > meta-data
+echo -e "instance-id: ubuntu-server\nlocal-hostname: ubuntu-server" > meta-data
 cat <<EOF >user-data
 #cloud-config
 password: insecure
@@ -36,12 +36,12 @@ ssh_import_id:
 ssh_authorized_keys:
   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUHol1mBvP5Nwe3Bzbpq4GsHTSw96phXLZ27aPiRdrzhnQ2jMu4kSgv9xFsnpZgBsQa84EhdJQMZz8EOeuhvYuJtmhAVzAvNjjRak+bpxLPdWlox1pLJTuhcIqfTTSfBYJYB68VRAXJ29ocQB7qn7aDj6Cuw3s9IyXoaKhyb4n7I8yI3r0U30NAcMjyvV3LYOXx/JQbX+PjVsJMzp2NlrC7snz8gcSKxUtL/eF0g+WnC75iuhBbKbNPr7QP/ItHaAh9Tv5a3myBLNZQ56SgnSCgmS0EUVeMNsO8XaaKr2H2x5592IIoz7YRyL4wlOmj35bQocwdahdOCFI7nT9fr6f insecure@lerncloud
 EOF
-sudo genisoimage -output /vmdisks/ubuntu-01.iso -V cidata -r -J user-data meta-data
+sudo genisoimage -output /vmdisks/cloud-init-template.iso -V cidata -r -J user-data meta-data
 
 sudo chown -R libvirt-qemu:libvirt-qemu /vmdisks
 
 # User virsh, wie MAAS.io
-sudo useradd -s /bin/rbash -d /home/virsh  -m virsh
+sudo useradd -s /bin/bash -d /home/virsh  -m virsh
 sudo usermod -aG libvirt virsh
 sudo usermod -aG libvirt-qemu virsh
 sudo chpasswd <<<virsh:insecure
