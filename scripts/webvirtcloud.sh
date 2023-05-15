@@ -33,9 +33,16 @@ sudo rm -f /etc/nginx/sites-enabled/default
 sudo mkdir /var/www/.ssh
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud | sudo tee /var/www/.ssh/id_rsa
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud.pub | sudo tee /var/www/.ssh/id_rsa.pub
+cat <<EOF | sudo tee /var/www/.ssh/config
+StrictHostKeyChecking no
+UserKnownHostsFile /dev/null
+LogLevel error
+EOF
+
 sudo chown -R www-data:www-data /var/www/.ssh
 sudo chmod 700 /var/www/.ssh
 sudo chmod 600 /var/www/.ssh/id_rsa 
+sudo chmod 600 /var/www/.ssh/config 
 
 sudo service nginx restart
 sudo service supervisor restart
