@@ -32,6 +32,7 @@ sudo rm -f /etc/nginx/sites-enabled/default
 # Standard SSH Key 
 sudo mkdir /var/www/.ssh
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud | sudo tee /var/www/.ssh/id_rsa
+curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud.pub | sudo tee /var/www/.ssh/id_rsa.pub
 sudo chown -R www-data:www-data /var/www/.ssh
 sudo chmod 700 /var/www/.ssh
 sudo chmod 600 /var/www/.ssh/id_rsa 
