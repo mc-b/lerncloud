@@ -8,7 +8,7 @@ trap '' 1 3 9
 sudo apt-get -y update
 sudo apt-get install -y ethtool etherwake 
 
-export ETH=$(ls -1 /sys/class/net/ | grep en)
+export ETH=$(ls -1 /sys/class/net/ | grep en | head -1)
 
 # nur Aktivieren wenn unterstuetzt
 sudo /sbin/ethtool -s ${ETH} wol g
