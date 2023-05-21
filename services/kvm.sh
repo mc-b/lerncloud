@@ -17,6 +17,20 @@ sudo usermod -aG libvirt-qemu ubuntu
 sudo virsh pool-define-as --name default --type dir --target /vmdisks
 sudo virsh pool-start --build default
 
+# Network nur Bridge
+sudo virsh net-destroy default
+sudo virsh net-undefine default
+cat <<EOF >/tmp/$$
+<network>
+  <name>default</name>
+  <forward mode="bridge"/>
+  <bridge name="br0"/>
+</network>
+EOF
+sudo virsh net-define /tmp/$$
+sudo virsh net-start default
+sudo virsh net-autostart default
+
 # Default Images
 sudo wget -q -O /vmdisks/jammy-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
 sudo qemu-img create -b /vmdisks/jammy-server-cloudimg-amd64.img -f qcow2 -F qcow2 /vmdisks/ubuntu-server-22.04.img 30G
