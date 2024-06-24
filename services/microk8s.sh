@@ -8,8 +8,8 @@
 #sudo snap install microk8s --classic --channel=1.24/stable
 #sudo snap install kubectl --classic --channel=1.24/stable
 
-sudo snap install microk8s --classic 
-sudo snap install kubectl --classic
+sudo snap install microk8s --classic --channel=1.30/stable
+sudo snap install kubectl --classic --channel=1.30/stable
 sudo snap install helm --classic
 
 
