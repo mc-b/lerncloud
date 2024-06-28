@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 
-pip install jupyter
-mkdir -p /home/ubuntu/data
+sudo apt install -y python3-pip
+pip install jupyter --break-system-packages
 
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyter.service
 [Unit]
@@ -14,7 +14,7 @@ PIDFile=/run/jupyter.pid
 ExecStart=/home/ubuntu/.local/bin/jupyter notebook --ip=0.0.0.0 --port=32188 --no-browser --NotebookApp.token='' --NotebookApp.password=''
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/home/ubuntu/data
+WorkingDirectory=/home/ubuntu
 Restart=always
 RestartSec=10
 
