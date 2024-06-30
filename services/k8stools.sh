@@ -41,3 +41,8 @@ sudo apt-get install -y trivy
 wget https://github.com/stern/stern/releases/download/v1.22.0/stern_1.22.0_linux_amd64.tar.gz
 tar xvzf stern_1.22.0_linux_amd64.tar.gz
 sudo mv stern /usr/local/bin
+
+# Lasttest
+wget https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_amd64 -O hey
+chmod 755 hey
+sudo mv hey /usr/local/bin/
