@@ -46,3 +46,6 @@ sudo mv stern /usr/local/bin
 wget https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_amd64 -O hey
 chmod 755 hey
 sudo mv hey /usr/local/bin/
+
+# Wie jq aber verarbeitet auch YAML etc.
+sudo apt-get install -y yq
