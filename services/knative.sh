@@ -21,12 +21,12 @@ sudo microk8s kubectl apply -f https://github.com/knative/eventing/releases/down
 sudo microk8s kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.14.4/mt-channel-broker.yaml
 
 # Kafka Channel
-sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.5/eventing-kafka-controller.yaml
-sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.5/eventing-kafka-channel.yaml
+# sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.5/eventing-kafka-controller.yaml
+# sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.5/eventing-kafka-channel.yaml
 # Kafka Broker
-sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-controller.yaml
-sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-broker.yaml
-sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-sink.yaml
+# sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-controller.yaml
+# sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-broker.yaml
+# sudo microk8s kubectl apply -f https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.14.6/eventing-kafka-sink.yaml
 
 cat <<EOF | sudo microk8s kubectl apply -f -
 apiVersion: v1
