@@ -32,8 +32,8 @@ sudo chmod 600 /home/ubuntu/.kube/config
 
 # Persistente Datenablage (fix)
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml
-# Persistente Datenablage (flexibel)
-sudo microk8s enable hostpath-storage
+# Persistente Datenablage (flexibel) - nicht verwenden - nicht Cluster faehig
+# sudo microk8s enable hostpath-storage
 
 ###
 # Intro
