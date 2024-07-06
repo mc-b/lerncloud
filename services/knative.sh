@@ -86,7 +86,7 @@ sudo chmod +x /usr/local/bin/kn
 # Plug-ins
 mkdir -p ~/.config/kn/plugins/
 
-curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.14.1/kn-admin-linux-amd64
+curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-admin/releases/download/knative-v1.14.0/kn-admin-linux-amd64
 chmod +x ~/.config/kn/plugins/kn-admin
 
 curl -o ~/.config/kn/plugins/kn-event -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.14.1/kn-event-linux-amd64
