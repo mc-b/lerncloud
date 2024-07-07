@@ -1,7 +1,11 @@
 #!/bin/bash
 #
 
+# neue Jupyter Umgebung, lokal auf VM
 sudo apt-get install -y jupyter-notebook
+
+# Python3 Libraries
+sudo apt-get install -y python3-flask python3-setproctitle python3-requests python3-paho-mqtt
 
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyter.service
 [Unit]
