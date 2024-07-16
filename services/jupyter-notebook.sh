@@ -43,4 +43,21 @@ EOF
 
 # Mount Verzeichnis
 [ -d ~/data ] && { ln -s ~/data ~/work; } || { mkdir -p ~/work; }
-echo $(hostname -I | cut -d ' ' -f 1) >~/work/server-ip
+
+# Public IP anhand Cloud Provider setzen, WireGuard ueberschreibt alle
+cloud_provider=$(cloud-init query v1.cloud_name 2>/dev/null) 
+case "$cloud_provider" in
+    "aws")
+        public_ip=$(cloud-init query ds.meta_data.public_ipv4 2>/dev/null)
+        ;;
+    "azure")
+        public_ip=$(cloud-init query ds.meta_data.network.interface.0.ipv4.ipAddress.0.publicIpAddress 2>/dev/null)
+        ;;
+    *)
+        public_ip=$(hostname -I | cut -d ' ' -f 1) 
+        ;;
+esac
+echo $public_ip >~/work/server-ip
+
+wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
+[ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
