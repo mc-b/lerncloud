@@ -2,7 +2,7 @@
 #
 
 # neue Jupyter Umgebung, lokal auf VM
-sudo apt-get install -y jupyter-notebook
+sudo apt-get install -y --no-install-recommends jupyter-notebook
 
 # Python3 Libraries
 sudo apt-get install -y python3-flask python3-setproctitle python3-requests python3-paho-mqtt
