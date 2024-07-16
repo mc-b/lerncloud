@@ -5,7 +5,8 @@
 sudo apt-get install -y --no-install-recommends jupyter-notebook
 
 # Python3 Libraries
-sudo apt-get install -y python3-flask python3-setproctitle python3-requests python3-paho-mqtt
+sudo apt-get install -y python3-flask python3-setproctitle python3-requests python3-paho-mqtt \
+                        python3-matplotlib python3-numpy python3-sklearn python3-pandas python3-seaborn 
 
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyter.service
 [Unit]
