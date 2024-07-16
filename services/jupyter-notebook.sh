@@ -42,4 +42,5 @@ LogLevel error
 EOF
 
 # Mount Verzeichnis
-mkdir -p ~/ws
+[ -d ~/data ] && { ln -s ~/data ~/work; } || { mkdir -p ~/work; }
+echo $(hostname -I | cut -d ' ' -f 1) >~/work/server-ip
