@@ -34,3 +34,12 @@ sudo systemctl restart jupyter.service
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud >~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
+# SSH keine Verwendung von .ssh/known_hosts
+cat <<EOF >~/.ssh/config
+StrictHostKeyChecking no
+UserKnownHostsFile /dev/null
+LogLevel error
+EOF
+
+# Mount Verzeichnis
+mkdir -p ~/ws
