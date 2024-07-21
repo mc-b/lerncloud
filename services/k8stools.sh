@@ -36,6 +36,11 @@ echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.
 sudo apt-get update
 sudo apt-get install -y trivy
 
+# Comprehensive Kubernetes Security from Development to Runtime
+curl -sL https://github.com/kubescape/kubescape/releases/latest/download/kubescape-ubuntu-latest -o kubescape
+chmod +x kubescape
+sudo mv kubescape /usr/local/bin/
+
 # Logausgabe ueber mehrere Pods in einem ReplicaSet
 
 wget https://github.com/stern/stern/releases/download/v1.22.0/stern_1.22.0_linux_amd64.tar.gz
