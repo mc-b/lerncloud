@@ -61,3 +61,6 @@ echo $public_ip >~/work/server-ip
 
 wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
 [ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
+
+# Eindeutige UUID pro Installation fuer IoT
+echo "UUID=\"$(uuid)\"" >~/work/uuid.py
