@@ -17,9 +17,15 @@ then
     sudo apt-get -qq -y install fuse-overlayfs
 
 # Containers Tools (ab Ubuntu 22.x)
-else
+elif [ "${VERSION_CODENAME}" == "jammy" ]
+then
     sudo apt-get update -qq
     sudo apt-get install -y podman buildah skopeo
+    pip install podman-compose
+# Containers Tools (ab Ubuntu 24.x)
+else
+    sudo apt-get update -qq
+    sudo apt-get install -y podman buildah skopeo podman-compose    
 fi
 
 # Enable remote access @see https://www.redhat.com/sysadmin/podman-clients-macos-windows
