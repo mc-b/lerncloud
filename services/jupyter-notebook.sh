@@ -53,14 +53,18 @@ case "$cloud_provider" in
     "azure")
         public_ip=$(cloud-init query ds.meta_data.network.interface.0.ipv4.ipAddress.0.publicIpAddress 2>/dev/null)
         ;;
+    "maas")
+        public_ip=$(hostname).maas
+        ;;        
     *)
         public_ip=$(hostname -I | cut -d ' ' -f 1) 
         ;;
 esac
 echo $public_ip >~/work/server-ip
 
-wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
-[ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
+# aktivieren wenn ohne OpenVPN gearbeitet wird
+# wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
+# [ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
 
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
