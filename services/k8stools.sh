@@ -54,3 +54,7 @@ sudo mv hey /usr/local/bin/
 
 # Wie jq aber verarbeitet auch YAML etc.
 sudo apt-get install -y yq
+
+# Skaffold - Container Image bauen und deployen
+curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+sudo install skaffold /usr/local/bin/
