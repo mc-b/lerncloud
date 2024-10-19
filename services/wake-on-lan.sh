@@ -5,6 +5,9 @@
 
 trap '' 1 3 9
 
+# APT-Umgebung setzen, um interaktive Dialoge zu vermeiden
+export DEBIAN_FRONTEND=noninteractive
+
 sudo apt-get -y update
 sudo apt-get install -y ethtool etherwake 
 
