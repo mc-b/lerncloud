@@ -6,10 +6,10 @@
 trap '' 1 3 9
 
 # Installation
-sudo apt-get -y update
 wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install vault
+sudo apt-get -y update
+sudo apt-get -y install vault
 
 # Einrichten als Service
 cat <<EOF | sudo tee /etc/systemd/system/vault-dev.service
