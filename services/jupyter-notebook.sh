@@ -42,7 +42,7 @@ LogLevel error
 EOF
 
 # Mount Verzeichnis
-[ -d ~/data ] && { ln -s ~/data ~/work; } || { mkdir -p ~/work; }
+[ -d ~/data ] && { ln -s ~/data ~/work; } || { mkdir -p ~/work; sudo chown ubuntu:ubuntu ~/work; }
 
 # Public IP anhand Cloud Provider setzen, WireGuard ueberschreibt alle
 cloud_provider=$(cloud-init query v1.cloud_name 2>/dev/null) 
