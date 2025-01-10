@@ -3,7 +3,9 @@
 #   Installiert Istio (inkl. Addons)
 #
 
-export ISTIO_VERSION=1.24.2
+# gibt Probleme mit Jaeger
+# export ISTIO_VERSION=1.24.2
+export ISTIO_VERSION=1.13.4
 
 curl -L https://istio.io/downloadIstio | sh -
 sudo cp istio-${ISTIO_VERSION}/bin/istioctl /usr/local/bin/
