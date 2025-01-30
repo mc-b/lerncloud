@@ -58,3 +58,6 @@ sudo apt-get install -y yq
 # Skaffold - Container Image bauen und deployen
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
 sudo install skaffold /usr/local/bin/
+
+# stress-ng - a tool to load and stress a computer system
+sudo apt-get install -y stress-ng
