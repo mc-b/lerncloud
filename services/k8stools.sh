@@ -61,3 +61,8 @@ sudo install skaffold /usr/local/bin/
 
 # stress-ng - a tool to load and stress a computer system
 sudo apt-get install -y stress-ng
+
+# k9s ASCII UI
+sudo snap install k9s --classic
+sudo ln -s /snap/k9s/current/bin/k9s /snap/bin/
+
