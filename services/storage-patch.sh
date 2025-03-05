@@ -10,7 +10,7 @@ sudo systemctl mask multipathd
 
 # iSCSI fuer longhorn.io
 
-sudo apt-get install open-iscsi
+sudo apt-get install open-iscsi -y
 sudo modprobe iscsi_tcp
 lsmod | grep iscsi_tcp
 echo "iscsi_tcp" | sudo tee /etc/modules-load.d/iscsi.conf
