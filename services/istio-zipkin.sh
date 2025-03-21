@@ -18,7 +18,10 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disable legacy MeshConfig tracing options
+      tracing:
+        sampling: 0.01  # Nur 1% aller Anfragen werden getraced
+      proxyMetadata:
+        ISTIO_META_ENABLE_ACCESS_LOG: "false"  # Deaktiviert Access-Logs (optional)        
     extensionProviders:
     - name: zipkin
       zipkin:
