@@ -10,11 +10,11 @@ for ns in knative-serving knative-eventing; do
         "path": "/spec/template/spec/containers/0/resources",
         "value": {
           "requests": {
-            "cpu": "100m",
+            "cpu": "30m",
             "memory": "64Mi"
           },
           "limits": {
-            "cpu": "300m",
+            "cpu": "100m",
             "memory": "128Mi"
           }
         }
