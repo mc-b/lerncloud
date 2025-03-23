@@ -10,11 +10,11 @@ for ns in knative-serving knative-eventing; do
         "path": "/spec/template/spec/containers/0/resources",
         "value": {
           "requests": {
-            "cpu": "30m",
+            "cpu": "25m",
             "memory": "64Mi"
           },
           "limits": {
-            "cpu": "100m",
+            "cpu": "50m",
             "memory": "128Mi"
           }
         }
@@ -22,3 +22,8 @@ for ns in knative-serving knative-eventing; do
     ]'
   done
 done
+
+kubectl scale deployment --replicas=1 -n knative-serving
+
+kubectl rollout restart deployment -n knative-serving
+kubectl rollout restart deployment -n knative-eventing
