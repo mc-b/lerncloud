@@ -3,13 +3,28 @@
 #   Istio - Patch. Verringert den Memory Bedarf von Istio Sidecars etc.
 #
 
-kubectl patch configmap istio-sidecar-injector -n istio-system \
-  --type merge \
-  -p '{
-    "data": {
-      "values": "{\"global\":{\"proxy\":{\"resources\":{\"limits\":{\"cpu\":\"50m\",\"memory\":\"128Mi\"},\"requests\":{\"cpu\":\"25m\",\"memory\":\"96Mi\"}}},\"waypoint\":{\"resources\":{\"limits\":{\"cpu\":\"50m\",\"memory\":\"128Mi\"},\"requests\":{\"cpu\":\"25m\",\"memory\":\"96Mi\"}}}}}"
+kubectl get configmap istio-sidecar-injector -n istio-system -o json | \
+jq '.data.values | fromjson' | \
+jq '{
+  global: {
+    proxy: {
+      resources: {
+        limits: { cpu: "50m", memory: "128Mi" },
+        requests: { cpu: "25m", memory: "96Mi" }
+      }
+    },
+    waypoint: {
+      resources: {
+        limits: { cpu: "50m", memory: "128Mi" },
+        requests: { cpu: "25m", memory: "96Mi" }
+      }
     }
-  }'
+  }
+}' | jq -c | \
+xargs -I{} kubectl patch configmap istio-sidecar-injector -n istio-system \
+  --type merge \
+  -p '{"data":{"values":"{}"}}'
+  
 
 # Kontrolle der Werte
 kubectl get configmap istio-sidecar-injector -n istio-system -o json | jq '.data.values | fromjson | .global.proxy.resources, .global.waypoint.resources'
