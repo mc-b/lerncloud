@@ -52,8 +52,8 @@ WantedBy=default.target
 EOF
 
 echo "🔄 Systemd user daemon neuladen (für ubuntu)"
-sudo -u ubuntu /bin/bash -c "systemctl --user daemon-reload"
-sudo -u ubuntu /bin/bash -c "systemctl --user enable frpc"
+systemctl --user daemon-reload
+systemctl --user enable frpc
 
 echo "✅ FRP Client ist eingerichtet als User-Service für ubuntu"
 echo "❗ Nicht gestartet. Zum Starten als ubuntu: systemctl --user start frpc"
