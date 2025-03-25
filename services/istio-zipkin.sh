@@ -19,7 +19,7 @@ spec:
     enableTracing: true
     defaultConfig:
       tracing:
-        sampling: 1.0  # 100 %: diesen Wert reduzieren, wenn die Last zu gross wird
+        sampling: 0.5  # Nur 50% aller Anfragen werden getraced
       proxyMetadata:
         ISTIO_META_ENABLE_ACCESS_LOG: "false"  # Deaktiviert Access-Logs (optional)        
     extensionProviders:
