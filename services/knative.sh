@@ -14,9 +14,6 @@ kubectl patch configmap/config-network --namespace knative-serving --type merge 
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-crds.yaml
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-core.yaml
 
-# InMemory Channel
-kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/in-memory-channel.yaml
-
 # InMemory Broker
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/in-memory-channel.yaml
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/mt-channel-broker.yaml
