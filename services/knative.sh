@@ -15,7 +15,7 @@ kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-core.yaml
 
 # InMemory Channel
-sudo microk8s kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.14.2/in-memory-channel.yaml
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/in-memory-channel.yaml
 
 # InMemory Broker
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/in-memory-channel.yaml
