@@ -6,8 +6,11 @@
 # Installation der benoetigten Software
 apt-get install -y wget tar docker.io openssl jq
 usermod -aG docker ubuntu 
-snap install kubectl --classic
-snap install helm --classic
+
+curl -LO "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 # Installation frp Server und Erstellung Daemon
 
