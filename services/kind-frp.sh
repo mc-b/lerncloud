@@ -4,8 +4,7 @@
 # Erstellt einen K8s kind Cluster mit FRP Client
 
 # Installation der benoetigten Software
-apt-get install -y wget tar docker.io openssl jq openssh-server 
-service ssh start
+apt-get install -y wget tar docker.io openssl jq
 usermod -aG docker ubuntu 
 snap install kubectl --classic
 snap install helm --classic
@@ -82,6 +81,7 @@ nodes:
 EOF
 
 su - ubuntu -c "kind create cluster --config kind-config.yaml --name kind --retain"
+sleep 2
 
 # Dashboard, Ingress
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml"
