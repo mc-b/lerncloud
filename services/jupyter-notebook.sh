@@ -51,7 +51,7 @@ case "$cloud_provider" in
         public_ip=$(cloud-init query ds.meta_data.public_ipv4 2>/dev/null)
         ;;
     "azure")
-        public_ip=$(cloud-init query ds.meta_data.network.interface.0.ipv4.ipAddress.0.publicIpAddress 2>/dev/null)
+        public_ip=$(jq -r '.ds.meta_data.imds.network.interface[0].ipv4.ipAddress[0].publicIpAddress' /run/cloud-init/instance-data.json 2>/dev/null)
         ;;
     "maas")
         public_ip=$(hostname).maas
