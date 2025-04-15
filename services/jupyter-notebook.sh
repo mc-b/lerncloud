@@ -47,9 +47,12 @@ EOF
 # Public IP anhand Cloud Provider setzen, WireGuard ueberschreibt alle
 cloud_provider=$(cloud-init query v1.cloud_name 2>/dev/null) 
 case "$cloud_provider" in
-    "aws")
-        public_ip=$(cloud-init query ds.meta_data.public_ipv4 2>/dev/null)
+      "aws")
+        public_ip=$(sudo cloud-init query ds.meta_data.public_hostname)
         ;;
+      "gce" | "gcloud")
+        public_ip=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip" -H "Metadata-Flavor: Google")
+        ;;  
     "azure")
         public_ip=$(jq -r '.ds.meta_data.imds.network.interface[0].ipv4.ipAddress[0].publicIpAddress' /run/cloud-init/instance-data.json 2>/dev/null)
         ;;
