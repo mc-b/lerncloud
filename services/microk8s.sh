@@ -32,8 +32,14 @@ sudo chmod 600 /home/ubuntu/.kube/config
 
 # Persistente Datenablage (fix)
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml
-# Persistente Datenablage (flexibel) - nicht verwenden - nicht Cluster faehig
+
+# Persistente Datenablage (flexibel) mit NFS Mounts Cluster faehig!
+# Worker Nodes: sudo mount -t nfs master:/var/snap/microk8s/common/default-storage /var/snap/microk8s/common/default-storage
 sudo microk8s enable hostpath-storage
+if [ -f /etc/exports ]; then
+    echo "/var/snap/microk8s/common/default-storage *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports > /dev/null
+    sudo exportfs -ra
+fi
 
 ###
 # Intro
