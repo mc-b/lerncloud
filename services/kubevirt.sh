@@ -1,0 +1,30 @@
+#!/bin/bash
+
+KUBEVIRT_NS="kubevirt"
+CDI_NS="cdi"
+
+# Neueste Versionen holen
+KUBEVIRT_VERSION=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+CDI_VERSION=$(curl -s https://api.github.com/repos/kubevirt/containerized-data-importer/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+
+# KubeVirt Namespace erstellen, wenn nicht vorhanden
+kubectl get ns "$KUBEVIRT_NS" >/dev/null 2>&1 || kubectl create ns "$KUBEVIRT_NS"
+
+# KubeVirt installieren
+kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/kubevirt-operator.yaml"
+kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/kubevirt-cr.yaml"
+kubectl -n "$KUBEVIRT_NS" wait kv kubevirt --for condition=Available --timeout=5m
+
+# virtctl herunterladen
+export VERSION=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
+wget https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
+chmod +x virtctl-${VERSION}-linux-amd64
+sudo mv virtctl-${VERSION}-linux-amd64 /usr/local/bin/virtctl
+
+# CDI Namespace erstellen, wenn nicht vorhanden
+kubectl get ns "$CDI_NS" >/dev/null 2>&1 || kubectl create ns "$CDI_NS"
+
+# CDI installieren
+kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-operator.yaml"
+kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-cr.yaml"
+kubectl -n "$CDI_NS" wait cdi cdi --for condition=Available --timeout=5m
