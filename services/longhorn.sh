@@ -35,6 +35,10 @@ wait_for_jobs() {
 
 echo "🚀 Starte Longhorn Installation..."
 
+# Kubernetes-Labels für Master/Control-Plane setzen
+kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/master=
+kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/control-plane=
+
 # Helm Repo hinzufügen
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
