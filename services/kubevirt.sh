@@ -15,6 +15,9 @@ kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEV
 kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/kubevirt-cr.yaml"
 kubectl -n "$KUBEVIRT_NS" wait kv kubevirt --for condition=Available --timeout=5m
 
+# Emulation aktivieren (falls VM in VM läuft)
+kubectl -n kubevirt patch kubevirt kubevirt --type=merge --patch '{"spec":{"configuration":{"developerConfiguration":{"useEmulation":true}}}}' 
+
 # virtctl herunterladen
 export VERSION=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
 wget https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
