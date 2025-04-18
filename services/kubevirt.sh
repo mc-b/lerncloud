@@ -3,7 +3,10 @@
 KUBEVIRT_NS="kubevirt"
 CDI_NS="cdi"
 
+echo "🚀 Starte KubeVirt Installation..."
+
 # Kubernetes-Labels für Master/Control-Plane setzen
+echo "- 🔧 Kubernetes-Labels für Master/Control-Plane setzen"
 kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/master=
 kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/control-plane=
 
@@ -20,13 +23,19 @@ kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEV
 kubectl -n "$KUBEVIRT_NS" wait kv kubevirt --for condition=Available --timeout=5m
 
 # Emulation aktivieren (falls VM in VM läuft)
+echo "- 🔧 Emulation aktivieren"
 kubectl -n kubevirt patch kubevirt kubevirt --type=merge --patch '{"spec":{"configuration":{"developerConfiguration":{"useEmulation":true}}}}' 
 
 # virtctl herunterladen
+echo "- 📥 virtctl herunterladen"
 export VERSION=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
-wget https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
+wget -nv https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
 chmod +x virtctl-${VERSION}-linux-amd64
 sudo mv virtctl-${VERSION}-linux-amd64 /usr/local/bin/virtctl
+
+echo "🏁 KubeVirt wurde erfolgreich installiert!"
+
+echo "🚀 Starte Containerized Data Importer (CDI) Installation..."
 
 # CDI Namespace erstellen, wenn nicht vorhanden
 kubectl get ns "$CDI_NS" >/dev/null 2>&1 || kubectl create ns "$CDI_NS"
@@ -35,3 +44,5 @@ kubectl get ns "$CDI_NS" >/dev/null 2>&1 || kubectl create ns "$CDI_NS"
 kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-operator.yaml"
 kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-cr.yaml"
 kubectl -n "$CDI_NS" wait cdi cdi --for condition=Available --timeout=5m
+
+echo "🏁 Containerized Data Importer (CDI) wurde erfolgreich installiert!"
