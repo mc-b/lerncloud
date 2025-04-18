@@ -2,15 +2,16 @@
 #   
 #   Installiert Istio mit Zipkin (leichtgewichtiger)
 #
-
-# gibt Probleme mit Jaeger
 export ISTIO_VERSION=1.24.2 
+
+echo "🚀 Starte Istio $ISTIO_VERSION Installation..."
 
 curl -L https://istio.io/downloadIstio | sh -
 sudo cp istio-${ISTIO_VERSION}/bin/istioctl /usr/local/bin/
 
 # Addons
 
+echo "- 🔧 Istio Operator aktivieren"
 cat <<EOF > ./tracing.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -30,6 +31,7 @@ spec:
 EOF
 istioctl install -f ./tracing.yaml --skip-confirmation
 
+echo "- 🔧 Zipkin aktivieren und konfigurieren"
 kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
@@ -44,3 +46,5 @@ EOF
 
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/extras/zipkin.yaml
 kubectl get service -n istio-system -l name=zipkin -o yaml | sed 's/ClusterIP/NodePort/g' | kubectl apply -f -
+
+echo "🏁 Istio + Zipkin wurde erfolgreich installiert!"
