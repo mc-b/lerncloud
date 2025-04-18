@@ -58,8 +58,8 @@ wait_for_jobs "longhorn-system"
 echo "🏁 Longhorn wurde erfolgreich installiert!"
 
 # Weitere Konfigurationsanpassungen (aus Deinem NB)
-echo "🔧 Setze StorageClass auf 'longhorn' als Standard..."
-kubectl patch storageclass longhorn -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+echo "🔧 Setze StorageClass 'longhorn' NICHT als Standard..."
+kubectl patch storageclass longhorn -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 
 echo "🔧 Erstelle Default PersistentVolumeClaims"
 kubectl apply -f - <<EOF
