@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "- 🔧 CPU und Memory für K-native begrenzen"
+
 for ns in knative-serving knative-eventing; do
   echo "Patching deployments in $ns ..."
   for deploy in $(kubectl get deployments -n $ns -o jsonpath='{.items[*].metadata.name}'); do
