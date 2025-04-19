@@ -6,6 +6,8 @@
 
 source /etc/os-release
 
+echo "🚀 [INFO] Starte podman buildah skopeo (Containers) Installation..."
+
 # Ubuntu 20
 if [ "${VERSION_CODENAME}" == "focal" ]
 then
@@ -32,4 +34,6 @@ fi
 sudo su - ubuntu -c "systemctl --user enable podman.socket"
 sudo loginctl enable-linger ubuntu
 sudo systemctl restart podman
+
+echo "✅ [INFO] podman buildah skopeo (Containers) wurde erfolgreich installiert!"
     

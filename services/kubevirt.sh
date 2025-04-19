@@ -33,7 +33,7 @@ wget -nv https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtc
 chmod +x virtctl-${VERSION}-linux-amd64
 sudo mv virtctl-${VERSION}-linux-amd64 /usr/local/bin/virtctl
 
-echo "🏁 [INFO] KubeVirt wurde erfolgreich installiert!"
+echo "✅ [INFO] KubeVirt wurde erfolgreich installiert!"
 
 echo "🚀 [INFO] Starte Containerized Data Importer (CDI) Installation..."
 

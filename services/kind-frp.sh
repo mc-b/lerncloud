@@ -3,6 +3,8 @@
 # Installiert den FRP (Fast Reverse Proxy) startet ihn als System Daemon
 # Erstellt einen K8s kind Cluster mit FRP Client
 
+echo "🚀 [INFO] Starte FRP (Fast Reverse Proxy) und kind (Kubernetes in Docker) Installation..."
+
 # Installation der benoetigten Software
 apt-get install -y wget tar docker.io openssl jq
 usermod -aG docker ubuntu 
@@ -14,6 +16,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 # Installation frp Server und Erstellung Daemon
 
+echo "- 🚀 [INFO] Starte FRP (Fast Reverse Proxy) Installation..."
 export FRP_TOKEN=$(openssl rand -hex 16)
 
 wget -O /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_0.61.2_linux_amd64.tar.gz
@@ -55,6 +58,8 @@ systemctl start frps
   
 # kind K8s Cluster  
   
+echo "- 🚀 [INFO] Starte kind (Kubernetes in Docker) Installation..."  
+
 curl -Lo kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64 && chmod +x kind && sudo mv ./kind /usr/local/bin/kind
 
 cat <<EOF > /home/ubuntu/kind-config.yaml
@@ -87,6 +92,7 @@ su - ubuntu -c "kind create cluster --config kind-config.yaml --name kind --reta
 sleep 2
 
 # Dashboard, Ingress
+echo "- 🔧 [INFO] richte /data, Dashboad, Ingress ein"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard-admin.yaml"
@@ -95,6 +101,9 @@ su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/kubernetes/in
 su - ubuntu -c "docker ps --filter "name=kind" --format "{{.Names}}" | xargs -n1 docker update --restart unless-stopped"
 
 # frps Client
+echo "- 🚀 [INFO] Starte FRP (Fast Reverse Proxy) Client Installation..."
 su - ubuntu -c "git clone https://gitlab.com/ch-mc-b/autoshop-ms/infra/gateway.git"
 su - ubuntu -c "helm install frp-gateway-operator ./gateway/operator --namespace frp --create-namespace --set frp.token=${FRP_TOKEN} --set frp.host=$(hostname -I | awk '{ print $1 }')"        
+
+echo "✅ [INFO] FRP (Fast Reverse Proxy) und kind (Kubernetes in Docker) ist eingerichtet"
   
