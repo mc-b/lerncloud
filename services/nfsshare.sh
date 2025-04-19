@@ -2,6 +2,7 @@
 #   
 #   Installiert den NFS Server und gibt das Verzeichnis `/data` frei.
 
+echo "🚀 [INFO] Richte NFS Share /data ein"
 sudo apt-get update
 sudo apt-get install -y nfs-kernel-server
 
@@ -22,3 +23,5 @@ cat <<%EOF% | sudo tee /etc/exports
  
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
+
+echo "✅ [INFO] NFS Share /data erfolgreich eingerichtet!"

@@ -33,7 +33,7 @@ wait_for_jobs() {
   done
 }
 
-echo "🚀 Starte Longhorn Installation..."
+echo "🚀 [INFO] Starte Longhorn Installation..."
 
 # Kubernetes-Labels für Master/Control-Plane setzen
 kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/master=
@@ -55,13 +55,13 @@ wait_for_pods "longhorn-system"
 # Optional: Auf Jobs warten, falls vorhanden (z.B. Migrationsjobs)
 wait_for_jobs "longhorn-system"
 
-echo "🏁 Longhorn wurde erfolgreich installiert!"
+echo "✅ [INFO] Longhorn wurde erfolgreich installiert!"
 
 # Weitere Konfigurationsanpassungen (aus Deinem NB)
-echo "🔧 Setze StorageClass 'longhorn' NICHT als Standard..."
+echo "🔧 [INFO] Setze StorageClass 'longhorn' NICHT als Standard..."
 kubectl patch storageclass longhorn -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 
-echo "🔧 Erstelle Default PersistentVolumeClaims"
+echo "🔧 [INFO] Erstelle Default PersistentVolumeClaims"
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: PersistentVolumeClaim

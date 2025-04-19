@@ -3,6 +3,7 @@
 #   Installiert Docker-CE
 #
 
+echo "🚀 [INFO] Starte docker.io Installation..."
 ####
 # Installation Docker 
 sudo apt install -y docker.io
@@ -36,4 +37,7 @@ fi
 sudo docker image ls
 
 # Hack: Docker fuer Jenkins freischalten
+echo "- 🔧 [INFO] Hack - chmod o+rw /var/run/docker.sock"
 sudo chmod o+rw /var/run/docker.sock
+
+echo "✅ [INFO] docker.io wurde erfolgreich installiert!"

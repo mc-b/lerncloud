@@ -2,11 +2,11 @@
 # 
 # Cert Manager
 
-echo "🚀 Starte Cert-Manager Installation..."
+echo "🚀 [INFO] Starte Cert-Manager Installation..."
 sudo microk8s enable cert-manager
 
 
-echo "- 🔧 Richte eine CA für interne Zertifikate ein."
+echo "- 🔧 [INFO] Richte eine CA für interne Zertifikate ein."
 kubectl apply -f - <<EOF
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -16,4 +16,4 @@ spec:
   selfSigned: {}
 EOF
 
-echo "🏁 Cert-Manager wurde erfolgreich installiert!"
+echo "✅ [INFO] Cert-Manager wurde erfolgreich installiert!"

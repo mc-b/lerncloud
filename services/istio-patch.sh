@@ -3,7 +3,7 @@
 #   Istio - Patch. Verringert den Memory Bedarf von Istio Sidecars etc.
 #
 
-echo "- 🔧 CPU und Memory begrenzen"
+echo "- 🔧 [INFO] Istio CPU und Memory begrenzen"
 
 kubectl get configmap istio-sidecar-injector -n istio-system -o json | \
 jq '.data.values |= (
@@ -24,7 +24,7 @@ kubectl get configmap istio-sidecar-injector -n istio-system -o json | jq '.data
 
 # Istio Services fuer max. 50 Services mit Sidecar
 
-echo "- 🔧 Istio Services fuer max. 50 Services mit Sidecar"
+echo "- 🔧 [INFO] Istio Services fuer max. 50 Services mit Sidecar"
   
 kubectl patch deployment istiod -n istio-system \
   -p '{"spec":{"template":{"spec":{"containers":[{"name":"discovery","resources":{"limits":{"cpu":"300m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}}]}}}}'

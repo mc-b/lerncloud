@@ -3,7 +3,7 @@
 #   Installiert die Erweiterung k-native (Serverless, FAAS) fuer Kubernetes - ohne Kafka
 #
 
-echo "🚀 Starte K-native Serving Installation..."
+echo "🚀 [INFO] Starte K-native Serving Installation..."
 
 # Serving
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-crds.yaml
@@ -12,17 +12,17 @@ kubectl apply -f https://github.com/knative/net-kourier/releases/download/knativ
 kubectl patch configmap/config-network --namespace knative-serving --type merge --patch '{"data":{"ingress-class":"kourier.ingress.networking.knative.dev"}}'
 # kubectl patch configmap/config-domain --namespace knative-serving --type merge --patch '{"data":{"microk8s.mshome.net":""}}'  
 
-echo "🏁 K-native Serving wurde erfolgreich installiert!"
+echo "✅ [INFO] K-native Serving wurde erfolgreich installiert!"
 
 ####
 
-echo "🚀 Starte K-native Eventing Installation..."
+echo "🚀 [INFO] Starte K-native Eventing Installation..."
 
 # Eventing
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-crds.yaml
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-core.yaml
 
-echo "- 🔧 InMemory Broker konfigurieren"
+echo "- 🔧 [INFO] InMemory Broker konfigurieren"
 # InMemory Broker
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/in-memory-channel.yaml
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/mt-channel-broker.yaml
@@ -77,10 +77,10 @@ data:
       replicationFactor: 1        
 EOF
 
-echo "🏁 K-native Eventing wurde erfolgreich installiert!"
+echo "✅ [INFO] K-native Eventing wurde erfolgreich installiert!"
 
 
-echo "- 📥 K-native CLI's herunterladen"
+echo "- 📥 [INFO] K-native CLI's herunterladen"
 # CLI
 sudo curl -o /usr/local/bin/kn -sL https://github.com/knative/client/releases/download/knative-v1.17.0/kn-linux-amd64
 sudo chmod +x /usr/local/bin/kn 

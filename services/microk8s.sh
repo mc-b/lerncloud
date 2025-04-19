@@ -5,6 +5,7 @@
 
 # Basic Installation
 
+echo "🚀 [INFO] Starte microk8s Installation..."
 #sudo snap install microk8s --classic --channel=1.24/stable
 #sudo snap install kubectl --classic --channel=1.24/stable
 
@@ -12,9 +13,9 @@ sudo snap install microk8s --classic
 sudo snap install kubectl --classic
 sudo snap install helm --classic
 
-
 ###
 # Add-ons  
+echo "- 🔧 [INFO] enable DNS aktivieren"
 sudo microk8s enable dns 
 
 # hub.docker.com entfernen fuer Overlay Network calico
@@ -31,10 +32,12 @@ sudo chown -f -R ubuntu:ubuntu /home/ubuntu/.kube
 sudo chmod 600 /home/ubuntu/.kube/config
 
 # Persistente Datenablage (fix)
+echo "- 🔧 [INFO] Persistente Dateiablage /data einrichten"
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml
 
 # Persistente Datenablage (flexibel) mit NFS Mounts Cluster faehig!
 # Worker Nodes: sudo mount -t nfs master:/var/snap/microk8s/common/default-storage /var/snap/microk8s/common/default-storage
+echo "- 🔧 [INFO] Persistente Dateiablage hostpath-storage einrichten"
 sudo microk8s enable hostpath-storage
 if [ -f /etc/exports ]; then
     echo "/var/snap/microk8s/common/default-storage *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports > /dev/null
@@ -58,5 +61,7 @@ Weitere Informationen: [https://microk8s.io/](https://microk8s.io/)
 %EOF%
 
 sudo chown -f ubuntu:ubuntu /home/ubuntu/README.md
+
+echo "✅ [INFO] microk8s wurde erfolgreich installiert!"
 
 

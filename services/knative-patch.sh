@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "- 🔧 CPU und Memory für K-native begrenzen"
+echo "🔧 [INFO] K-native CPU und Memory begrenzen"
 
 for ns in knative-serving knative-eventing; do
-  echo "Patching deployments in $ns ..."
+  echo "- 🔧 [INFO] K-native Patching deployments in $ns ..."
   for deploy in $(kubectl get deployments -n $ns -o jsonpath='{.items[*].metadata.name}'); do
     echo "- Patching $deploy"
     kubectl -n $ns patch deployment $deploy --type=json -p='[
