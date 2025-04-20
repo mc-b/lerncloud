@@ -19,7 +19,8 @@ chmod 600 ~/data/.ssh/frp_secrets.env
 
 echo "⬇️ [INFO] Lade FRP Server herunter..."
 TMP_DIR=$(mktemp -d)
-wget -O "$TMP_DIR/frp.tar.gz" https://github.com/fatedier/frp/releases/latest/download/frp_0.61.2_linux_amd64.tar.gz
+FRP_VERSION=$(curl -sI https://github.com/fatedier/frp/releases/latest | grep -i '^location:' | sed -E 's|.*/tag/v([^[:space:]]+)|\1|' | tr -d '\r')
+wget -nv -O /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_${FRP_VERSION}_linux_amd64.tar.gz
 tar -xzf "$TMP_DIR/frp.tar.gz" -C "$TMP_DIR"
 sudo mv "$TMP_DIR"/frp_*/frps /usr/local/bin/frps
 sudo chmod +x /usr/local/bin/frps

@@ -19,7 +19,8 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 echo "- 🚀 [INFO] Starte FRP (Fast Reverse Proxy) Installation..."
 export FRP_TOKEN=$(openssl rand -hex 16)
 
-wget -O /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_0.61.2_linux_amd64.tar.gz
+FRP_VERSION=$(curl -sI https://github.com/fatedier/frp/releases/latest | grep -i '^location:' | sed -E 's|.*/tag/v([^[:space:]]+)|\1|' | tr -d '\r')
+wget -nv -O /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_${FRP_VERSION}_linux_amd64.tar.gz
 tar -xzf /tmp/frp.tar.gz -C /opt
 mv /opt/frp_*/frps /usr/local/bin/frps
 mkdir -p /etc/frp
