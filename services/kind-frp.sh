@@ -63,6 +63,40 @@ echo "- 🚀 [INFO] Starte kind (Kubernetes in Docker) Installation..."
 
 curl -Lo kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64 && chmod +x kind && sudo mv ./kind /usr/local/bin/kind
 
+if  [ -f ~/work/server-ip ]
+then
+cat <<EOF > /home/ubuntu/kind-config.yaml
+# kind-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+containerdConfigPatches:
+  - |-
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."$(cat ~/work/server-ip):9443"]
+      endpoint = ["https://$(cat ~/work/server-ip):9443"]
+    [plugins."io.containerd.grpc.v1.cri".registry.configs."$(cat ~/work/server-ip):9443".tls]
+      insecure_skip_verify = true
+nodes:
+  - role: control-plane
+    extraMounts:
+      - hostPath: /data
+        containerPath: /data
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+  - role: worker
+    extraMounts:
+      - hostPath: /data
+        containerPath: /data
+  - role: worker
+    extraMounts:
+      - hostPath: /data
+        containerPath: /data
+EOF
+else
 cat <<EOF > /home/ubuntu/kind-config.yaml
 # kind-config.yaml
 kind: Cluster
@@ -88,6 +122,7 @@ nodes:
       - hostPath: /data
         containerPath: /data
 EOF
+fi
 
 su - ubuntu -c "kind create cluster --config kind-config.yaml --name kind --retain"
 sleep 2
