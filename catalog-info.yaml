@@ -20,6 +20,6 @@ metadata:
     backstage.io/source-location: url:https://github.com/mc-b/lerncloud
     # backstage.io/techdocs-ref: url:https://github.com/mc-b/lerncloud
 spec:
-  type: education
+  type: infrastructure
   lifecycle: production
   owner: group:mc-b/mc-b
