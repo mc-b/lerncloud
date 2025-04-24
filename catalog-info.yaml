@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: lerncloud
+  namespace: mc-b
+  description: Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem
+    Projekt zusammen und vermindert Copy & Paste.
+  tags:
+  - kubernetes
+  - cloud-native
+  - infrastructure-as-code
+  - terraform
+  - education
+  links:
+  - url: https://github.com/mc-b/lerncloud
+    title: Repository
+    icon: github
+  annotations:
+    github.com/project-slug: mc-b/lerncloud
+    backstage.io/source-location: url:https://github.com/mc-b/lerncloud
+    # backstage.io/techdocs-ref: url:https://github.com/mc-b/lerncloud
+spec:
+  type: education
+  lifecycle: production
+  owner: group:mc-b/mc-b
