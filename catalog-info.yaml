@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: lerncloud
+  name: lerncloud-lerncloud
   namespace: mc-b
   description: Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem
     Projekt zusammen und vermindert Copy & Paste.
@@ -27,496 +27,462 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: backstage
+  name: lerncloud-backstage
   description: Installiert die Grundtools um Backstage.io zu starten
+  tags:
+  - cloud-init
+  - lerncloud
+  - lernmaas
+  - lerngns3
   namespace: mc-b
 spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: cert-manager
+  name: lerncloud-cert-manager
   description: Cert-Manager
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: containers
+  name: lerncloud-containers
   description: Container-Tools wie podman, scopeo
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: docker
+  name: lerncloud-docker
   description: Docker 
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: frpc
+  name: lerncloud-frpc
   description: Fast Reverse Proxy Client
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: frps
+  name: lerncloud-frps
   description: Fast Reverse Proxy Server
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: intro
+  name: lerncloud-intro
   description: Erstellt die Intro Seiten
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: istio
+  name: lerncloud-istio
   description: Istio
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: istio-patch
+  name: lerncloud-istio-patch
   description: Vermindert den Memory Verbrauch von istio
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: istio-zipkin
+  name: lerncloud-istio-zipkin
   description: Istio mit Zipkin
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: jupyter-libraries
+  name: lerncloud-jupyter-libraries
   description: Math Libraries zu den Jupyter Notebooks
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: jupyter-notebook
+  name: lerncloud-jupyter-notebook
   description: Jupyter Notebooks Umgebung
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k3s
+  name: lerncloud-k3s
   description: K3s
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8saddons
+  name: lerncloud-k8saddons
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8sbase
+  name: lerncloud-k8sbase
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8sjoin
+  name: lerncloud-k8sjoin
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8smaster
+  name: lerncloud-k8smaster
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8stools
+  name: lerncloud-k8stools
   description: Zusatztools zu Kubernetes wie k9s, stern, etc.
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: k8swebui
+  name: lerncloud-k8swebui
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: kind-frp
+  name: lerncloud-kind-frp
   description: Kind im Zusammenspiel mit frp
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: knative
+  name: lerncloud-knative
   description: K-native
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: knative-istio
+  name: lerncloud-knative-istio
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: knative-kafka
+  name: lerncloud-knative-kafka
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: knative-patch
+  name: lerncloud-knative-patch
   description: Vermindert den Memory Verbrauch von K-native
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: kubevirt
+  name: lerncloud-kubevirt
   description: KubeVirt
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: kvm
+  name: lerncloud-kvm
   namespace: mc-b
 spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: longhorn
+  name: lerncloud-longhorn
   description: Longhorn, verteiltes Dateisystem
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: microk8s
+  name: lerncloud-microk8s
   description: microk8s
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: microk8saddons
+  name: lerncloud-microk8saddons
   description: microk8s Add-on wie Dashboard und Metrics
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata: 
-  name: nfsclient
+  name: lerncloud-nfsclient
   description: Stellt eine NFS Verbindung zum Rackserver her 
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: nfsshare
+  name: lerncloud-nfsshare
   description: Stellt einen NFS Share /data zur Verfügung
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: podman
+  name: lerncloud-podman
   namespace: mc-b
 spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: repository
+  name: lerncloud-repository
   description: Ruft mit User ubuntu ein Installationsscript auf
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: share
+  name: lerncloud-share
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: storage
+  name: lerncloud-storage
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: storage-patch
+  name: lerncloud-storage-patch
   description: Deaktiviert multipath und aktiviert iscsi für lohnhorn
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: vault
+  name: lerncloud-vault
   description: Vault von HashiCorp
   namespace: mc-b
 spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: vpn
+  name: lerncloud-vpn
   description: Installiert und Konfiguriert WireGuard
   namespace: mc-b
 spec:
   type: script
   lifecycle: production
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: wake-on-lan
+  name: lerncloud-wake-on-lan
   description: Aktiviert Wake-On-LAN
   namespace: mc-b
 spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  partOf:
-    - component:mc-b/lerncloud
+  subcomponentOf: component:mc-b/lerncloud
   
