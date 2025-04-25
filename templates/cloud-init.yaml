@@ -54,21 +54,23 @@ spec:
           {{ end }}
 
   output:
-    text:
-      cloudInit: |
-        #cloud-config
-        users:
-          - name: ubuntu
-            sudo: ALL=(ALL) NOPASSWD:ALL
-            shell: /bin/bash
-        runcmd:
-        {{ if parameters.install_docker }}
-          - apt-get update
-          - apt-get install -y docker.io
-        {{ end }}
-        {{ if parameters.storage_mode == "server" }}
-          - apt-get install -y nfs-kernel-server
-        {{ end }}
-        {{ if parameters.storage_mode == "client" }}
-          - apt-get install -y nfs-common
-        {{ end }}
+      text:
+        - title: cloud-init.yaml
+          text: |
+            #cloud-config
+            users:
+              - name: ubuntu
+                sudo: ALL=(ALL) NOPASSWD:ALL
+                shell: /bin/bash
+            runcmd:
+            {{ if parameters.install_docker }}
+              - apt-get update
+              - apt-get install -y docker.io
+            {{ end }}
+            {{ if parameters.storage_mode == "server" }}
+              - apt-get install -y nfs-kernel-server
+            {{ end }}
+            {{ if parameters.storage_mode == "client" }}
+              - apt-get install -y nfs-common
+            {{ end }}
+
