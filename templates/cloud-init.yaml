@@ -33,7 +33,7 @@ spec:
   steps:
     - id: create-cloud-init
       name: Erstelle cloud-init.yaml
-      action: fs:write
+      action: fetch:plain
       input:
         path: cloud-init.yaml
         content: |
@@ -72,7 +72,3 @@ spec:
             - mount -t nfs <SERVER_IP>:/srv/nfs /mnt/nfs
           {{ end }}
 
-  output:
-    links:
-      - title: cloud-init.yaml herunterladen
-        url: ./cloud-init.yaml
