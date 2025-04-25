@@ -3,14 +3,17 @@ kind: Component
 metadata:
   name: lerncloud-lerncloud
   namespace: mc-b
+  tags:
+  - cloud-native
+  - education
+  - infrastructure-as-code
+  - kubernetes
+  - lerncloud
+  - lerngns3
+  - lernmaas
+  - terraform
   description: Das Projekt LernCloud fasst immer wieder verwendete Scripts in einem
     Projekt zusammen und vermindert Copy & Paste.
-  tags:
-  - kubernetes
-  - cloud-native
-  - infrastructure-as-code
-  - terraform
-  - education
   links:
   - url: https://github.com/mc-b/lerncloud
     title: Repository
@@ -29,12 +32,12 @@ kind: Component
 metadata:
   name: lerncloud-backstage
   description: Installiert die Grundtools um Backstage.io zu starten
+  namespace: mc-b
   tags:
   - cloud-init
   - lerncloud
-  - lernmaas
   - lerngns3
-  namespace: mc-b
+  - lernmaas
 spec:
   type: script
   lifecycle: experimental
@@ -47,6 +50,11 @@ metadata:
   name: lerncloud-cert-manager
   description: Cert-Manager
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -59,6 +67,11 @@ metadata:
   name: lerncloud-containers
   description: Container-Tools wie podman, scopeo
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -71,6 +84,11 @@ metadata:
   name: lerncloud-docker
   description: Docker 
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -83,6 +101,11 @@ metadata:
   name: lerncloud-frpc
   description: Fast Reverse Proxy Client
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -95,6 +118,11 @@ metadata:
   name: lerncloud-frps
   description: Fast Reverse Proxy Server
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -107,6 +135,11 @@ metadata:
   name: lerncloud-intro
   description: Erstellt die Intro Seiten
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -119,6 +152,11 @@ metadata:
   name: lerncloud-istio
   description: Istio
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -131,6 +169,11 @@ metadata:
   name: lerncloud-istio-patch
   description: Vermindert den Memory Verbrauch von istio
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -143,6 +186,11 @@ metadata:
   name: lerncloud-istio-zipkin
   description: Istio mit Zipkin
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -155,6 +203,11 @@ metadata:
   name: lerncloud-jupyter-libraries
   description: Math Libraries zu den Jupyter Notebooks
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -167,6 +220,11 @@ metadata:
   name: lerncloud-jupyter-notebook
   description: Jupyter Notebooks Umgebung
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -179,6 +237,11 @@ metadata:
   name: lerncloud-k3s
   description: K3s
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -190,6 +253,11 @@ kind: Component
 metadata:
   name: lerncloud-k8saddons
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -201,6 +269,11 @@ kind: Component
 metadata:
   name: lerncloud-k8sbase
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -212,6 +285,11 @@ kind: Component
 metadata:
   name: lerncloud-k8sjoin
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -223,6 +301,11 @@ kind: Component
 metadata:
   name: lerncloud-k8smaster
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -235,6 +318,11 @@ metadata:
   name: lerncloud-k8stools
   description: Zusatztools zu Kubernetes wie k9s, stern, etc.
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -246,6 +334,11 @@ kind: Component
 metadata:
   name: lerncloud-k8swebui
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -258,6 +351,11 @@ metadata:
   name: lerncloud-kind-frp
   description: Kind im Zusammenspiel mit frp
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -270,6 +368,11 @@ metadata:
   name: lerncloud-knative
   description: K-native
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -281,6 +384,11 @@ kind: Component
 metadata:
   name: lerncloud-knative-istio
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -292,6 +400,11 @@ kind: Component
 metadata:
   name: lerncloud-knative-kafka
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -304,6 +417,11 @@ metadata:
   name: lerncloud-knative-patch
   description: Vermindert den Memory Verbrauch von K-native
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -316,6 +434,11 @@ metadata:
   name: lerncloud-kubevirt
   description: KubeVirt
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -327,6 +450,11 @@ kind: Component
 metadata:
   name: lerncloud-kvm
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: experimental
@@ -339,6 +467,11 @@ metadata:
   name: lerncloud-longhorn
   description: Longhorn, verteiltes Dateisystem
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -351,6 +484,11 @@ metadata:
   name: lerncloud-microk8s
   description: microk8s
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -363,6 +501,11 @@ metadata:
   name: lerncloud-microk8saddons
   description: microk8s Add-on wie Dashboard und Metrics
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -375,6 +518,11 @@ metadata:
   name: lerncloud-nfsclient
   description: Stellt eine NFS Verbindung zum Rackserver her 
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -387,6 +535,11 @@ metadata:
   name: lerncloud-nfsshare
   description: Stellt einen NFS Share /data zur Verfügung
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -398,6 +551,11 @@ kind: Component
 metadata:
   name: lerncloud-podman
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: deprecated
@@ -410,6 +568,11 @@ metadata:
   name: lerncloud-repository
   description: Ruft mit User ubuntu ein Installationsscript auf
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -421,6 +584,11 @@ kind: Component
 metadata:
   name: lerncloud-share
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -432,6 +600,11 @@ kind: Component
 metadata:
   name: lerncloud-storage
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -444,6 +617,11 @@ metadata:
   name: lerncloud-storage-patch
   description: Deaktiviert multipath und aktiviert iscsi für lohnhorn
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -456,6 +634,11 @@ metadata:
   name: lerncloud-vault
   description: Vault von HashiCorp
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: experimental
@@ -468,6 +651,11 @@ metadata:
   name: lerncloud-vpn
   description: Installiert und Konfiguriert WireGuard
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: production
@@ -480,9 +668,13 @@ metadata:
   name: lerncloud-wake-on-lan
   description: Aktiviert Wake-On-LAN
   namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - lerngns3
+  - lernmaas
 spec:
   type: script
   lifecycle: experimental
   owner: mc-b
   subcomponentOf: component:mc-b/lerncloud
-  
