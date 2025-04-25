@@ -26,6 +26,15 @@ spec:
   type: infrastructure
   lifecycle: production
   owner: group:mc-b/mc-b
+  dependsOn:
+  - component:mc-b/terraform-lerncloud-aws
+  - component:mc-b/terraform-lerncloud-azure
+  - component:mc-b/terraform-lerncloud-gcp
+  - component:mc-b/terraform-lerncloud-gns3
+  - component:mc-b/terraform-lerncloud-lernmaas
+  - component:mc-b/terraform-lerncloud-maas
+  - component:mc-b/terraform-lerncloud-multipass
+  - component:mc-b/terraform-lerncloud-proxmox
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
