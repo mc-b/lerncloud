@@ -31,12 +31,12 @@ spec:
           description: Installiert passende Storage-Komponenten
 
   steps:
-    - id: generate-cloud-init
-      name: Generiere cloud-init Datei
-      action: template
+    - id: create-cloud-init
+      name: Erstelle cloud-init.yaml
+      action: fs:write
       input:
-        path: ./cloud-init.yaml
-        template: |
+        path: cloud-init.yaml
+        content: |
           #cloud-config
           users:
             - name: ubuntu
@@ -44,7 +44,7 @@ spec:
               groups: users, admin
               shell: /bin/bash
               lock_passwd: false
-              plain_text_passwd: 'insecure'  
+              plain_text_passwd: 'insecure'
               ssh_import_id:
                 - gh:mc-b
               ssh_authorized_keys:
@@ -74,5 +74,5 @@ spec:
 
   output:
     links:
-      - title: cloud-init.yaml anzeigen
+      - title: cloud-init.yaml herunterladen
         url: ./cloud-init.yaml
