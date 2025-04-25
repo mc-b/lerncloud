@@ -35,6 +35,7 @@ spec:
   - component:mc-b/terraform-lerncloud-maas
   - component:mc-b/terraform-lerncloud-multipass
   - component:mc-b/terraform-lerncloud-proxmox
+
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -47,6 +48,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/backstage.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: experimental
@@ -64,6 +69,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/cert-manager.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -81,6 +90,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/containers.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -98,6 +111,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/docker.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -115,6 +132,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/frpc.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -132,6 +153,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/frps.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -149,6 +174,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/intro.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -166,6 +195,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/istio.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -183,6 +216,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/istio-patch.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -200,6 +237,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/istio-zipkin.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -217,6 +258,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/jupyter-libraries.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -234,6 +279,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/jupyter-notebook.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -251,6 +300,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k3s.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -267,6 +320,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8saddons.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -283,6 +340,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8sbase.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -299,6 +360,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8sjoin.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -315,6 +380,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8smaster.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -332,6 +401,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8stools.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -348,6 +421,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8swebui.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -365,6 +442,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/kind-frp.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -382,6 +463,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/knative.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -398,6 +483,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-istio.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -414,6 +503,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-kafka.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -431,6 +524,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-patch.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -448,6 +545,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/kubevirt.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -464,6 +565,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/kvm.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: experimental
@@ -481,6 +586,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/longhorn.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -498,6 +607,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/microk8s.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -515,6 +628,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/microk8saddons.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -532,6 +649,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/nfsclient.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -549,6 +670,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/nfsshare.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -565,6 +690,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/podman.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: deprecated
@@ -582,6 +711,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/repository.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -598,6 +731,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/share.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -614,6 +751,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/storage.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -631,6 +772,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/storage-patch.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -648,6 +793,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/vault.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: experimental
@@ -665,6 +814,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/vpn.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: production
@@ -682,6 +835,10 @@ metadata:
   - lerncloud
   - lerngns3
   - lernmaas
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/wake-on-lan.sh
+      title: Source Code
+      icon: script
 spec:
   type: script
   lifecycle: experimental
