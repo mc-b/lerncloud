@@ -4,7 +4,7 @@ metadata:
   name: cloud-init-mit-storage
   namespace: mc-b
   title: Cloud Init mit Storage-Auswahl
-  description: Generiert cloud-init Datei mit optionalem Docker, Fail2Ban und Storage-Rolle
+  description: Generiert eine cloud-init.yaml Datei basierend auf Auswahl
 spec:
   owner: team-infra
   type: service
@@ -31,9 +31,9 @@ spec:
           description: Installiert passende Storage-Komponenten
 
   steps:
-    - id: create-cloud-init
-      name: Erstelle cloud-init.yaml
-      action: fetch:plain
+    - id: generate-cloud-init
+      name: Generiere cloud-init.yaml
+      action: create:file
       input:
         path: cloud-init.yaml
         content: |
@@ -72,3 +72,7 @@ spec:
             - mount -t nfs <SERVER_IP>:/srv/nfs /mnt/nfs
           {{ end }}
 
+  output:
+    links:
+      - title: cloud-init.yaml herunterladen
+        url: ./cloud-init.yaml
