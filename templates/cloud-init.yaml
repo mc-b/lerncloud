@@ -1,0 +1,78 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: cloud-init-mit-storage
+  namespace: mc-b
+  title: Cloud Init mit Storage-Auswahl
+  description: Generiert cloud-init Datei mit optionalem Docker, Fail2Ban und Storage-Rolle
+spec:
+  owner: team-infra
+  type: service
+
+  parameters:
+    - title: Optionen
+      properties:
+        install_docker:
+          type: boolean
+          title: Docker installieren
+          default: false
+        install_fail2ban:
+          type: boolean
+          title: Fail2Ban installieren
+          default: false
+        storage_mode:
+          type: string
+          title: Storage-Modus
+          enum:
+            - none
+            - server
+            - client
+          default: none
+          description: Installiert passende Storage-Komponenten
+
+  steps:
+    - id: generate-cloud-init
+      name: Generiere cloud-init Datei
+      action: template
+      input:
+        path: ./cloud-init.yaml
+        template: |
+          #cloud-config
+          users:
+            - name: ubuntu
+              sudo: ALL=(ALL) NOPASSWD:ALL
+              groups: users, admin
+              shell: /bin/bash
+              lock_passwd: false
+              plain_text_passwd: 'insecure'  
+              ssh_import_id:
+                - gh:mc-b
+              ssh_authorized_keys:
+                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUHol1mBvP5Nwe3Bzbpq4GsHTSw96phXLZ27aPiRdrzhnQ2jMu4kSgv9xFsnpZgBsQa84EhdJQMZz8EOeuhvYuJtmhAVzAvNjjRak+bpxLPdWlox1pLJTuhcIqfTTSfBYJYB68VRAXJ29ocQB7qn7aDj6Cuw3s9IyXoaKhyb4n7I8yI3r0U30NAcMjyvV3LYOXx/JQbX+PjVsJMzp2NlrC7snz8gcSKxUtL/eF0g+WnC75iuhBbKbNPr7QP/ItHaAh9Tv5a3myBLNZQ56SgnSCgmS0EUVeMNsO8XaaKr2H2x5592IIoz7YRyL4wlOmj35bQocwdahdOCFI7nT9fr6f insecure@lerncloud
+          ssh_pwauth: true
+          disable_root: false
+          runcmd:
+          {{ if parameters.install_docker }}
+            - apt-get update
+            - apt-get install -y docker.io
+          {{ end }}
+          {{ if parameters.install_fail2ban }}
+            - apt-get install -y fail2ban
+          {{ end }}
+          {{ if parameters.storage_mode == "server" }}
+            - apt-get install -y nfs-kernel-server
+            - mkdir -p /srv/nfs
+            - echo "/srv/nfs *(rw,sync,no_subtree_check)" >> /etc/exports
+            - exportfs -a
+            - systemctl restart nfs-kernel-server
+          {{ end }}
+          {{ if parameters.storage_mode == "client" }}
+            - apt-get install -y nfs-common
+            - mkdir -p /mnt/nfs
+            - mount -t nfs <SERVER_IP>:/srv/nfs /mnt/nfs
+          {{ end }}
+
+  output:
+    links:
+      - title: cloud-init.yaml anzeigen
+        url: ./cloud-init.yaml
