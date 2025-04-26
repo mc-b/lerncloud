@@ -15,7 +15,7 @@ SERVICE_PATH="$SERVICE_DIR/frpc.service"
 echo "⬇️ [INFO] Lade FRP Client herunter..."
 TMP_DIR=$(mktemp -d)
 FRP_VERSION=$(curl -sI https://github.com/fatedier/frp/releases/latest | grep -i '^location:' | sed -E 's|.*/tag/v([^[:space:]]+)|\1|' | tr -d '\r')
-wget -nv -O /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_${FRP_VERSION}_linux_amd64.tar.gz
+wget -nv -O $TMP_DIR/frp.tar.gz https://github.com/fatedier/frp/releases/latest/download/frp_${FRP_VERSION}_linux_amd64.tar.gz
 tar -xzf "$TMP_DIR/frp.tar.gz" -C "$TMP_DIR"
 sudo mv "$TMP_DIR"/frp_*/frpc /usr/local/bin/frpc
 sudo chmod +x /usr/local/bin/frpc
