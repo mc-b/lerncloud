@@ -12,9 +12,9 @@ echo "- 📥 [INFO] nvm installieren"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
 
 # in lieu of restarting the shell
-\. "$HOME/.nvm/nvm.sh"
+source "$HOME/.nvm/nvm.sh"
 
-echo "- 📥 [INFO] Node.js installieren"
+echo "- 📥 [INFO] Node.js Version 20 installieren"
 # Download and install Node.js:
 nvm install 20
 
@@ -23,6 +23,8 @@ npm install -g corepack
 
 # Backstage (braucht Docker)
 echo "- 📥 [INFO] Backstage downloaden"
+cd $HOME
+rm -rf backstage
 docker run --rm registry.gitlab.com/ch-mc-b/autoshop-ms/infra/backstage/backstage-app:0.0.1 /bin/cat /app/backstage.tgz | tar xzf -
 
 echo "✅ [INFO] Backstage wurde erfolgreich installiert!"
