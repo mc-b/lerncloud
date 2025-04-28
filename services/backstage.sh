@@ -17,3 +17,5 @@ nvm install 20
 # Yarn
 npm install -g corepack
 
+# Backstage (braucht Docker)
+docker run --rm registry.gitlab.com/ch-mc-b/autoshop-ms/infra/backstage/backstage-app:0.0.1 /bin/cat /app/backstage.tgz | tar xzf -
