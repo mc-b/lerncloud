@@ -2,7 +2,7 @@
 #
 
 # neue Jupyter Umgebung, lokal auf VM
-sudo apt-get install -y --no-install-recommends jupyter-notebook python3-venv uuid
+sudo apt-get install -y --no-install-recommends jupyter-notebook python3-venv uuid python3-openai
 
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyter.service
 [Unit]
