@@ -2,7 +2,7 @@
 #
 
 # neue Jupyter Umgebung, lokal auf VM
-sudo apt-get install -y --no-install-recommends jupyter-notebook python3-venv uuid python3-openai
+sudo apt-get install -y --no-install-recommends jupyter-notebook python3-venv uuid python3-pip
 
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyter.service
 [Unit]
@@ -67,3 +67,11 @@ echo $public_ip >~/work/server-ip
 
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
+
+# OpenAI API als separater Kernel
+python3 -m venv ai
+source ~/ai/bin/activate
+pip install openai
+pip install ipykernel
+python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
+
