@@ -127,11 +127,16 @@ fi
 su - ubuntu -c "kind create cluster --config kind-config.yaml --name kind --retain"
 sleep 2
 
-# Dashboard, Ingress
+# Dashboard
 echo "- 🔧 [INFO] richte /data, Dashboad, Ingress ein"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml"
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard-admin.yaml"
+
+# Metrics Server
+su - ubuntu -c "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml && kubectl patch deployment metrics-server -n kube-system --type='json' -p='[{\"op\":\"add\",\"path\":\"/spec/template/spec/containers/0/args/-\",\"value\":\"--kubelet-insecure-tls\"}]'"
+
+# Ingress
 su - ubuntu -c "kubectl label node kind-control-plane ingress-ready=true kubernetes.io/os=linux"  
 su - ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.4/deploy/static/provider/kind/deploy.yaml"
 su - ubuntu -c "docker ps --filter "name=kind" --format "{{.Names}}" | xargs -n1 docker update --restart unless-stopped"
