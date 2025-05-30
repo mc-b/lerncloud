@@ -10,7 +10,7 @@ echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
 sudo dpkg-reconfigure initramfs-tools
 
 # MAAS installieren, User: ubuntu, PW: insecure
-sudo apt-add-repository -y ppa:maas/3.3-next
+sudo apt-add-repository -y ppa:maas/3.6
 sudo apt -y update
 sudo apt install -y maas jq markdown nmap traceroute git curl wget zfsutils-linux cloud-image-utils virtinst qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils whois
 
