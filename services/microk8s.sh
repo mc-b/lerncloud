@@ -10,6 +10,20 @@ echo "🚀 [INFO] Starte microk8s Installation..."
 #sudo snap install kubectl --classic --channel=1.24/stable
 
 sudo snap install microk8s --classic 
+
+# docker.io patch
+sudo microk8s stop
+cat <<%EOF% | sudo tee /var/snap/microk8s/current/args/certs.d/docker.io/hosts.toml
+server = "https://docker.io"
+
+[host."https://mirror.gcr.io"]
+  capabilities = ["pull"]
+
+[host."https://public.ecr.aws"]
+  capabilities = ["pull"]
+%EOF%
+sudo microk8s start
+
 sudo snap install kubectl --classic
 sudo snap install helm --classic
 
