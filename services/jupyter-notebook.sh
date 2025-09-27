@@ -73,5 +73,6 @@ python3 -m venv ai
 source ~/ai/bin/activate
 pip install openai
 pip install ipykernel
+pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 

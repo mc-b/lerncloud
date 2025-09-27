@@ -23,21 +23,21 @@ metadata:
     backstage.io/source-location: url:https://github.com/mc-b/lerncloud
     # backstage.io/techdocs-ref: url:https://github.com/mc-b/lerncloud
 spec:
-  type: infrastructure
+  type: website
   lifecycle: production
   owner: group:mc-b/mc-b
   dependsOn:
-  - component:mc-b/terraform-lerncloud-aws
-  - component:mc-b/terraform-lerncloud-azure
-  - component:mc-b/terraform-lerncloud-gcp
-  - component:mc-b/terraform-lerncloud-gns3
-  - component:mc-b/terraform-lerncloud-lernmaas
-  - component:mc-b/terraform-lerncloud-maas
-  - component:mc-b/terraform-lerncloud-multipass
-  - component:mc-b/terraform-lerncloud-proxmox
+  - resource:mc-b/terraform-lerncloud-aws
+  - resource:mc-b/terraform-lerncloud-azure
+  - resource:mc-b/terraform-lerncloud-gcp
+  - resource:mc-b/terraform-lerncloud-gns3
+  - resource:mc-b/terraform-lerncloud-lernmaas
+  - resource:mc-b/terraform-lerncloud-maas
+  - resource:mc-b/terraform-lerncloud-multipass
+  - resource:mc-b/terraform-lerncloud-proxmox
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-backstage
   description: Installiert die Grundtools um Backstage.io zu starten
@@ -55,10 +55,10 @@ spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-cert-manager
   description: Cert-Manager
@@ -76,10 +76,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-containers
   description: Container-Tools wie podman, scopeo
@@ -97,10 +97,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-docker
   description: Docker 
@@ -118,10 +118,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-frpc
   description: Fast Reverse Proxy Client
@@ -137,12 +137,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-frps
   description: Fast Reverse Proxy Server
@@ -158,12 +158,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-intro
   description: Erstellt die Intro Seiten
@@ -179,12 +179,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-istio
   description: Istio
@@ -202,10 +202,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-istio-patch
   description: Vermindert den Memory Verbrauch von istio
@@ -223,10 +223,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-istio-zipkin
   description: Istio mit Zipkin
@@ -244,10 +244,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-jupyter-libraries
   description: Math Libraries zu den Jupyter Notebooks
@@ -265,10 +265,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-jupyter-notebook
   description: Jupyter Notebooks Umgebung
@@ -286,10 +286,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k3s
   description: K3s
@@ -307,10 +307,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8saddons
   namespace: mc-b
@@ -327,10 +327,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8sbase
   namespace: mc-b
@@ -347,10 +347,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8sjoin
   namespace: mc-b
@@ -367,10 +367,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8smaster
   namespace: mc-b
@@ -387,10 +387,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8stools
   description: Zusatztools zu Kubernetes wie k9s, stern, etc.
@@ -408,10 +408,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-k8swebui
   namespace: mc-b
@@ -428,10 +428,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-kind-frp
   description: Kind im Zusammenspiel mit frp
@@ -449,10 +449,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-knative
   description: K-native
@@ -468,12 +468,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: deprecated
+  lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-knative-istio
   namespace: mc-b
@@ -488,12 +488,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-knative-kafka
   namespace: mc-b
@@ -510,10 +510,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-knative-patch
   description: Vermindert den Memory Verbrauch von K-native
@@ -531,10 +531,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-kubevirt
   description: KubeVirt
@@ -552,10 +552,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-kvm
   namespace: mc-b
@@ -572,10 +572,10 @@ spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-longhorn
   description: Longhorn, verteiltes Dateisystem
@@ -593,10 +593,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-microk8s
   description: microk8s
@@ -614,10 +614,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-microk8saddons
   description: microk8s Add-on wie Dashboard und Metrics
@@ -635,10 +635,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata: 
   name: lerncloud-nfsclient
   description: Stellt eine NFS Verbindung zum Rackserver her 
@@ -656,10 +656,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-nfsshare
   description: Stellt einen NFS Share /data zur Verfügung
@@ -677,10 +677,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-podman
   namespace: mc-b
@@ -697,10 +697,10 @@ spec:
   type: script
   lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-repository
   description: Ruft mit User ubuntu ein Installationsscript auf
@@ -718,10 +718,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-share
   namespace: mc-b
@@ -736,12 +736,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-storage
   namespace: mc-b
@@ -756,12 +756,12 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-storage-patch
   description: Deaktiviert multipath und aktiviert iscsi für lohnhorn
@@ -779,10 +779,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-vault
   description: Vault von HashiCorp
@@ -800,10 +800,10 @@ spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-vpn
   description: Installiert und Konfiguriert WireGuard
@@ -821,10 +821,10 @@ spec:
   type: script
   lifecycle: production
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: lerncloud-wake-on-lan
   description: Aktiviert Wake-On-LAN
@@ -842,4 +842,4 @@ spec:
   type: script
   lifecycle: experimental
   owner: mc-b
-  subcomponentOf: component:mc-b/lerncloud
+  dependencyOf: component:mc-b/lerncloud
