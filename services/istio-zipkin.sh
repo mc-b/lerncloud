@@ -1,18 +1,28 @@
 #!/bin/bash
-#   
+#
 #   Installiert Istio mit Zipkin (leichtgewichtiger)
 #
-export ISTIO_VERSION=1.24.2 
+
+set -euo pipefail
+
+export ISTIO_VERSION=1.24.2
+ISTIO_DIR="istio-${ISTIO_VERSION}"
 
 echo "🚀 [INFO] Starte Istio $ISTIO_VERSION Installation..."
 
-curl -L https://istio.io/downloadIstio | sh -
-sudo cp istio-${ISTIO_VERSION}/bin/istioctl /usr/local/bin/
+# Prüfen ob istioctl schon installiert ist
+if ! command -v istioctl &>/dev/null; then
+    echo "- 🔧 [INFO] Lade Istio herunter..."
+    curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
+    sudo cp "${ISTIO_DIR}/bin/istioctl" /usr/local/bin/
+else
+    echo "- ℹ️ [INFO] istioctl ist bereits installiert, überspringe Download."
+fi
 
 # Addons
-
 echo "- 🔧 [INFO] Istio Operator aktivieren"
-cat <<EOF > ./tracing.yaml
+
+cat > ./tracing.yaml <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -20,16 +30,18 @@ spec:
     enableTracing: true
     defaultConfig:
       tracing:
-        sampling: 0.5  # Nur 50% aller Anfragen werden getraced, Ansonsten wird zuviel CPU verbraucht
+        sampling: 0.5
       proxyMetadata:
-        ISTIO_META_ENABLE_ACCESS_LOG: "false"  # Deaktiviert Access-Logs (optional)        
+        ISTIO_META_ENABLE_ACCESS_LOG: "false"
     extensionProviders:
     - name: zipkin
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
 EOF
-istioctl install -f ./tracing.yaml --skip-confirmation
+
+# Idempotentes Installieren
+istioctl install -f ./tracing.yaml --skip-confirmation || true
 
 echo "- 🔧 [INFO] Zipkin aktivieren und konfigurieren"
 kubectl apply -f - <<EOF
@@ -45,6 +57,10 @@ spec:
 EOF
 
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/extras/zipkin.yaml
-kubectl get service -n istio-system -l name=zipkin -o yaml | sed 's/ClusterIP/NodePort/g' | kubectl apply -f -
+
+# Service ggf. erneut patchen, ohne Fehler
+kubectl get service -n istio-system -l name=zipkin -o yaml \
+  | sed 's/ClusterIP/NodePort/g' \
+  | kubectl apply -f - || true
 
 echo "✅ [INFO] Istio + Zipkin wurde erfolgreich installiert!"
