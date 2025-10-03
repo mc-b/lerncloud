@@ -7,6 +7,7 @@ set -euo pipefail
 
 export ISTIO_VERSION=1.24.2
 ISTIO_DIR="istio-${ISTIO_VERSION}"
+TRACING_FILE="/tmp/tracing-$$.yaml"
 
 echo "🚀 [INFO] Starte Istio $ISTIO_VERSION Installation..."
 
@@ -22,7 +23,7 @@ fi
 # Addons
 echo "- 🔧 [INFO] Istio Operator aktivieren"
 
-cat > ./tracing.yaml <<EOF
+cat > "${TRACING_FILE}" <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -41,7 +42,7 @@ spec:
 EOF
 
 # Idempotentes Installieren
-istioctl install -f ./tracing.yaml --skip-confirmation || true
+istioctl install -f "${TRACING_FILE}" --skip-confirmation || true
 
 echo "- 🔧 [INFO] Zipkin aktivieren und konfigurieren"
 kubectl apply -f - <<EOF
