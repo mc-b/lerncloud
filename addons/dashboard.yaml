@@ -191,7 +191,9 @@ spec:
           type: RuntimeDefault
       containers:
         - name: kubernetes-dashboard
-          image: registry.gitlab.com/mc-b/misegr/kubernetesui/dashboard:v2.7.0
+          # Uncomment this line if you experience Docker Hub pull rate limit issues
+          # image: registry.gitlab.com/mc-b/misegr/kubernetesui/dashboard:v2.7.0 
+          image: kubernetesui/dashboard:v2.7.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
