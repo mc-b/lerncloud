@@ -279,7 +279,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: dashboard-metrics-scraper
-          image: registry.gitlab.com/mc-b/misegr/kubernetesui/dashboard:v2.7.0
+          image: kubernetesui/dashboard:v2.7.0
           imagePullPolicy: IfNotPresent          
           ports:
             - containerPort: 8000
