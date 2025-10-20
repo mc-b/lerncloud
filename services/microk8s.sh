@@ -18,10 +18,10 @@ sudo snap install helm --classic
 echo "- 🔧 [INFO] enable DNS aktivieren"
 sudo microk8s enable dns 
 
-# hub.docker.com entfernen fuer Overlay Network calico
-sudo sed -i -e 's|image: calico|image: quay.io/calico|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
-sudo sed -i -e 's|docker.io|quay.io|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
-sudo microk8s kubectl apply -f /var/snap/microk8s/current/args/cni-network/cni.yaml
+# hub.docker.com entfernen fuer Overlay Network calico - quay.io scheint down zu sein
+#sudo sed -i -e 's|image: calico|image: quay.io/calico|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
+#sudo sed -i -e 's|docker.io|quay.io|g' /var/snap/microk8s/current/args/cni-network/cni.yaml
+#sudo microk8s kubectl apply -f /var/snap/microk8s/current/args/cni-network/cni.yaml
 
 ###
 # Zugriff fuer User ubuntu einrichten - funktioniert erst wenn microk8s laeuft
