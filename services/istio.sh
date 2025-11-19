@@ -4,7 +4,7 @@
 #
 
 # gibt Probleme mit Jaeger
-export ISTIO_VERSION=1.21.0
+export ISTIO_VERSION=1.27.3
 
 curl -L https://istio.io/downloadIstio | sh -
 sudo cp istio-${ISTIO_VERSION}/bin/istioctl /usr/local/bin/
