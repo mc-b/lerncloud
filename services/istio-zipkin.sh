@@ -2,8 +2,7 @@
 #
 #   Installiert Istio mit Zipkin (leichtgewichtiger)
 #
-
-set -euo pipefail
+set +e  # Fehler ignorieren
 
 export ISTIO_VERSION=1.24.2
 ISTIO_DIR="istio-${ISTIO_VERSION}"

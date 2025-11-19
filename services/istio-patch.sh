@@ -2,6 +2,7 @@
 #   
 #   Istio - Patch. Verringert den Memory Bedarf von Istio Sidecars etc.
 #
+set +e  # Fehler ignorieren
 
 echo "- 🔧 [INFO] Istio CPU und Memory begrenzen"
 

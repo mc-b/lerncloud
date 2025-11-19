@@ -2,6 +2,7 @@
 #
 #   Installiert die Erweiterung k-native (Serverless, FAAS) fuer Kubernetes - ohne Kafka
 #
+set +e  # Fehler ignorieren
 
 echo "🚀 [INFO] Starte K-native Serving Installation..."
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+set +e  # Fehler ignorieren
 
 echo "🔧 [INFO] K-native CPU und Memory begrenzen"
 

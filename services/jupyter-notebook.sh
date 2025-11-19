@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+set +e  # Fehler ignorieren
 
 # neue Jupyter Umgebung, lokal auf VM
 sudo apt-get install -y --no-install-recommends jupyter-notebook python3-venv uuid python3-pip

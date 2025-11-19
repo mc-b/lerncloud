@@ -1,4 +1,5 @@
 #!/bin/bash
+set +e  # Fehler ignorieren
 
 KUBEVIRT_NS="kubevirt"
 CDI_NS="cdi"

@@ -2,6 +2,7 @@
 #   
 #   Installiert die Microk8s Umgebung
 #
+set +e  # Fehler ignorieren
 
 # Basic Installation
 
