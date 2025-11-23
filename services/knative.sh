@@ -12,9 +12,9 @@ kubectl create namespace kourier-system
 kubectl label namespace kourier-system istio-injection=enabled
 
 # Serving
-kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-crds.yaml
-kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-core.yaml
-kubectl apply -f https://github.com/knative/net-kourier/releases/download/knative-v1.17.0/kourier.yaml
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.20.0/serving-crds.yaml
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.20.0/serving-core.yaml
+kubectl apply -f https://github.com/knative/net-kourier/releases/download/knative-v1.20.0/kourier.yaml
 kubectl patch configmap/config-network --namespace knative-serving --type merge --patch '{"data":{"ingress-class":"kourier.ingress.networking.knative.dev"}}'
 # kubectl patch configmap/config-domain --namespace knative-serving --type merge --patch '{"data":{"microk8s.mshome.net":""}}'  
 
@@ -91,20 +91,20 @@ echo "✅ [INFO] K-native Eventing wurde erfolgreich installiert!"
 
 echo "- 📥 [INFO] K-native CLI's herunterladen"
 # CLI
-sudo curl -o /usr/local/bin/kn -sL https://github.com/knative/client/releases/download/knative-v1.17.0/kn-linux-amd64
+sudo curl -o /usr/local/bin/kn -sL https://github.com/knative/client/releases/download/knative-v1.20.0/kn-linux-amd64
 sudo chmod +x /usr/local/bin/kn 
 
 # Plug-ins
 mkdir -p ~/.config/kn/plugins/
 
-curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-admin/releases/download/knative-v1.17.0/kn-admin-linux-amd64
+curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-admin/releases/download/knative-v1.20.0/kn-admin-linux-amd64
 chmod +x ~/.config/kn/plugins/kn-admin
 
-curl -o ~/.config/kn/plugins/kn-event -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.17.1/kn-event-linux-amd64
+curl -o ~/.config/kn/plugins/kn-event -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.20.0/kn-event-linux-amd64
 chmod +x ~/.config/kn/plugins/kn-event
 
-curl -o ~/.config/kn/plugins/kn-func -sL https://github.com/knative/func/releases/download/knative-v1.17.0/func_linux_amd64
+curl -o ~/.config/kn/plugins/kn-func -sL https://github.com/knative/func/releases/download/knative-v1.20.0/func_linux_amd64
 chmod +x ~/.config/kn/plugins/kn-func
 
-curl -o ~/.config/kn/plugins/kn-kafka -sL https://github.com/knative-extensions/kn-plugin-source-kafka/releases/download/knative-v1.17.0/kn-source-kafka-linux-amd64
+curl -o ~/.config/kn/plugins/kn-kafka -sL https://github.com/knative-extensions/kn-plugin-source-kafka/releases/download/knative-v1.20.0/kn-source-kafka-linux-amd64
 chmod +x ~/.config/kn/plugins/kn-kafka
