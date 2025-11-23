@@ -6,6 +6,11 @@ set +e  # Fehler ignorieren
 
 echo "🚀 [INFO] Starte K-native Serving Installation..."
 
+kubectl create namespace knative-serving
+kubectl label namespace knative-serving istio-injection=enabled
+kubectl create namespace kourier-system
+kubectl label namespace kourier-system istio-injection=enabled
+
 # Serving
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-crds.yaml
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.17.0/serving-core.yaml
@@ -18,6 +23,9 @@ echo "✅ [INFO] K-native Serving wurde erfolgreich installiert!"
 ####
 
 echo "🚀 [INFO] Starte K-native Eventing Installation..."
+
+kubectl create namespace knative-eventing
+kubectl label namespace knative-eventing istio-injection=enabled
 
 # Eventing
 kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.17.2/eventing-crds.yaml
