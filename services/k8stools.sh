@@ -3,14 +3,6 @@
 #   Nuetzliche Tools rund um Kubernetes
 #
 
-# Filtern von kubectl -o yaml
-
-echo "📥 [INFO] Tools: kubectl-neat herunterladen"
-cd /tmp && wget -nv https://github.com/itaysk/kubectl-neat/releases/download/v2.0.2/kubectl-neat_linux.tar.gz && \
-    tar xzf kubectl-neat_linux.tar.gz && \
-    sudo mv kubectl-neat /usr/local/bin && \
-    rm kubectl-neat_linux.tar.gz
-
 # Hierarchische Anzeige von Deployments, ReplicatSet und Pods
 
 echo "📥 [INFO] Tools: kube-lineage herunterladen"
@@ -22,13 +14,13 @@ cd /tmp && wget -nv https://github.com/tohjustin/kube-lineage/releases/download/
 # docker-compose nach Kubernetes
     
 echo "📥 [INFO] docker-compose to K8s: kompose herunterladen"   
-curl -L https://github.com/kubernetes/kompose/releases/download/v1.34.0/kompose-linux-amd64 -o kompose && \
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.37.0/kompose-linux-amd64 -o kompose && \
     chmod +x kompose && \
     sudo mv ./kompose /usr/local/bin/kompose    
 
 echo "📥 [INFO] K8s in Docker: kind herunterladen"    
 # K8s Cluster als Docker Container erstellen    
-curl -Lo kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64 && \
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64 && \
     chmod +x kind && \
     sudo mv ./kind /usr/local/bin/kind 
     
