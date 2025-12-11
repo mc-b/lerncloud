@@ -75,26 +75,6 @@ else
 fi
 chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config" || echo "⚠️ [WARN] Konnte Besitzer von .config nicht setzen"
 
-###########################################################
-# Desktop Icons (z.B. OWASP ZAP Launcher)
-# Hinweis: /usr/local/bin/zap sollte in einem separaten Script installiert werden
-###########################################################
-echo "- 🗂️ [INFO] Creating Desktop icons directory"
-
-mkdir -p "${HOME_DIR}/Desktop"
-
-# Beispiel: OWASP ZAP Desktop-Icon
-cat > "${HOME_DIR}/Desktop/ZAP.desktop" << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=OWASP ZAP
-Exec=/usr/local/bin/zap
-Terminal=false
-EOF
-
-chown "${USERNAME}:${USERNAME}" "${HOME_DIR}/Desktop/ZAP.desktop" || echo "⚠️ [WARN] Konnte Besitzer von ZAP.desktop nicht setzen"
-chmod +x "${HOME_DIR}/Desktop/ZAP.desktop" || echo "⚠️ [WARN] Konnte ZAP.desktop nicht ausführbar machen"
-
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
 echo "   - Desktop: XFCE4"
