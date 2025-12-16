@@ -62,9 +62,9 @@ case "$cloud_provider" in
 esac
 echo $public_ip >~/work/server-ip
 
-# aktivieren wenn ohne OpenVPN gearbeitet wird
-# wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
-# [ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
+# WireGuard IP hat hoechste Prioritaet (bei Problemen mit OpenVPN deaktivieren)
+wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
+[ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
 
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
