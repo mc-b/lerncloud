@@ -34,7 +34,7 @@ sudo apt-get update
 sudo apt-get install -y trivy
 
 # Comprehensive Kubernetes Security from Development to Runtime
-curl -sL https://github.com/kubescape/kubescape/releases/latest/download/kubescape-ubuntu-latest -o kubescape
+curl -sL https://github.com/kubescape/kubescape/releases/download/v3.0.44/kubescape-ubuntu-latest -o kubescape
 chmod +x kubescape
 sudo mv kubescape /usr/local/bin/
 
