@@ -43,11 +43,29 @@ kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | 
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
   
-helm install longhorn longhorn/longhorn \
- --namespace longhorn-system --create-namespace \
- --set defaultSettings.kubernetesClusterAutodetectionMethod="custom" \
- --set defaultSettings.kubeletRootDir="/var/snap/microk8s/common/var/lib/kubelet" \
- --set csi.kubeletRootDir="/var/snap/microk8s/common/var/lib/kubelet"  
+NAMESPACE="longhorn-system"
+RELEASE="longhorn"
+CHART="longhorn/longhorn"
+
+echo "[INFO] Prüfe ob MicroK8s vorhanden ist …"
+
+if command -v microk8s >/dev/null 2>&1 && microk8s status --wait-ready >/dev/null 2>&1; then
+  echo "[INFO] MicroK8s erkannt → verwende MicroK8s-Variante"
+
+  helm install "$RELEASE" "$CHART" \
+    --namespace "$NAMESPACE" \
+    --create-namespace \
+    --set defaultSettings.kubernetesClusterAutodetectionMethod="custom" \
+    --set defaultSettings.kubeletRootDir="/var/snap/microk8s/common/var/lib/kubelet" \
+    --set csi.kubeletRootDir="/var/snap/microk8s/common/var/lib/kubelet"
+
+else
+  echo "[INFO] Kein MicroK8s → verwende Standard-Installation"
+
+  helm install "$RELEASE" "$CHART" \
+    --namespace "$NAMESPACE" \
+    --create-namespace
+fi
 
 # Warten, bis alle Pods laufen
 wait_for_pods "longhorn-system"
