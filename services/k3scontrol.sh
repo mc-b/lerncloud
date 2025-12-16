@@ -9,9 +9,7 @@ echo "🚀 [INFO] Starte k3s Installation..."
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --disable traefik --disable servicelb" sh -
 
 mkdir -p /home/ubuntu/.kube
-cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
-chown -R ubuntu:ubuntu /home/ubuntu/.kube
-chmod 644 /etc/rancher/k3s/k3s.yaml
+ln -s /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
 
 echo "- 🔧 [INFO] kubectl und helm einrichten"
 sudo ln -sf /usr/local/bin/k3s /usr/local/bin/kubectl
