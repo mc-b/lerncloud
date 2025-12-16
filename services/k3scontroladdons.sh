@@ -8,6 +8,8 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 echo "- 🔧 [INFO] install nginx"
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/baremetal/deploy.yaml
+kubectl patch ingressclass nginx \
+  -p '{"metadata":{"annotations":{"ingressclass.kubernetes.io/is-default-class":"true"}}}'
 
 echo "- 🔧 [INFO] install dashboard"
 kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml 
