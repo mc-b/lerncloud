@@ -13,8 +13,9 @@ cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
 chown -R ubuntu:ubuntu /home/ubuntu/.kube
 chmod 644 /etc/rancher/k3s/k3s.yaml
 
-snap install helm --classic 
-sudo snap install kubectl --classic
+echo "- 🔧 [INFO] kubectl und helm einrichten"
+sudo ln -sf /usr/local/bin/k3s /usr/local/bin/kubectl
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 ###
 # Add-ons  
