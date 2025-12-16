@@ -6,7 +6,7 @@
 set +e  # Fehler ignorieren
 
 echo "🚀 [INFO] Starte k3s Installation..."
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --disable traefik" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --disable traefik --disable servicelb" sh -
 
 mkdir -p /home/ubuntu/.kube
 cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
