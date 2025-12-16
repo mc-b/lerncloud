@@ -10,6 +10,7 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --disable
 
 mkdir -p /home/ubuntu/.kube
 ln -s /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
+chmod +r /etc/rancher/k3s/k3s.yaml
 
 echo "- 🔧 [INFO] kubectl und helm einrichten"
 sudo ln -sf /usr/local/bin/k3s /usr/local/bin/kubectl
