@@ -75,6 +75,22 @@ else
 fi
 chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config" || echo "⚠️ [WARN] Konnte Besitzer von .config nicht setzen"
 
+###########################################################
+# Setze Tastaturlayout auf CH (Swiss)
+###########################################################
+
+echo "- ⌨️ [INFO] Setze Tastaturlayout auf CH (Swiss)"
+
+cat <<EOF > /etc/default/keyboard
+XKBMODEL="pc105"
+XKBLAYOUT="ch"
+XKBVARIANT=""
+XKBOPTIONS=""
+EOF
+
+dpkg-reconfigure -f noninteractive keyboard-configuration
+systemctl restart keyboard-setup || true
+
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
 echo "   - Desktop: XFCE4"
