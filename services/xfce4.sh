@@ -28,7 +28,6 @@ apt-get install -y \
   xrdp \
   policykit-1 \
   policykit-1-gnome \
-  firefox \
   chromium || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
 
 ###########################################################
@@ -81,15 +80,15 @@ chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config" || echo "⚠️ [WARN] 
 
 echo "- ⌨️ [INFO] Setze Tastaturlayout auf CH (Swiss)"
 
-cat <<EOF > /etc/default/keyboard
-XKBMODEL="pc105"
-XKBLAYOUT="ch"
-XKBVARIANT=""
-XKBOPTIONS=""
-EOF
+mkdir -p /etc/X11/xorg.conf.d
 
-dpkg-reconfigure -f noninteractive keyboard-configuration
-systemctl restart keyboard-setup || true
+cat <<EOF > /etc/X11/xorg.conf.d/00-keyboard.conf
+Section "InputClass"
+    Identifier "system-keyboard"
+    MatchIsKeyboard "on"
+    Option "XkbLayout" "ch"
+EndSection
+EOF
 
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
