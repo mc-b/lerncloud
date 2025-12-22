@@ -132,6 +132,21 @@ systemctl restart xrdp-sesman
 
 echo "✅ [OK] Keyboard layout CH applied safely"
 
+# ------------------------------------------------------------
+# GUI-Autostart auf der Console deaktivieren
+# ------------------------------------------------------------
+
+echo "🛑 [INFO] Disable automatic GUI start"
+
+systemctl set-default multi-user.target
+
+# Display Manager stoppen & deaktivieren (falls vorhanden)
+for dm in gdm3 lightdm sddm; do
+    if systemctl list-unit-files | grep -q "^$dm"; then
+        systemctl disable --now "$dm" || true
+    fi
+done
+
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
 echo "   - Desktop: XFCE4"
