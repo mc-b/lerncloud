@@ -78,10 +78,44 @@ chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config" || echo "⚠️ [WARN] 
 # Setze Tastaturlayout auf CH (Swiss)
 ###########################################################
 
-echo "- ⌨️ [INFO] Setze Tastaturlayout auf CH (Swiss)"
+echo "⌨️ [INFO] Configure Swiss keyboard layout (CH) for TTY, X11 and XRDP"
 
+# ------------------------------------------------------------
+# 0. Cleanup previous broken configs (IMPORTANT)
+# ------------------------------------------------------------
+rm -f /etc/xdg/autostart/*keyboard*
+rm -f /etc/X11/xorg.conf.d/*keyboard*.conf
+
+# ------------------------------------------------------------
+# 1. Console / TTY keyboard (works for ASCII console)
+# ------------------------------------------------------------
+cat <<EOF > /etc/default/keyboard
+XKBMODEL="pc105"
+XKBLAYOUT="ch"
+XKBVARIANT=""
+XKBOPTIONS=""
+EOF
+
+dpkg-reconfigure -f noninteractive keyboard-configuration || true
+systemctl restart keyboard-setup || true
+
+# ------------------------------------------------------------
+# 2. XRDP login keyboard (BEFORE password entry)
+# ------------------------------------------------------------
+XRDP_INI="/etc/xrdp/xrdp.ini"
+
+if grep -q "^\[Globals\]" "$XRDP_INI"; then
+    sed -i '/^\[Globals\]/a keyboard_layout=ch\nkeyboard_type=pc105' "$XRDP_INI"
+else
+    echo "[Globals]" >> "$XRDP_INI"
+    echo "keyboard_layout=ch" >> "$XRDP_INI"
+    echo "keyboard_type=pc105" >> "$XRDP_INI"
+fi
+
+# ------------------------------------------------------------
+# 3. Xorg fallback (GUI after login)
+# ------------------------------------------------------------
 mkdir -p /etc/X11/xorg.conf.d
-
 cat <<EOF > /etc/X11/xorg.conf.d/00-keyboard.conf
 Section "InputClass"
     Identifier "system-keyboard"
@@ -89,6 +123,14 @@ Section "InputClass"
     Option "XkbLayout" "ch"
 EndSection
 EOF
+
+# ------------------------------------------------------------
+# 4. Restart XRDP stack
+# ------------------------------------------------------------
+systemctl restart xrdp
+systemctl restart xrdp-sesman
+
+echo "✅ [OK] Keyboard layout CH applied safely"
 
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
