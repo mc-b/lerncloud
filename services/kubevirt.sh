@@ -29,11 +29,32 @@ kubectl -n kubevirt patch kubevirt kubevirt --type=merge --patch '{"spec":{"conf
 
 # virtctl herunterladen
 echo "- 📥 [INFO] virtctl herunterladen"
-export VERSION=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
-wget -nv https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
-chmod +x virtctl-${VERSION}-linux-amd64
-sudo mv virtctl-${VERSION}-linux-amd64 /usr/local/bin/virtctl
+# KubeVirt Version ermitteln
+VERSION=$(curl -fsSL https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
 
+# Architektur erkennen
+ARCH=$(uname -m)
+case "$ARCH" in
+  x86_64)
+    ARCH="amd64"
+    ;;
+  aarch64 | arm64)
+    ARCH="arm64"
+    ;;
+  *)
+    echo "❌ Nicht unterstützte Architektur: $ARCH"
+    exit 1
+    ;;
+esac
+
+BIN="virtctl-${VERSION}-linux-${ARCH}"
+URL="https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/${BIN}"
+
+echo "⬇️  Lade virtctl (${VERSION}) für linux-${ARCH}"
+wget -nv "$URL"
+
+chmod +x "$BIN"
+sudo mv "$BIN" /usr/local/bin/virtctl
 echo "✅ [INFO] KubeVirt wurde erfolgreich installiert!"
 
 echo "🚀 [INFO] Starte Containerized Data Importer (CDI) Installation..."
