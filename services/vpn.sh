@@ -8,7 +8,7 @@
 sudo add-apt-repository -y ppa:wireguard/wireguard
 sudo apt-get update
 sudo apt-get install -y wireguard 
-sudo chmod 750 /etc/wireguard
+sudo chmod 755 /etc/wireguard
 
 # Aktivierung nur wenn Konfigurationsdatei = hostname vorhanden ist
 if [ -f "/etc/wireguard/$(hostname).conf" ]
