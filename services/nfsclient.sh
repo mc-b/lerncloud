@@ -3,7 +3,20 @@
 #   Installiert den NFS Client und erzeugt /data Verzeichnis
 #   Mountet evtl. vorhandene Server Folders
 
-SERVER_IP=$(sudo cat /var/lib/cloud/instance/datasource | cut -d: -f3 | cut -d/ -f3)
+get_server_ip() {
+  local ds
+
+  if [ -f /etc/datasource.conf ]; then
+    ds=/etc/datasource.conf
+  elif [ -f /var/lib/cloud/instance/datasource ]; then
+    ds=/var/lib/cloud/instance/datasource
+  else
+    return 1
+  fi
+
+  sed -n 's|.*http://\([^/:]*\).*|\1|p' "$ds" | head -n1
+}
+SERVER_IP="$(get_server_ip)"
 
 sudo apt-get update
 sudo apt-get install -y nfs-common

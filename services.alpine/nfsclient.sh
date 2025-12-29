@@ -19,7 +19,7 @@ get_server_ip() {
 SERVER_IP="$(get_server_ip)"
 
 apk update
-apk add nfs-common
+apk add nfs-utils
 
 # Standard Verzeichnisse
 mkdir -p /data /home/alpine/templates /home/alpine/config
@@ -31,14 +31,14 @@ ln -s /data /home/alpine/data
 
 if  [ "${SERVER_IP}" != "" ]
 then
-    mount -t nfs ${SERVER_IP}:/data/config /home/alpine/config
-    mount -t nfs ${SERVER_IP}:/data/templates /home/alpine/templates
-    mount -t nfs ${SERVER_IP}:/data/storage /home/alpine/data
+    mount -t nfs4 ${SERVER_IP}:/data/config /home/alpine/config
+    mount -t nfs4 ${SERVER_IP}:/data/templates /home/alpine/templates
+    mount -t nfs4 ${SERVER_IP}:/data/storage /home/alpine/data
     
     # remount data mit neuem Verzeichnis data/${HOSTNAME}
     mkdir -p /home/alpine/data/${HOSTNAME} && chown alpine:alpine /home/alpine/data/${HOSTNAME} && chmod 777 /home/alpine/data/${HOSTNAME}
     umount /home/alpine/data
-    mount -t nfs ${SERVER_IP}:/data/storage/${HOSTNAME} /home/alpine/data
+    mount -t nfs4 ${SERVER_IP}:/data/storage/${HOSTNAME} /home/alpine/data
     
     cat <<%EOF% | tee -a /etc/fstab
 ${SERVER_IP}:/data/templates            /home/alpine/templates  nfs defaults    0 11
