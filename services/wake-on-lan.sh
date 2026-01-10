@@ -11,7 +11,7 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt-get -y update
 sudo apt-get install -y ethtool etherwake 
 
-export ETH=$(ls -1 /sys/class/net/ | grep en | grep -v br | head -1)
+export ETH=$(ip -o link show | awk -F': ' '$2 ~ /^en/ && $0 ~ /UP/ {print $2; exit}')
 
 # nur Aktivieren wenn unterstuetzt
 sudo /sbin/ethtool -s ${ETH} wol g
