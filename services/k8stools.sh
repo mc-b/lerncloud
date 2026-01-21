@@ -73,9 +73,7 @@ sudo apt-get install -y trivy
 # kubescape
 # ------------------------------------------------------------
 echo "📥 [INFO] Security: kubescape herunterladen"
-curl -sL "https://github.com/kubescape/kubescape/releases/download/v3.0.44/kubescape-ubuntu-${ARCH}" -o kubescape
-chmod +x kubescape
-sudo mv kubescape /usr/local/bin/
+curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
 
 # ------------------------------------------------------------
 # hey
