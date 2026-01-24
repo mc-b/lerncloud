@@ -69,11 +69,4 @@ wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+')
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
 
-# OpenAI API als separater Kernel
-python3 -m venv ai
-source ~/ai/bin/activate
-pip install openai
-pip install ipykernel
-pip install nbconvert
-python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
