@@ -30,6 +30,7 @@ python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
 python3 -m venv .mcp
 source ~/.mcp/bin/activate
 pip install ipykernel mcp requests
+pip install openai
 python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
 
 # Jupyter Lab as Service
