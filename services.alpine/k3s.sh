@@ -55,6 +55,7 @@ for i in $(seq 1 60); do
 done
 install -d -m 700 -o alpine -g alpine /home/alpine/.kube
 install -m 600 -o alpine -g alpine /etc/rancher/k3s/k3s.yaml /home/alpine/.kube/config
+chmod +r /etc/rancher/k3s/k3s.yaml
 
 ### 9. Abschlussinfo
 echo "k3s Installation abgeschlossen."
