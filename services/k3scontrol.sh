@@ -4,11 +4,6 @@
 #   als root starten
 #
 set +e  # Fehler ignorieren
-
-echo "🚀 [INFO] Starte k3s Installation..."
-#!/bin/sh
-set -e
-
 echo "🚀 [INFO] Starte k3s Installation..."
 
 # Basis-Parameter (DEINE)
