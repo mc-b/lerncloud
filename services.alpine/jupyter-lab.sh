@@ -7,32 +7,36 @@ apk add python3 py3-virtualenv py3-pip
 # Installiert und aktiviert Juypter Lab
 
 python3 -m venv /home/alpine/.jupyter
-source .jupyter/bin/activate
+source /home/alpine/.jupyter/bin/activate
 pip install --upgrade pip
 pip install jupyterlab
+chown alpine:alpine -R /home/alpine/.jupyter
 
 # Jupyter Libraries fuer AI
 
 # OpenAI API als separater Kernel (Chat)
-python3 -m venv .ai
+python3 -m venv /home/alpine/.ai
 source /home/alpine/.ai/bin/activate
 pip install openai
 pip install ipykernel
 pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
+chown alpine:alpine -R /home/alpine/.ai
 
 # RAG
-python3 -m venv .rag
+python3 -m venv /home/alpine/.rag
 source /home/alpine/.rag/bin/activate
 pip install ipykernel chromadb pypdf requests tqdm
 python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
+chown alpine:alpine -R /home/alpine/.rag
 
 # MCP
-python3 -m venv .mcp
+python3 -m venv /home/alpine/.mcp
 source /home/alpine/.mcp/bin/activate
 pip install ipykernel mcp requests
 pip install openai
 python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
+chown alpine:alpine -R /home/alpine/.mcp
 
 # Jupyter Lab as Service
 cat <<'EOF' | tee /etc/init.d/jupyterlab
@@ -64,6 +68,7 @@ rc-service jupyterlab status
 # lernkube Public Key
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud >/home/alpine/.ssh/id_rsa
 chmod 600 /home/alpine/.ssh/id_rsa
+chown alpine:alpine /home/alpine/.ssh/id_rsa
 
 # SSH keine Verwendung von .ssh/known_hosts
 cat <<EOF >/home/alpine/.ssh/config
@@ -71,3 +76,4 @@ StrictHostKeyChecking no
 UserKnownHostsFile /dev/null
 LogLevel error
 EOF
+chown alpine:alpine /home/alpine/.ssh/alpine
