@@ -5,7 +5,7 @@ apk update
 apk add --no-cache python3 py3-virtualenv py3-pip
 
 # Installiert und aktiviert Juypter Lab
-doas -u alpine sh -c '
+su - alpine -c '
   python3 -m venv /home/alpine/.jupyter
   source /home/alpine/.jupyter/bin/activate
   pip install --upgrade pip
@@ -15,7 +15,7 @@ doas -u alpine sh -c '
 # Jupyter Libraries fuer AI
 
 # OpenAI API als separater Kernel (Chat)
-doas -u alpine sh -c '
+su - alpine -c '
   python3 -m venv /home/alpine/.ai
   source /home/alpine/.ai/bin/activate
   pip install openai
@@ -25,7 +25,7 @@ doas -u alpine sh -c '
 '
 
 # RAG
-doas -u alpine sh -c '
+su - alpine -c '
   python3 -m venv /home/alpine/.rag
   source /home/alpine/.rag/bin/activate
   pip install ipykernel chromadb pypdf requests tqdm
@@ -33,7 +33,7 @@ doas -u alpine sh -c '
 '
 
 # MCP
-doas -u alpine sh -c '
+su - alpine -c '
   python3 -m venv /home/alpine/.mcp
   source /home/alpine/.mcp/bin/activate
   pip install ipykernel mcp requests
