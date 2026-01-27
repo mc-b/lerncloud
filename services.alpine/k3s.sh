@@ -25,13 +25,16 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 
-sysctl --system
+sysctl -p /etc/sysctl.d/99-kubernetes.conf
 
 ### 4. Swap deaktivieren (falls vorhanden)
 swapoff -a || true
 sed -i '/ swap / s/^/#/' /etc/fstab || true
 
 ### 5. cgroups Hinweis (nur Warnung, kein Auto-Fix)
+rc-update add cgroups boot
+rc-service cgroups start
+
 if ! mount | grep -q cgroup; then
   echo "WARNUNG: cgroups scheinen nicht aktiv zu sein. Kernel-Boot-Parameter prüfen!"
 fi
