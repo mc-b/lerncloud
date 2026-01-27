@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # neue Jupyter Umgebung, lokal auf VM
-doas apk update
-doas apk add python3 py3-virtualenv py3-pip
+apk update
+apk add python3 py3-virtualenv py3-pip
 
 # Installiert und aktiviert Juypter Lab
 
-python3 -m venv ~/.jupyter
+python3 -m venv /home/alpine/.jupyter
 source .jupyter/bin/activate
 pip install --upgrade pip
 pip install jupyterlab
@@ -15,7 +15,7 @@ pip install jupyterlab
 
 # OpenAI API als separater Kernel (Chat)
 python3 -m venv .ai
-source ~/.ai/bin/activate
+source /home/alpine/.ai/bin/activate
 pip install openai
 pip install ipykernel
 pip install nbconvert
@@ -23,19 +23,19 @@ python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
 # RAG
 python3 -m venv .rag
-source ~/.rag/bin/activate
+source /home/alpine/.rag/bin/activate
 pip install ipykernel chromadb pypdf requests tqdm
 python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
 
 # MCP
 python3 -m venv .mcp
-source ~/.mcp/bin/activate
+source /home/alpine/.mcp/bin/activate
 pip install ipykernel mcp requests
 pip install openai
 python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
 
 # Jupyter Lab as Service
-cat <<'EOF' | doas tee /etc/init.d/jupyterlab
+cat <<'EOF' | tee /etc/init.d/jupyterlab
 #!/sbin/openrc-run
 
 name="Jupyter Lab"
@@ -54,19 +54,19 @@ depend() {
 }
 EOF
 
-doas chmod +x /etc/init.d/jupyterlab
-doas rc-update add jupyterlab default
-doas rc-service jupyterlab start
-doas rc-service jupyterlab stop
-doas rc-service jupyterlab restart
-doas rc-service jupyterlab status
+chmod +x /etc/init.d/jupyterlab
+rc-update add jupyterlab default
+rc-service jupyterlab start
+rc-service jupyterlab stop
+rc-service jupyterlab restart
+rc-service jupyterlab status
 
 # lernkube Public Key
-curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud >~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
+curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud >/home/alpine/.ssh/id_rsa
+chmod 600 /home/alpine/.ssh/id_rsa
 
 # SSH keine Verwendung von .ssh/known_hosts
-cat <<EOF >~/.ssh/config
+cat <<EOF >/home/alpine/.ssh/config
 StrictHostKeyChecking no
 UserKnownHostsFile /dev/null
 LogLevel error
