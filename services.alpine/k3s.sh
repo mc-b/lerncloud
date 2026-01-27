@@ -49,7 +49,8 @@ rc-service k3s start
 ### 8. alpine User als kubectl-Admin
 if id alpine >/dev/null 2>&1; then
   mkdir -p /home/alpine/.kube
-  cp /etc/rancher/k3s/k3s.yaml /home/alpine/.kube/config
+  chmod +r /etc/rancher/k3s/k3s.yaml
+  ln -s /etc/rancher/k3s/k3s.yaml /home/alpine/.kube/config  
   chown -R alpine:alpine /home/alpine/.kube
   chmod 700 /home/alpine/.kube
   grep -q KUBECONFIG /home/alpine/.bashrc || \
@@ -58,5 +59,3 @@ fi
 
 ### 9. Abschlussinfo
 echo "k3s Installation abgeschlossen."
-echo "Status prüfen mit: rc-service k3s status"
-echo "Cluster prüfen mit: kubectl get nodes"
