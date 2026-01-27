@@ -39,23 +39,19 @@ fi
 ### 6. k3s Installation (ohne Traefik, kubeconfig lesbar)
 curl -sfL https://get.k3s.io | \
   INSTALL_K3S_EXEC="--disable traefik" \
-  K3S_KUBECONFIG_MODE="644" \
   sh -
 
 ### 7. OpenRC Service aktivieren
 rc-update add k3s default
-rc-service k3s start
+rc-service k3s restart
 
 ### 8. alpine User als kubectl-Admin
-if id alpine >/dev/null 2>&1; then
-  mkdir -p /home/alpine/.kube
-  chmod +r /etc/rancher/k3s/k3s.yaml
-  ln -s /etc/rancher/k3s/k3s.yaml /home/alpine/.kube/config  
-  chown -R alpine:alpine /home/alpine/.kube
-  chmod 700 /home/alpine/.kube
-  grep -q KUBECONFIG /home/alpine/.bashrc || \
-    echo 'export KUBECONFIG=$HOME/.kube/config' >> /home/alpine/.bashrc
-fi
+for i in $(seq 1 60); do
+  [ -f /etc/rancher/k3s/k3s.yaml ] && break
+  sleep 1
+done
+install -d -m 700 -o alpine -g alpine /home/alpine/.kube
+install -m 600 -o alpine -g alpine /etc/rancher/k3s/k3s.yaml /home/alpine/.kube/config
 
 ### 9. Abschlussinfo
 echo "k3s Installation abgeschlossen."
