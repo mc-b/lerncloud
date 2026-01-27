@@ -18,27 +18,36 @@ su - alpine -c '
 su - alpine -c '
   python3 -m venv /home/alpine/.ai
   source /home/alpine/.ai/bin/activate
+  pip install --upgrade pip  
   pip install openai
   pip install ipykernel
   pip install nbconvert
   python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 '
 
-# RAG
-su - alpine -c '
-  python3 -m venv /home/alpine/.rag
-  source /home/alpine/.rag/bin/activate
-  pip install ipykernel chromadb pypdf requests tqdm
-  python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
-'
+# RAG - onnxruntime nicht verfuegbar auf alpine
+#su - alpine -c '
+#  python3 -m venv /home/alpine/.rag
+#  source /home/alpine/.rag/bin/activate
+#  pip install --upgrade pip    
+#  pip install ipykernel
+#  pip install nbconvert  
+#  python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
+#  pip install pypdf    
+#  pip install requests   
+#  pip install tqdm    
+#  pip install chromadb  
+#'
 
 # MCP
 su - alpine -c '
   python3 -m venv /home/alpine/.mcp
   source /home/alpine/.mcp/bin/activate
-  pip install ipykernel mcp requests
-  pip install openai
+  pip install ipykernel
   python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
+  pip install mcp requests
+  pip install requests
+  pip install openai
 '  
 
 # Jupyter Lab as Service
