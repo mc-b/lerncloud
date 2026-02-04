@@ -170,7 +170,7 @@ if command -v tofu >/dev/null 2>&1; then
 else
   echo "- ⬇️ [INFO] Download & Install OpenTofu standalone"
   curl -fsSL https://get.opentofu.org/install-opentofu.sh \
-    | sudo bash -s -- --install-method standalone \
+    | bash -s -- --install-method standalone \
                       --opentofu-version latest \
                       --install-path /opt/opentofu \
                       --symlink-path /usr/local/bin \
