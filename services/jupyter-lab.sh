@@ -33,6 +33,16 @@ pip install ipykernel mcp requests
 pip install openai
 python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
 
+# LlamaIndex als separater Kernel (Agent)
+python3 -m venv .agent
+source ~/.agent/bin/activate
+pip install llama-index
+pip install llama-index-llms-ollama llama-index-embeddings-huggingface
+#pip install llama-index-core llama-index-readers-file llama-index-llms-ollama llama-index-embeddings-huggingface
+pip install ipykernel
+pip install nbconvert
+python3 -m ipykernel install --user --name=agent --display-name "Python (agent)"
+
 # Jupyter Lab as Service
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyterlab.service
 [Unit]
