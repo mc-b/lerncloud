@@ -6,7 +6,7 @@
 echo "🚀 [INFO] Starte docker.io Installation..."
 ####
 # Installation Docker 
-sudo apt install -y docker.io docker-buildx
+sudo apt install -y docker.io docker-buildx docker-compose
 sudo usermod -aG docker ubuntu 
 
 ####
