@@ -2,6 +2,7 @@
 #
 
 # Jupyter Libraries fuer MQTT, Webserver und Machine Learning
+export DEBIAN_FRONTEND=noninteractive
 
 # Python3 Libraries
 sudo apt-get install -y python3-flask python3-setproctitle python3-requests python3-paho-mqtt \
