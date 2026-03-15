@@ -23,8 +23,7 @@ python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 # Hugging Face
 python3 -m venv .hf
 source ~/.hf/bin/activate
-pip install -U datasets pyarrow huggingface_hub fsspec transformers accelerate ipywidgets sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
-pip install ipykernel 
+pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
 python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
 
 # MCP
