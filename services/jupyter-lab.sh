@@ -43,6 +43,13 @@ pip install ipykernel
 pip install nbconvert
 python3 -m ipykernel install --user --name=agent --display-name "Python (agent)"
 
+# Dapr (Multi Agent)
+python3 -m venv .dapr
+source ~/.dapr/bin/activate
+pip install openai-agents dapr dapr-ext-grpc
+pip install ipykernel
+python3 -m ipykernel install --user --name=dapr --display-name "Python (dapr)"
+
 # Jupyter Lab as Service
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyterlab.service
 [Unit]
