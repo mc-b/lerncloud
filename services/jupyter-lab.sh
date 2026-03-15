@@ -20,16 +20,10 @@ pip install ipykernel requests
 pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
-# RAG
-python3 -m venv .rag
-source ~/.rag/bin/activate
-pip install ipykernel chromadb pypdf requests tqdm
-python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
-
 # Hugging Face
 python3 -m venv .hf
 source ~/.hf/bin/activate
-pip install -U datasets pyarrow huggingface_hub fsspec transformers accelerate ipywidgets sentence-transformers sentencepiece peft
+pip install -U datasets pyarrow huggingface_hub fsspec transformers accelerate ipywidgets sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
 pip install ipykernel 
 python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
 
