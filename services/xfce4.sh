@@ -28,6 +28,7 @@ apt-get install -y \
   xrdp \
   policykit-1 \
   policykit-1-gnome \
+  evince \
   chromium || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
 
 ###########################################################
