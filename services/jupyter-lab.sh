@@ -20,17 +20,10 @@ pip install ipykernel requests
 pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
-# RAG
-python3 -m venv .rag
-source ~/.rag/bin/activate
-pip install ipykernel chromadb pypdf requests tqdm
-python3 -m ipykernel install --user --name=rag --display-name "Python (rag)"
-
 # Hugging Face
 python3 -m venv .hf
 source ~/.hf/bin/activate
-pip install -U datasets pyarrow huggingface_hub fsspec transformers accelerate ipywidgets sentence-transformers sentencepiece peft
-pip install ipykernel 
+pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
 python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
 
 # MCP
@@ -49,6 +42,13 @@ pip install llama-index-llms-ollama llama-index-embeddings-huggingface
 pip install ipykernel
 pip install nbconvert
 python3 -m ipykernel install --user --name=agent --display-name "Python (agent)"
+
+# Dapr (Multi Agent)
+python3 -m venv .dapr
+source ~/.dapr/bin/activate
+pip install openai-agents dapr dapr-ext-grpc
+pip install ipykernel
+python3 -m ipykernel install --user --name=dapr --display-name "Python (dapr)"
 
 # Jupyter Lab as Service
 cat <<%EOF% | sudo tee /etc/systemd/system/jupyterlab.service
