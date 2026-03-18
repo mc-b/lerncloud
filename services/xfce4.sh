@@ -126,6 +126,26 @@ EndSection
 EOF
 
 # ------------------------------------------------------------
+# Background setzen
+# ------------------------------------------------------------
+export USERNAME=ubuntu
+export HOME_DIR=/home/${USERNAME}
+mkdir -p "${HOME_DIR}/.config/autostart"
+
+cat > "${HOME_DIR}/.config/autostart/set-black-background.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Set Black Background
+Exec=/bin/bash -c 'sleep 2; for ws in 0 1 2 3; do xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/last-image -s ""; xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/image-style -s 0; xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/color-style -s 0; done; xfdesktop --reload'
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Terminal=false
+EOF
+
+chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config/autostart"
+
+# ------------------------------------------------------------
 # 4. Restart XRDP stack
 # ------------------------------------------------------------
 systemctl restart xrdp
