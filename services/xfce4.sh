@@ -130,20 +130,34 @@ EOF
 # ------------------------------------------------------------
 export USERNAME=ubuntu
 export HOME_DIR=/home/${USERNAME}
-mkdir -p "${HOME_DIR}/.config/autostart"
+cat > "${HOME_DIR}/.xsession" <<'EOF'
+#!/bin/bash
 
-cat > "${HOME_DIR}/.config/autostart/set-black-background.desktop" <<EOF
-[Desktop Entry]
-Type=Application
-Name=Set Black Background
-Exec=/bin/bash -c 'sleep 2; for ws in 0 1 2 3; do xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/last-image -s ""; xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/image-style -s 0; xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorrdp0/workspace\${ws}/color-style -s 0; done; xfdesktop --reload'
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Terminal=false
+# Warte bis xfconf verfügbar ist
+for i in $(seq 1 10); do
+  xfconf-query -c xfce4-desktop -l >/dev/null 2>&1 && break
+  sleep 1
+done
+
+# Monitor dynamisch erkennen
+MONITOR=$(xfconf-query -c xfce4-desktop -l | grep backdrop | grep workspace0 | sed -E 's|.*/(monitor[^/]+)/.*|\1|' | head -n1)
+
+# Fallback
+[ -z "$MONITOR" ] && MONITOR="monitor0"
+
+# Setze schwarzen Hintergrund
+for ws in 0 1 2 3; do
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/last-image -s ""
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/image-style -s 0
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/color-style -s 0
+done
+
+# XFCE starten
+xfce4-session
 EOF
 
-chown -R "${USERNAME}:${USERNAME}" "${HOME_DIR}/.config/autostart"
+chmod +x "${HOME_DIR}/.xsession"
+chown "${USERNAME}:${USERNAME}" "${HOME_DIR}/.xsession"
 
 # ------------------------------------------------------------
 # 4. Restart XRDP stack
