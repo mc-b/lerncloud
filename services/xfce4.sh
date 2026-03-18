@@ -128,36 +128,7 @@ EOF
 # ------------------------------------------------------------
 # Background setzen
 # ------------------------------------------------------------
-export USERNAME=ubuntu
-export HOME_DIR=/home/${USERNAME}
-cat > "${HOME_DIR}/.xsession" <<'EOF'
-#!/bin/bash
-
-# Warte bis xfconf verfügbar ist
-for i in $(seq 1 10); do
-  xfconf-query -c xfce4-desktop -l >/dev/null 2>&1 && break
-  sleep 1
-done
-
-# Monitor dynamisch erkennen
-MONITOR=$(xfconf-query -c xfce4-desktop -l | grep backdrop | grep workspace0 | sed -E 's|.*/(monitor[^/]+)/.*|\1|' | head -n1)
-
-# Fallback
-[ -z "$MONITOR" ] && MONITOR="monitor0"
-
-# Setze schwarzen Hintergrund
-for ws in 0 1 2 3; do
-  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/last-image -s ""
-  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/image-style -s 0
-  xfconf-query -c xfce4-desktop -p /backdrop/screen0/${MONITOR}/workspace${ws}/color-style -s 0
-done
-
-# XFCE starten
-xfce4-session
-EOF
-
-chmod +x "${HOME_DIR}/.xsession"
-chown "${USERNAME}:${USERNAME}" "${HOME_DIR}/.xsession"
+sudo wget -S https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg -O /usr/share/backgrounds/xfce/xfce-shapes.svg
 
 # ------------------------------------------------------------
 # 4. Restart XRDP stack
