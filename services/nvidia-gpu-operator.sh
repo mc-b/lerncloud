@@ -157,11 +157,11 @@ sudo -u ubuntu -H bash -lc "
 FILE="/var/snap/microk8s/current/args/containerd-template.toml"
 
 if [ -f "$FILE" ]; then
-  log "Entferne spezifische nvidia-containerd.runtimes Einträge aus $FILE"
+  log "Korrigiere nvidia-containerd-runtimes Einträge in $FILE"
 
   sed -i \
-    -e '/\[plugins\."io\.containerd\.grpc\.v1\.cri"\.containerd\.runtimes\.nvidia-containerd\.runtimes\]/d' \
-    -e '/\[plugins\."io\.containerd\.grpc\.v1\.cri"\.containerd\.runtimes\.nvidia-containerd\.runtimes\.options\]/d' \
+    -e 's/\.containerd\.runtimes\.nvidia-container-runtime\]/\.containerd\.runtimes\.nvidia]/' \
+    -e 's/\.containerd\.runtimes\.nvidia-container-runtime\.options\]/\.containerd\.runtimes\.nvidia\.options]/' \
     "$FILE"
 fi
 
