@@ -150,4 +150,19 @@ sudo -u ubuntu -H bash -lc "
     --set devicePlugin.config.default=${TIMESLICING_PROFILE_NAME}
 "
 
+# -----------------------------------------------------------------------------
+# 6) microk8s patchen
+# -----------------------------------------------------------------------------
+
+FILE="/var/snap/microk8s/current/args/containerd-template.toml"
+
+if [ -f "$FILE" ]; then
+  log "Entferne spezifische nvidia-containerd.runtimes Einträge aus $FILE"
+
+  sed -i \
+    -e '/\[plugins\."io\.containerd\.grpc\.v1\.cri"\.containerd\.runtimes\.nvidia-containerd\.runtimes\]/d' \
+    -e '/\[plugins\."io\.containerd\.grpc\.v1\.cri"\.containerd\.runtimes\.nvidia-containerd\.runtimes\.options\]/d' \
+    "$FILE"
+fi
+
 log "Fertig. GPU Operator und Time-Slicing-Konfiguration wurden angewendet."
