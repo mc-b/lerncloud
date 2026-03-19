@@ -133,8 +133,11 @@ sudo wget -S https://kubernetes.io/images/docs/kubernetes-cluster-architecture.s
 # ------------------------------------------------------------
 # 4. Restart XRDP stack
 # ------------------------------------------------------------
-systemctl restart xrdp
-systemctl restart xrdp-sesman
+systemctl stop xrdp
+systemctl stop xrdp-sesman
+sleep 5
+systemctl start xrdp
+systemctl start xrdp-sesman
 
 echo "✅ [OK] Keyboard layout CH applied safely"
 
