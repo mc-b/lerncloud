@@ -17,8 +17,6 @@ set -euo pipefail
 # - kubectl muss aber als Benutzer "ubuntu" ausgeführt werden
 # -----------------------------------------------------------------------------
 
-LLAMA_VERSION="b8457"
-LLAMA_URL="https://github.com/ggml-org/llama.cpp/releases/download/${LLAMA_VERSION}/llama-${LLAMA_VERSION}-bin-ubuntu-vulkan-x64.tar.gz"
 GPU_PLUGIN_NAMESPACE="gpu-plugin"
 K8S_USER="ubuntu"
 K8S_USER_HOME="/home/${K8S_USER}"
@@ -115,19 +113,8 @@ ensure_namespace() {
 }
 
 # -----------------------------------------------------------------------------
-# Hilfsfunktion: temporäres Verzeichnis
-# -----------------------------------------------------------------------------
-cleanup() {
-  if [ -n "${TMP_DIR:-}" ] && [ -d "${TMP_DIR:-}" ]; then
-    rm -rf "${TMP_DIR}"
-  fi
-}
-trap cleanup EXIT
-
-# -----------------------------------------------------------------------------
 # Vorbedingungen prüfen
 # -----------------------------------------------------------------------------
-require_cmd wget
 require_cmd kubectl
 
 if ! id "${K8S_USER}" >/dev/null 2>&1; then
@@ -171,30 +158,6 @@ ls -l /dev/dri || warn "/dev/dri ist nicht vorhanden."
 id "${K8S_USER}" || warn "id ${K8S_USER} konnte nicht ausgeführt werden."
 groups "${K8S_USER}" || warn "groups ${K8S_USER} konnte nicht ausgeführt werden."
 lspci -nnk | grep -A3 -E 'VGA|3D|Display' || warn "Keine Anzeige über lspci gefunden."
-
-# -----------------------------------------------------------------------------
-# 3) llama.cpp Vulkan Binary installieren
-# -----------------------------------------------------------------------------
-log "Installiere llama.cpp Vulkan Binary (${LLAMA_VERSION}) ..."
-TMP_DIR="$(mktemp -d)"
-cd "${TMP_DIR}"
-
-wget -O llama.tgz "${LLAMA_URL}" || {
-  error "Download von llama.cpp Vulkan Binary fehlgeschlagen."
-  exit 1
-}
-
-tar xvf llama.tgz
-
-LLAMA_DIR="$(find . -maxdepth 1 -type d -name 'llama-*' | head -n1)"
-
-if [ -z "${LLAMA_DIR}" ]; then
-  error "Entpacktes llama.cpp Verzeichnis nicht gefunden."
-  exit 1
-fi
-
-log "Installiere Dateien aus ${LLAMA_DIR} nach /usr/local/bin ..."
-find "${LLAMA_DIR}" -maxdepth 1 -type f -executable -exec mv {} /usr/local/bin/ \;
 
 # -----------------------------------------------------------------------------
 # 4) Intel Device Plugin for Kubernetes ausrollen
