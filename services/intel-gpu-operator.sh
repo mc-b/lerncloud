@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set +e  # Fehler ignorieren
+set -euo pipefail
 
 # -----------------------------------------------------------------------------
 # Script: install-intel-gpu-plugin.sh
@@ -12,15 +12,17 @@ set +e  # Fehler ignorieren
 # - Intel Device Plugin for Kubernetes ausrollen
 # - DaemonSet für Shared Devices patchen
 #
-# Annahmen:
-# - kubectl ist installiert und funktionsfähig
-# - sudo ist verfügbar
-# - der aktuelle Cluster-Kontext zeigt auf den Ziel-Cluster
+# Wichtige Annahme:
+# - Das Script läuft als root
+# - kubectl muss aber als Benutzer "ubuntu" ausgeführt werden
 # -----------------------------------------------------------------------------
 
 LLAMA_VERSION="b8457"
 LLAMA_URL="https://github.com/ggml-org/llama.cpp/releases/download/${LLAMA_VERSION}/llama-${LLAMA_VERSION}-bin-ubuntu-vulkan-x64.tar.gz"
 GPU_PLUGIN_NAMESPACE="gpu-plugin"
+K8S_USER="ubuntu"
+K8S_USER_HOME="/home/${K8S_USER}"
+KUBECONFIG_PATH="${K8S_USER_HOME}/.kube/config"
 
 log() {
   echo "[INFO] $*"
@@ -42,22 +44,46 @@ require_cmd() {
 }
 
 # -----------------------------------------------------------------------------
+# kubectl immer als ubuntu ausführen
+# -----------------------------------------------------------------------------
+kubectl_u() {
+  sudo -u "${K8S_USER}" -H env KUBECONFIG="${KUBECONFIG_PATH}" kubectl "$@"
+}
+
+# -----------------------------------------------------------------------------
+# Prüfen, ob kubectl für ubuntu funktioniert
+# -----------------------------------------------------------------------------
+check_kubectl_access() {
+  if [ ! -f "${KUBECONFIG_PATH}" ]; then
+    error "KUBECONFIG nicht gefunden: ${KUBECONFIG_PATH}"
+    exit 1
+  fi
+
+  if ! kubectl_u version --client >/dev/null 2>&1; then
+    error "kubectl kann als Benutzer ${K8S_USER} nicht gestartet werden."
+    exit 1
+  fi
+
+  if ! kubectl_u cluster-info >/dev/null 2>&1; then
+    error "Cluster ist als Benutzer ${K8S_USER} nicht erreichbar."
+    exit 1
+  fi
+}
+
+# -----------------------------------------------------------------------------
 # Prüfen, ob eine Intel GPU vorhanden ist
 # -----------------------------------------------------------------------------
 has_intel_gpu() {
-  # 1) Bevorzugt via lspci
   if command -v lspci >/dev/null 2>&1; then
     if lspci -nn | grep -qiE 'VGA|3D|Display' && lspci -nn | grep -qi 'Intel'; then
       return 0
     fi
 
-    # Präziser: Intel Display Controller
     if lspci -nn | grep -qiE 'Intel.*(VGA|3D|Display)'; then
       return 0
     fi
   fi
 
-  # 2) Fallback via PCI Vendor-ID 0x8086 = Intel
   if [ -d /sys/bus/pci/devices ]; then
     for dev in /sys/bus/pci/devices/*; do
       [ -f "$dev/vendor" ] || continue
@@ -66,8 +92,6 @@ has_intel_gpu() {
       vendor="$(cat "$dev/vendor" 2>/dev/null)"
       class="$(cat "$dev/class" 2>/dev/null)"
 
-      # Display Controller Klassen:
-      # 0x03xxxx = VGA / 3D / Display
       if [ "$vendor" = "0x8086" ] && [[ "$class" == 0x03* ]]; then
         return 0
       fi
@@ -82,11 +106,11 @@ has_intel_gpu() {
 # -----------------------------------------------------------------------------
 ensure_namespace() {
   local ns="$1"
-  if kubectl get namespace "$ns" >/dev/null 2>&1; then
-    log "Namespace $ns existiert bereits."
+  if kubectl_u get namespace "$ns" >/dev/null 2>&1; then
+    log "Namespace ${ns} existiert bereits."
   else
-    log "Erstelle Namespace $ns ..."
-    kubectl create namespace "$ns"
+    log "Erstelle Namespace ${ns} ..."
+    kubectl_u create namespace "$ns"
   fi
 }
 
@@ -104,6 +128,12 @@ trap cleanup EXIT
 # Vorbedingungen prüfen
 # -----------------------------------------------------------------------------
 require_cmd wget
+require_cmd kubectl
+
+if ! id "${K8S_USER}" >/dev/null 2>&1; then
+  error "Benutzer ${K8S_USER} existiert nicht."
+  exit 1
+fi
 
 if ! command -v lspci >/dev/null 2>&1; then
   warn "lspci nicht gefunden. Intel GPU-Erkennung nutzt Fallback über /sys."
@@ -115,13 +145,14 @@ if ! has_intel_gpu; then
 fi
 
 log "Intel GPU erkannt. Fahre mit Installation fort ..."
+check_kubectl_access
 
 # -----------------------------------------------------------------------------
 # 1) Pakete installieren
 # -----------------------------------------------------------------------------
 log "Installiere Intel GPU Pakete und Vulkan / VA-API Tools ..."
-sudo apt update
-sudo apt install -y \
+apt update
+apt install -y \
   pciutils \
   intel-media-va-driver \
   vainfo \
@@ -135,9 +166,10 @@ sudo apt install -y \
 # 2) Testbefehle ausführen
 # -----------------------------------------------------------------------------
 log "Führe Basistests aus ..."
-sudo vainfo || warn "vainfo lieferte einen Fehler."
+vainfo || warn "vainfo lieferte einen Fehler."
 ls -l /dev/dri || warn "/dev/dri ist nicht vorhanden."
-groups || warn "groups konnte nicht ausgeführt werden."
+id "${K8S_USER}" || warn "id ${K8S_USER} konnte nicht ausgeführt werden."
+groups "${K8S_USER}" || warn "groups ${K8S_USER} konnte nicht ausgeführt werden."
 lspci -nnk | grep -A3 -E 'VGA|3D|Display' || warn "Keine Anzeige über lspci gefunden."
 
 # -----------------------------------------------------------------------------
@@ -145,7 +177,7 @@ lspci -nnk | grep -A3 -E 'VGA|3D|Display' || warn "Keine Anzeige über lspci gef
 # -----------------------------------------------------------------------------
 log "Installiere llama.cpp Vulkan Binary (${LLAMA_VERSION}) ..."
 TMP_DIR="$(mktemp -d)"
-cd "${TMP_DIR}" || exit 1
+cd "${TMP_DIR}"
 
 wget -O llama.tgz "${LLAMA_URL}" || {
   error "Download von llama.cpp Vulkan Binary fehlgeschlagen."
@@ -162,29 +194,27 @@ if [ -z "${LLAMA_DIR}" ]; then
 fi
 
 log "Installiere Dateien aus ${LLAMA_DIR} nach /usr/local/bin ..."
-sudo find "${LLAMA_DIR}" -maxdepth 1 -type f -executable -exec mv {} /usr/local/bin/ \;
+find "${LLAMA_DIR}" -maxdepth 1 -type f -executable -exec mv {} /usr/local/bin/ \;
 
 # -----------------------------------------------------------------------------
 # 4) Intel Device Plugin for Kubernetes ausrollen
 # -----------------------------------------------------------------------------
-require_cmd kubectl
-
 log "Installiere Node Feature Discovery ..."
-kubectl apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/nfd?ref=main'
+kubectl_u apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/nfd?ref=main'
 
 log "Installiere Node Feature Rules ..."
-kubectl apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/nfd/overlays/node-feature-rules?ref=main'
+kubectl_u apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/nfd/overlays/node-feature-rules?ref=main'
 
 ensure_namespace "${GPU_PLUGIN_NAMESPACE}"
 
 log "Installiere Intel GPU Plugin ..."
-kubectl apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/gpu_plugin/overlays/nfd_labeled_nodes?ref=main' -n "${GPU_PLUGIN_NAMESPACE}"
+kubectl_u apply -k 'https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/gpu_plugin/overlays/nfd_labeled_nodes?ref=main' -n "${GPU_PLUGIN_NAMESPACE}"
 
 # -----------------------------------------------------------------------------
 # 5) DaemonSet patchen für Shared Devices / Monitoring
 # -----------------------------------------------------------------------------
 log "Patche DaemonSet intel-gpu-plugin ..."
-kubectl patch daemonset intel-gpu-plugin \
+kubectl_u patch daemonset intel-gpu-plugin \
   -n "${GPU_PLUGIN_NAMESPACE}" \
   --type='json' \
   -p='[
@@ -204,6 +234,6 @@ kubectl patch daemonset intel-gpu-plugin \
 # 6) Rollout abwarten
 # -----------------------------------------------------------------------------
 log "Warte auf Rollout des DaemonSets intel-gpu-plugin ..."
-kubectl rollout status daemonset/intel-gpu-plugin -n "${GPU_PLUGIN_NAMESPACE}"
+kubectl_u rollout status daemonset/intel-gpu-plugin -n "${GPU_PLUGIN_NAMESPACE}"
 
 log "Fertig. Intel GPU Plugin und llama.cpp Vulkan Binary wurden installiert."
