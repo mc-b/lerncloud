@@ -67,7 +67,13 @@ curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-contai
   sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
 sudo apt-get update
-sudo apt-get install -y nvidia-driver-570 nvidia-utils-570 nvidia-container-toolkit 
+if ! dpkg -l | grep -q '^ii.*nvidia-driver'; then
+    sudo apt-get install -y nvidia-driver-580 nvidia-utils-580
+fi
+
+if ! dpkg -l | grep -q '^ii.*nvidia-container-toolkit'; then
+    sudo apt-get install -y nvidia-container-toolkit
+fi
 
 # -----------------------------------------------------------------------------
 # Prüfen, ob notwendige Befehle vorhanden sind
