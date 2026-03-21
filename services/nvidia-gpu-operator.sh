@@ -35,22 +35,25 @@ log() {
 }
 
 # -----------------------------------------------------------------------------
-# Prüfen, ob notwendige Befehle vorhanden sind
+# Prüfen, ob eine NVIDIA GPU vorhanden ist
 # -----------------------------------------------------------------------------
-require_cmd() {
-  command -v "$1" >/dev/null 2>&1 || {
-    echo "[ERROR] Befehl nicht gefunden: $1" >&2
-    exit 1
-  }
-}
+has_nvidia_gpu() {
+  # 1) Bevorzugt: lspci
+  if command -v lspci >/dev/null 2>&1; then
+    if lspci -nn | grep -qiE 'NVIDIA'; then
+      log "NVIDIA GPU erkannt. Fahre mit Installation fort ..."
+      return 0
+    fi
+  fi
 
-require_cmd apt-get
-require_cmd helm
-require_cmd kubectl
-require_cmd sudo
+  echo "Keine NVIDIA GPU erkannt. Installation von NVIDIA Toolkit und GPU Operator wird abgebrochen."
+  exit 0
+} 
+
+has_nvidia_gpu 
 
 # -----------------------------------------------------------------------------
-# 1) NVIDIA Container Toolkit installieren
+# 1) NVIDIA Container Toolkit installieren - immmer
 # -----------------------------------------------------------------------------
 log "Installiere nvidia-container-toolkit ..."
 sudo apt-get update
@@ -67,12 +70,26 @@ sudo apt-get update
 sudo apt-get install -y nvidia-driver-570 nvidia-utils-570 nvidia-container-toolkit 
 
 # -----------------------------------------------------------------------------
+# Prüfen, ob notwendige Befehle vorhanden sind
+# -----------------------------------------------------------------------------
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "[ERROR] Befehl nicht gefunden: $1" >&2
+    exit 1
+  }
+}
+
+# -----------------------------------------------------------------------------
 # 2) Helm Repository als Benutzer ubuntu hinzufügen/aktualisieren
 #
 # Hintergrund:
 # Helm speichert Repos standardmässig im Home-Verzeichnis des aufrufenden Users.
 # Daher wird dieser Schritt explizit als Benutzer 'ubuntu' ausgeführt.
 # -----------------------------------------------------------------------------
+
+require_cmd helm
+require_cmd kubectl
+
 log "Füge NVIDIA Helm Repository hinzu und aktualisiere es ..."
 sudo -u ubuntu -H bash -lc "
   set -euo pipefail
