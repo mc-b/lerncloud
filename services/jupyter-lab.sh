@@ -13,7 +13,7 @@ pip install jupyterlab
 # Jupyter Libraries fuer AI
 
 # OpenAI API als separater Kernel (Chat)
-python3 -m venv .ai
+python3 -m venv ~/.ai
 source ~/.ai/bin/activate
 pip install openai 
 pip install ipykernel requests
@@ -21,20 +21,20 @@ pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
 # Hugging Face
-python3 -m venv .hf
+python3 -m venv ~/.hf
 source ~/.hf/bin/activate
 pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
 python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
 
 # MCP
-python3 -m venv .mcp
+python3 -m venv ~/.mcp
 source ~/.mcp/bin/activate
 pip install ipykernel mcp requests
 pip install openai
 python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
 
 # LlamaIndex als separater Kernel (Agent)
-python3 -m venv .agent
+python3 -m venv ~/.agent
 source ~/.agent/bin/activate
 pip install llama-index
 pip install llama-index-llms-ollama llama-index-embeddings-huggingface
@@ -44,7 +44,7 @@ pip install nbconvert
 python3 -m ipykernel install --user --name=agent --display-name "Python (agent)"
 
 # Dapr (Multi Agent)
-python3 -m venv .dapr
+python3 -m venv ~/.dapr
 source ~/.dapr/bin/activate
 pip install openai-agents dapr dapr-ext-grpc
 pip install ipykernel
