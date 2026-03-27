@@ -114,3 +114,11 @@ wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+')
 
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
+
+# Umgebungsvariablen fuer K8s AI Server, OpenAI und Hugging Face 
+cat <<EOF > ~/work/env.py
+KUBECONFIG_AI=""
+OPENAI_API_KEY=""
+HF_TOKEN=""
+EOF
+

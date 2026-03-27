@@ -87,3 +87,12 @@ LogLevel error
 EOF
 chmod 600 /home/alpine/.ssh/config
 chown alpine:alpine /home/alpine/.ssh/config
+
+# Umgebungsvariablen fuer K8s AI Server, OpenAI und Hugging Face 
+su - alpine -c '
+cat <<EOF > ~/work/env.py
+KUBECONFIG_AI=""
+OPENAI_API_KEY=""
+HF_TOKEN=""
+EOF
+'
