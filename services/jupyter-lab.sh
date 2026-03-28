@@ -15,7 +15,7 @@ pip install jupyterlab
 # OpenAI API als separater Kernel (Chat)
 python3 -m venv ~/.ai
 source ~/.ai/bin/activate
-pip install openai 
+pip install openai pydantic
 pip install ipykernel requests
 pip install nbconvert
 python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
