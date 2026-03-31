@@ -9,22 +9,28 @@ echo "🚀 [INFO] Starte k3s Installation..."
 # Basis-Parameter (DEINE)
 BASE_ARGS="server --cluster-init --disable traefik --disable servicelb"
 
-# Prüfen ob wg0 existiert und eine IPv4 hat
-if ip link show wg0 >/dev/null 2>&1; then
-  WG_IP="$(ip -4 addr show wg0 | awk '/inet /{print $2}' | cut -d/ -f1)"
+WG_IFACE=""
+WG_IP=""
 
-  if [ -n "$WG_IP" ]; then
-    echo "🔐 [INFO] WireGuard erkannt (wg0: $WG_IP)"
-    K3S_ARGS="$BASE_ARGS \
-      --node-ip=$WG_IP \
-      --advertise-address=$WG_IP \
-      --flannel-iface=wg0"
-  else
-    echo "⚠️ [WARN] wg0 vorhanden aber ohne IPv4 – falle zurück auf NAT"
-    K3S_ARGS="$BASE_ARGS"
+# Alle WireGuard-Interfaces durchgehen und das erste mit IPv4 nehmen
+for iface in $(wg show interfaces 2>/dev/null); do
+  ip4="$(ip -4 -o addr show dev "$iface" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)"
+
+  if [ -n "$ip4" ]; then
+    WG_IFACE="$iface"
+    WG_IP="$ip4"
+    break
   fi
+done
+
+if [ -n "$WG_IFACE" ] && [ -n "$WG_IP" ]; then
+  echo "🔐 [INFO] WireGuard erkannt ($WG_IFACE: $WG_IP)"
+  K3S_ARGS="$BASE_ARGS \
+    --node-ip=$WG_IP \
+    --advertise-address=$WG_IP \
+    --flannel-iface=$WG_IFACE"
 else
-  echo "🌍 [INFO] Kein WireGuard – benutze Default-Netz (10.0.2.2)"
+  echo "🌍 [INFO] Kein WireGuard mit IPv4 gefunden – benutze Default-Netz"
   K3S_ARGS="$BASE_ARGS"
 fi
 
