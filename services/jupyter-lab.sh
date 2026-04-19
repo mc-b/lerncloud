@@ -78,29 +78,7 @@ EOF
 [ -d ~/data ] && { ln -s ~/data ~/work; } || { mkdir -p ~/work; sudo chown ubuntu:ubuntu ~/work; }
 
 # Public IP anhand Cloud Provider setzen, WireGuard ueberschreibt alle
-cloud_provider=$(cloud-init query v1.cloud_name 2>/dev/null) 
-case "$cloud_provider" in
-      "aws")
-        public_ip=$(sudo cloud-init query ds.meta_data.public_hostname)
-        ;;
-      "gce" | "gcloud")
-        public_ip=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip" -H "Metadata-Flavor: Google")
-        ;;  
-    "azure")
-        public_ip=$(jq -r '.ds.meta_data.imds.network.interface[0].ipv4.ipAddress[0].publicIpAddress' /run/cloud-init/instance-data.json 2>/dev/null)
-        ;;
-    "maas")
-        public_ip=$(hostname).maas
-        ;;        
-    *)
-        public_ip=$(hostname -I | cut -d ' ' -f 1) 
-        ;;
-esac
-echo $public_ip >~/work/server-ip
-
-# WireGuard IP hat hoechste Prioritaet (bei Problemen mit OpenVPN deaktivieren)
-wg_ip=$(ip -f inet addr show wg0 2>/dev/null | grep -Po 'inet \K[\d.]+') 
-[ "$wg_ip" != "" ] && { echo $wg_ip >~/work/server-ip; }
+curl -fsSL https://raw.githubusercontent.com/mc-b/lerncloud/main/scripts/get-server-ip.sh | bash | tee ~/work/server-ip
 
 # Eindeutige UUID pro Installation fuer IoT
 echo "UUID=\"$(uuid)\"" >~/work/uuid.py
