@@ -10,28 +10,13 @@ get_public_ip() {
     cloud_provider="$(cloud-init query v1.cloud_name 2>/dev/null || true)"
 
     case "$cloud_provider" in
-        aws)
-            public_ip="$(cloud-init query ds.meta_data.public_hostname 2>/dev/null || true)"
+        "aws" | "azure" | "gcloud")
+            public_ip=$(sudo cloud-init query ds.meta_data.public_hostname)
             ;;
-        gce|gcloud)
-            public_ip="$(
-                curl -fsS \
-                    -H 'Metadata-Flavor: Google' \
-                    'http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip' \
-                    2>/dev/null || true
-            )"
-            ;;
-        azure)
-            public_ip="$(
-                sed -n 's/.*"publicIpAddress"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
-                    /run/cloud-init/instance-data.json 2>/dev/null \
-                | head -n 1
-            )"
-            ;;
-        maas)
+        "maas")
             public_ip="$(hostname).maas"
             ;;
-        multipass)
+        "multipass")
             public_ip="$(hostname).mshome.net"
             ;;
         *)
