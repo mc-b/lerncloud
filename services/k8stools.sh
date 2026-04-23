@@ -79,7 +79,7 @@ curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh 
 # hey
 # ------------------------------------------------------------
 echo "📥 [INFO] Lasttests: hey herunterladen"
-wget -nv "https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_${ARCH}" -O hey
+wget -nv "https://storage.googleapis.com/jblabs/dist/hey_linux_v0.1.2" -O hey
 chmod 755 hey
 sudo mv hey /usr/local/bin/
 
