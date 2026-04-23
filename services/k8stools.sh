@@ -76,12 +76,10 @@ echo "📥 [INFO] Security: kubescape herunterladen"
 curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
 
 # ------------------------------------------------------------
-# hey
+# Apache utils ab
 # ------------------------------------------------------------
-echo "📥 [INFO] Lasttests: hey herunterladen"
-wget -nv "https://storage.googleapis.com/jblabs/dist/hey_linux_v0.1.2" -O hey
-chmod 755 hey
-sudo mv hey /usr/local/bin/
+echo "📥 [INFO] Lasttests: ab herunterladen"
+sudo apt-get install apache2-utils -y
 
 # ------------------------------------------------------------
 # yq
