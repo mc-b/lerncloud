@@ -82,24 +82,10 @@ echo "📥 [INFO] Lasttests: ab herunterladen"
 sudo apt-get install apache2-utils -y
 
 # ------------------------------------------------------------
-# yq
-# ------------------------------------------------------------
-echo "📥 [INFO] Tools: yq installieren"
-sudo apt-get install -y yq
-
-# ------------------------------------------------------------
-# skaffold
-# ------------------------------------------------------------
-echo "📥 [INFO] CI/CD: skaffold herunterladen"
-curl -Lo skaffold "https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-${ARCH}"
-chmod +x skaffold
-sudo mv skaffold /usr/local/bin/
-
-# ------------------------------------------------------------
 # k9s
 # ------------------------------------------------------------
 echo "📥 [INFO] UI: k9s installieren"
-sudo snap install k9s --classic
+sudo snap install k9s 
 sudo ln -sf /snap/k9s/current/bin/k9s /snap/bin/k9s
 
 echo "🎉 [DONE] Alle Tools erfolgreich installiert für ${ARCH}"
