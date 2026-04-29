@@ -4,7 +4,7 @@
 #
 set +e  # Fehler ignorieren
 
-export ISTIO_VERSION=1.27.3
+export ISTIO_VERSION=1.29.2
 ISTIO_DIR="istio-${ISTIO_VERSION}"
 TRACING_FILE="/tmp/tracing-$$.yaml"
 
@@ -56,7 +56,8 @@ spec:
     - name: zipkin
 EOF
 
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.27/samples/addons/extras/zipkin.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/extras/zipkin.yaml
+
 
 # Service ggf. erneut patchen, ohne Fehler
 kubectl get service -n istio-system -l name=zipkin -o yaml \
