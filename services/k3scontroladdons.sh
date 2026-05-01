@@ -24,3 +24,24 @@ kubectl patch deployment ingress-nginx-controller \
 echo "- 🔧 [INFO] install dashboard"
 kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml 
 kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard-admin.yaml
+
+# Headlamp als Alternative zum Dashboard
+kubectl apply -f https://raw.githubusercontent.com/headlamp-k8s/headlamp/main/kubernetes-headlamp.yaml
+kubectl -n kube-system create serviceaccount headlamp-admin
+kubectl create clusterrolebinding headlamp-admin --serviceaccount=kube-system:headlamp-admin --clusterrole=cluster-admin
+
+kubectl patch svc headlamp \
+  -n kube-system \
+  --type='merge' \
+  -p '{
+    "spec": {
+      "type": "NodePort",
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 4466,
+          "nodePort": 30444
+        }
+      ]
+    }
+  }'
