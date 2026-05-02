@@ -8,41 +8,78 @@ NAMESPACE="opentelemetry"
 RELEASE="opentelemetry-operator"
 TRACING_FILE="/tmp/telemetry-$$.yaml"
 
-cleanup() {
-  rm -f "${TRACING_FILE}"
-}
-trap cleanup EXIT
+: >"${TRACING_FILE}"
 
 log() {
   echo "$*"
   echo "$*" >>"${TRACING_FILE}"
 }
 
+run() {
+  echo "+ $*" >>"${TRACING_FILE}"
+  "$@" >>"${TRACING_FILE}" 2>&1
+}
+
+retry() {
+  local tries="$1"
+  local sleep_seconds="$2"
+  shift 2
+
+  local i
+  for i in $(seq 1 "${tries}"); do
+    if "$@" >>"${TRACING_FILE}" 2>&1; then
+      return 0
+    fi
+
+    log "⚠️ [WARN] Versuch ${i}/${tries} fehlgeschlagen: $*"
+
+    if [ "${i}" -lt "${tries}" ]; then
+      sleep "${sleep_seconds}"
+    fi
+  done
+
+  return 1
+}
+
 log "🚀 [INFO] Starte OpenTelemetry Installation..."
+log "📄 [INFO] Trace-Datei: ${TRACING_FILE}"
 
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts >>"${TRACING_FILE}" 2>&1
-helm repo update >>"${TRACING_FILE}" 2>&1
+run helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+run helm repo update
 
-helm upgrade --install "${RELEASE}" open-telemetry/opentelemetry-operator \
+run helm upgrade --install "${RELEASE}" open-telemetry/opentelemetry-operator \
   -n "${NAMESPACE}" \
   --create-namespace \
   --wait \
-  --timeout 5m \
-  >>"${TRACING_FILE}" 2>&1
+  --timeout 10m
 
-log "⏳ [INFO] Warte auf OpenTelemetry CRDs..."
+log "⏳ [INFO] Warte auf OpenTelemetry CRD..."
 
-kubectl wait --for=condition=Established crd/opentelemetrycollectors.opentelemetry.io \
-  --timeout=120s >>"${TRACING_FILE}" 2>&1
+retry 30 5 kubectl wait \
+  --for=condition=Established \
+  crd/opentelemetrycollectors.opentelemetry.io \
+  --timeout=20s
 
-log "⏳ [INFO] Warte auf OpenTelemetry Operator Deployment..."
+log "⏳ [INFO] Warte auf Kubernetes API-Discovery für OpenTelemetryCollector..."
 
-kubectl -n "${NAMESPACE}" rollout status deployment/opentelemetry-operator-controller-manager \
-  --timeout=180s >>"${TRACING_FILE}" 2>&1
+retry 30 5 kubectl api-resources \
+  --api-group=opentelemetry.io
+
+log "⏳ [INFO] Warte auf Operator-Pods..."
+
+retry 30 5 kubectl -n "${NAMESPACE}" wait pod \
+  -l app.kubernetes.io/name=opentelemetry-operator \
+  --for=condition=Ready \
+  --timeout=30s
+
+log "⏳ [INFO] Warte auf Operator-Webhook-Service..."
+
+retry 30 5 kubectl -n "${NAMESPACE}" get endpoints \
+  opentelemetry-operator-webhook-service
 
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
-kubectl apply -f - <<'EOF' >>"${TRACING_FILE}" 2>&1
+retry 20 10 kubectl apply -f - <<'EOF'
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -80,7 +117,9 @@ spec:
           exporters: [zipkin, debug]
 EOF
 
-kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-collector \
-  --timeout=180s >>"${TRACING_FILE}" 2>&1 || true
+log "⏳ [INFO] Warte auf Collector-DaemonSet..."
+
+retry 30 5 kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-collector \
+  --timeout=30s
 
 log "✅ [INFO] OpenTelemetry wurde erfolgreich installiert!"
