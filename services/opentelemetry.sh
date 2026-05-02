@@ -121,9 +121,6 @@ retry 20 10 kubectl apply -f "${RBAC_FILE}"
 
 log "🔐 [INFO] OpenTelemetry Observability Stack (Prometheus, Grafana, Jaeger) einrichten..."
 
-STACK_FILE="/tmp/otel-stack-$$.yaml"
-
-cat >"${STACK_FILE}" <<'EOF'
 helm upgrade --install my-otel-demo open-telemetry/opentelemetry-demo \
   -n opentelemetry \
   -f - <<'EOF'
@@ -232,8 +229,6 @@ grafana:
       enabled: true
 EOF
 
-retry 20 10 kubectl apply -f "${STACK_FILE}"
-
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
 COLLECTOR_FILE="/tmp/otel-collector-$$.yaml"
@@ -325,11 +320,5 @@ log "⏳ [INFO] Warte auf Collector-Deployment..."
 
 retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-collector \
   --timeout=30s
-
-log "🔧 [INFO] Zipkin installieren..."
-
-curl -sfL https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/extras/zipkin.yaml \
-| sed 's/namespace: istio-system/namespace: opentelemetry/g' \
-| kubectl apply -f -
 
 log "✅ [INFO] OpenTelemetry wurde erfolgreich installiert!"
