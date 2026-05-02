@@ -126,7 +126,7 @@ retry 30 5 kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-col
 
 log "🔧 [INFO] Zipkin installieren..."
 
-run curl -sfL https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/extras/zipkin.yaml \
+curl -sfL https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/extras/zipkin.yaml \
 | sed 's/namespace: istio-system/namespace: opentelemetry/g' \
 | kubectl apply -f -
 
