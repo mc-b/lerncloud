@@ -228,7 +228,7 @@ spec:
         endpoint: http://zipkin.opentelemetry.svc.cluster.local:9411/api/v2/spans
 
       debug:
-        verbosity: basic
+        verbosity: detailed
 
     service:
       pipelines:
