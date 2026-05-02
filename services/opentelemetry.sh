@@ -72,10 +72,12 @@ retry 30 5 kubectl -n "${NAMESPACE}" wait pod \
   --for=condition=Ready \
   --timeout=30s
 
-log "⏳ [INFO] Warte auf Operator-Webhook-Service..."
+log "⏳ [INFO] Warte auf irgendeinen OpenTelemetry-Webhook EndpointSlice..."
 
-retry 30 5 kubectl -n "${NAMESPACE}" get endpoints \
-  opentelemetry-operator-webhook-service
+retry 30 5 bash -c '
+  kubectl -n "'"${NAMESPACE}"'" get endpointslice \
+    -o jsonpath="{range .items[?(@.metadata.labels.app\.kubernetes\.io/instance==\"'"${RELEASE}"'\")]}{.endpoints[*].addresses[*]}{\"\n\"}{end}" | grep -q .
+'
 
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
