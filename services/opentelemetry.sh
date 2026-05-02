@@ -79,6 +79,59 @@ retry 30 5 bash -c '
     -o jsonpath="{range .items[?(@.metadata.labels.app\.kubernetes\.io/instance==\"'"${RELEASE}"'\")]}{.endpoints[*].addresses[*]}{\"\n\"}{end}" | grep -q .
 '
 
+log "🔐 [INFO] OpenTelemetry Collector ServiceAccount/RBAC einrichten..."
+
+RBAC_FILE="/tmp/otel-rbac-$$.yaml"
+
+cat >"${RBAC_FILE}" <<'EOF'
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: otel-collector-collector
+  namespace: opentelemetry
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otel-collector-k8s-reader
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - namespaces
+      - nodes
+      - services
+      - endpoints
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["discovery.k8s.io"]
+    resources:
+      - endpointslices
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources:
+      - replicasets
+      - deployments
+      - daemonsets
+      - statefulsets
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-collector-k8s-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: otel-collector-k8s-reader
+subjects:
+  - kind: ServiceAccount
+    name: otel-collector-collector
+    namespace: opentelemetry
+EOF
+
+log "🔐 [INFO] OpenTelemetry Collector ServiceAccount/RBAC einrichten..."
+retry 20 10 kubectl apply -f "${RBAC_FILE}"
+
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
 COLLECTOR_FILE="/tmp/otel-collector-$$.yaml"
