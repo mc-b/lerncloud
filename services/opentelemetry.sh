@@ -108,7 +108,7 @@ spec:
 
     exporters:
       zipkin:
-        endpoint: http://zipkin.istio-system.svc.cluster.local:9411/api/v2/spans
+        endpoint: http://zipkin.opentelemetry.svc.cluster.local:9411/api/v2/spans
       debug: {}
 
     service:
@@ -123,5 +123,11 @@ log "⏳ [INFO] Warte auf Collector-DaemonSet..."
 
 retry 30 5 kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-collector \
   --timeout=30s
+
+log "🔧 [INFO] Zipkin installieren..."
+
+run curl -sfL https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/extras/zipkin.yaml \
+| sed 's/namespace: istio-system/namespace: opentelemetry/g' \
+| kubectl apply -f -
 
 log "✅ [INFO] OpenTelemetry wurde erfolgreich installiert!"
