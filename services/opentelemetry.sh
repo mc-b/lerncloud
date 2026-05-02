@@ -1,20 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 #   Installiert OpenTelemetry
 #
-set +e  # Fehler ignorieren
+set -Eeuo pipefail
 
+NAMESPACE="opentelemetry"
+RELEASE="opentelemetry-operator"
 TRACING_FILE="/tmp/telemetry-$$.yaml"
 
-echo "🚀 [INFO] Starte OpenTelemetry Installation..."
+cleanup() {
+  rm -f "${TRACING_FILE}"
+}
+trap cleanup EXIT
 
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts > "${TRACING_FILE}"
-helm upgrade --install opentelemetry-operator open-telemetry/opentelemetry-operator -n opentelemetry --create-namespace >>"${TRACING_FILE}"
+log() {
+  echo "$*"
+  echo "$*" >>"${TRACING_FILE}"
+}
 
-# Addons
-echo "- 🔧 [INFO] OpenTelemetry Collector aktivieren"
+log "🚀 [INFO] Starte OpenTelemetry Installation..."
 
-kubectl apply -f - <<'EOF' >>"${TRACING_FILE}"
+helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts >>"${TRACING_FILE}" 2>&1
+helm repo update >>"${TRACING_FILE}" 2>&1
+
+helm upgrade --install "${RELEASE}" open-telemetry/opentelemetry-operator \
+  -n "${NAMESPACE}" \
+  --create-namespace \
+  --wait \
+  --timeout 5m \
+  >>"${TRACING_FILE}" 2>&1
+
+log "⏳ [INFO] Warte auf OpenTelemetry CRDs..."
+
+kubectl wait --for=condition=Established crd/opentelemetrycollectors.opentelemetry.io \
+  --timeout=120s >>"${TRACING_FILE}" 2>&1
+
+log "⏳ [INFO] Warte auf OpenTelemetry Operator Deployment..."
+
+kubectl -n "${NAMESPACE}" rollout status deployment/opentelemetry-operator-controller-manager \
+  --timeout=180s >>"${TRACING_FILE}" 2>&1
+
+log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
+
+kubectl apply -f - <<'EOF' >>"${TRACING_FILE}" 2>&1
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -52,5 +80,7 @@ spec:
           exporters: [zipkin, debug]
 EOF
 
+kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-collector \
+  --timeout=180s >>"${TRACING_FILE}" 2>&1 || true
 
-echo "✅ [INFO] OpenTelemetry wurde erfolgreich installiert!"
+log "✅ [INFO] OpenTelemetry wurde erfolgreich installiert!"
