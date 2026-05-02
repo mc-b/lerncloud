@@ -90,6 +90,23 @@ metadata:
 spec:
   mode: daemonset
   image: otel/opentelemetry-collector-contrib:latest
+
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
+
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+    - name: varlibdockercontainers
+      hostPath:
+        path: /var/lib/docker/containers
+
   config:
     receivers:
       otlp:
@@ -99,24 +116,81 @@ spec:
           http:
             endpoint: 0.0.0.0:4318
 
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: "microservices"
+              scrape_interval: 15s
+              metrics_path: /metrics
+              kubernetes_sd_configs:
+                - role: pod
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                  action: keep
+                  regex: "true"
+                - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                  action: replace
+                  target_label: __metrics_path__
+                  regex: "(.+)"
+                - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+                  action: replace
+                  regex: "([^:]+)(?::\\d+)?;(\\d+)"
+                  replacement: "\$1:\$2"
+                  target_label: __address__
+
+      filelog:
+        include:
+          - /var/log/pods/*/*/*.log
+        start_at: end
+        include_file_path: true
+        include_file_name: false
+        operators:
+          - type: container
+            id: container-parser
+
     processors:
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
+
+      k8sattributes:
+        auth_type: serviceAccount
+        extract:
+          metadata:
+            - k8s.namespace.name
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.container.name
+            - k8s.node.name
+            - k8s.deployment.name
+            - k8s.replicaset.name
+
       batch: {}
 
     exporters:
       zipkin:
         endpoint: http://zipkin.opentelemetry.svc.cluster.local:9411/api/v2/spans
-      debug: {}
+
+      debug:
+        verbosity: basic
 
     service:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [memory_limiter, batch]
+          processors: [memory_limiter, k8sattributes, batch]
           exporters: [zipkin, debug]
+
+        metrics:
+          receivers: [prometheus]
+          processors: [memory_limiter, k8sattributes, batch]
+          exporters: [debug]
+
+        logs:
+          receivers: [filelog]
+          processors: [memory_limiter, k8sattributes, batch]
+          exporters: [debug]
 EOF
 
 log "⏳ [INFO] Warte auf Collector-DaemonSet..."
