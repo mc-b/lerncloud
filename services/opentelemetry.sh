@@ -232,7 +232,7 @@ grafana:
       enabled: true
 EOF
 
-retry 20 10 kubectl apply -f "${RBAC_FILE}"
+retry 20 10 kubectl apply -f "${STACK_FILE}"
 
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
@@ -321,9 +321,9 @@ EOF
 
 retry 20 10 kubectl apply -f "${COLLECTOR_FILE}"
 
-log "⏳ [INFO] Warte auf Collector-DaemonSet..."
+log "⏳ [INFO] Warte auf Collector-Deployment..."
 
-retry 30 5 kubectl -n "${NAMESPACE}" rollout status daemonset/otel-collector-collector \
+retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-collector \
   --timeout=30s
 
 log "🔧 [INFO] Zipkin installieren..."
