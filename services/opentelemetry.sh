@@ -81,7 +81,9 @@ retry 30 5 bash -c '
 
 log "🔧 [INFO] OpenTelemetry Collector aktivieren..."
 
-retry 20 10 kubectl apply -f - <<'EOF'
+COLLECTOR_FILE="/tmp/otel-collector-$$.yaml"
+
+cat >"${COLLECTOR_FILE}" <<'EOF'
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -135,7 +137,7 @@ spec:
                 - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
                   action: replace
                   regex: "([^:]+)(?::\\d+)?;(\\d+)"
-                  replacement: "\$1:\$2"
+                  replacement: '$1:$2'
                   target_label: __address__
 
       filelog:
@@ -192,6 +194,8 @@ spec:
           processors: [memory_limiter, k8sattributes, batch]
           exporters: [debug]
 EOF
+
+retry 20 10 kubectl apply -f "${COLLECTOR_FILE}"
 
 log "⏳ [INFO] Warte auf Collector-DaemonSet..."
 
