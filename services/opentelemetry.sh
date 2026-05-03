@@ -137,7 +137,7 @@ grafana:
 
   defaultDashboardsEnabled: true
   forceDeployDashboards: true
-  forceDeployDatasources: true
+  forceDeployDatasources: false
 
   grafana.ini:
     auth:
@@ -160,14 +160,6 @@ grafana:
 
     datasources:
       enabled: false
-      defaultDatasourceEnabled: true
-      uid: prometheus
-      name: Prometheus
-      url: http://prometheus-prometheus.opentelemetry.svc.cluster.local:9090
-      exemplarTraceIdDestinations:
-        datasourceUid: jaeger
-        traceIdLabelName: trace_id
-        urlDisplayLabel: Jaeger
 
     alerts:
       enabled: false
@@ -175,13 +167,34 @@ grafana:
     plugins:
       enabled: false
 
-  additionalDataSources:
-    - name: Jaeger
-      uid: jaeger
-      type: jaeger
-      access: proxy
-      url: http://jaeger.opentelemetry.svc.cluster.local:16686
-      
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      deleteDatasources:
+        - name: Prometheus
+          orgId: 1
+        - name: Jaeger
+          orgId: 1
+      datasources:
+        - name: Prometheus
+          uid: prometheus
+          type: prometheus
+          access: proxy
+          url: http://prometheus-prometheus.opentelemetry.svc.cluster.local:9090
+          isDefault: true
+          editable: true
+          jsonData:
+            exemplarTraceIdDestinations:
+              - name: trace_id
+                datasourceUid: jaeger
+
+        - name: Jaeger
+          uid: jaeger
+          type: jaeger
+          access: proxy
+          url: http://jaeger.opentelemetry.svc.cluster.local:16686
+          editable: true
+                
 kube-state-metrics:
   enabled: true
 
