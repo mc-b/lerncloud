@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Installiert OpenTelemetry, Prometheus, Alertmanager, Grafana und Jaeger
+# Installiert OpenTelemetry, kube-prometheus-stack und Jaeger
 #
 set -Eeuo pipefail
 
@@ -46,7 +46,6 @@ log " [INFO] Trace-Datei: ${TRACING_FILE}"
 
 run helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 run helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-run helm repo add grafana-community https://grafana-community.github.io/helm-charts
 run helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 run helm repo update
 
@@ -113,72 +112,121 @@ subjects:
     namespace: opentelemetry
 EOF
 
-log " [INFO] Prometheus und Alertmanager installieren..."
+log " [INFO] kube-prometheus-stack installieren..."
 
-helm upgrade --install prometheus prometheus-community/prometheus \
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
   -n "${NAMESPACE}" \
   --wait \
-  --timeout 10m \
+  --timeout 15m \
   -f - <<'EOF'
-server:
-  fullnameOverride: prometheus
+fullnameOverride: prometheus
+
+defaultRules:
+  create: true
+
+grafana:
+  enabled: true
+  adminPassword: admin
 
   service:
     type: NodePort
-    servicePort: 9090
+    port: 80
 
-  persistentVolume:
+  persistence:
     enabled: true
-    size: 20Gi
+    size: 5Gi
 
-  retention: 15d
+  grafana.ini:
+    auth:
+      disable_login_form: true
+    auth.anonymous:
+      enabled: true
+      org_role: Admin
 
-  extraFlags:
-    - web.enable-otlp-receiver
-    - enable-feature=exemplar-storage
+  additionalDataSources:
+    - name: Jaeger
+      uid: jaeger
+      type: jaeger
+      access: proxy
+      url: http://jaeger.opentelemetry.svc.cluster.local:16686
 
-  extraScrapeConfigs: |
-    - job_name: otel-collector
-      static_configs:
-        - targets:
-            - otel-collector-collector.opentelemetry.svc.cluster.local:8888
+kube-state-metrics:
+  enabled: true
 
-    - job_name: kubernetes-pods-ms-otel
-      kubernetes_sd_configs:
-        - role: pod
-          namespaces:
-            names:
-              - ms-otel
-      relabel_configs:
-        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-          action: keep
-          regex: "true"
-        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
-          action: replace
-          target_label: __metrics_path__
-          regex: "(.+)"
-        - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
-          action: replace
-          target_label: __address__
-          regex: "([^:]+)(?::\\d+)?;(\\d+)"
-          replacement: "$1:$2"
-        - source_labels: [__meta_kubernetes_namespace]
-          action: replace
-          target_label: namespace
-        - source_labels: [__meta_kubernetes_pod_name]
-          action: replace
-          target_label: pod
+prometheus-node-exporter:
+  enabled: true
 
 alertmanager:
   enabled: true
 
   service:
     type: NodePort
-    servicePort: 9093
+    port: 9093
 
-  persistence:
-    enabled: true
-    size: 2Gi
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+
+prometheus:
+  enabled: true
+
+  service:
+    type: NodePort
+    port: 9090
+
+  prometheusSpec:
+    enableOTLPReceiver: true
+    enableFeatures:
+      - exemplar-storage
+
+    retention: 15d
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+
+    additionalScrapeConfigs:
+      - job_name: otel-collector
+        static_configs:
+          - targets:
+              - otel-collector-collector.opentelemetry.svc.cluster.local:8888
+
+      - job_name: kubernetes-pods-ms-otel
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - ms-otel
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: "true"
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: "(.+)"
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            target_label: __address__
+            regex: "([^:]+)(?::\\d+)?;(\\d+)"
+            replacement: "$1:$2"
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: pod
 EOF
 
 log " [INFO] Jaeger installieren..."
@@ -193,54 +241,6 @@ fullnameOverride: jaeger
 jaeger:
   service:
     type: NodePort
-EOF
-
-log " [INFO] Grafana installieren..."
-
-helm upgrade --install grafana grafana-community/grafana \
-  -n "${NAMESPACE}" \
-  --wait \
-  --timeout 10m \
-  -f - <<'EOF'
-fullnameOverride: grafana
-
-adminPassword: admin
-
-service:
-  type: NodePort
-  port: 3000
-
-persistence:
-  enabled: true
-  size: 5Gi
-
-grafana.ini:
-  auth:
-    disable_login_form: true
-  auth.anonymous:
-    enabled: true
-    org_role: Admin
-
-datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        uid: prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus.opentelemetry.svc.cluster.local:9090
-        isDefault: true
-        jsonData:
-          exemplarTraceIdDestinations:
-            - name: trace_id
-              datasourceUid: jaeger
-
-      - name: Jaeger
-        uid: jaeger
-        type: jaeger
-        access: proxy
-        url: http://jaeger.opentelemetry.svc.cluster.local:16686
 EOF
 
 log " [INFO] OpenTelemetry Collector aktivieren..."
@@ -303,7 +303,7 @@ spec:
           insecure: true
 
       otlphttp/prometheus:
-        endpoint: http://prometheus.opentelemetry.svc.cluster.local:9090/api/v1/otlp/v1/metrics
+        endpoint: http://prometheus-prometheus.opentelemetry.svc.cluster.local:9090/api/v1/otlp/v1/metrics
         tls:
           insecure: true
 
@@ -338,19 +338,18 @@ retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-co
 
 log "⏳ [INFO] Warte auf Prometheus..."
 retry 30 5 bash -c '
-kubectl -n opentelemetry rollout status deployment/prometheus --timeout=30s ||
-kubectl -n opentelemetry rollout status deployment/prometheus-server --timeout=30s
+kubectl -n opentelemetry rollout status statefulset/prometheus-prometheus --timeout=30s ||
+kubectl -n opentelemetry wait pod -l app.kubernetes.io/name=prometheus --for=condition=Ready --timeout=30s
 '
 
 log "⏳ [INFO] Warte auf Alertmanager..."
 retry 30 5 bash -c '
-kubectl -n opentelemetry rollout status statefulset/prometheus-alertmanager --timeout=30s ||
-kubectl -n opentelemetry rollout status deployment/prometheus-alertmanager --timeout=30s ||
+kubectl -n opentelemetry rollout status statefulset/alertmanager-prometheus-alertmanager --timeout=30s ||
 kubectl -n opentelemetry wait pod -l app.kubernetes.io/name=alertmanager --for=condition=Ready --timeout=30s
 '
 
 log "⏳ [INFO] Warte auf Grafana..."
-retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/grafana \
+retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/prometheus-grafana \
   --timeout=30s
 
 log "⏳ [INFO] Warte auf Jaeger..."
@@ -364,9 +363,9 @@ log " [INFO] Zugriff via NodePort:"
 SERVER_IP="$(cat ~/data/server-ip 2>/dev/null || true)"
 
 if [ -n "${SERVER_IP}" ]; then
-  PROMETHEUS_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus -o=jsonpath='{.spec.ports[0].nodePort}')"
-  ALERTMANAGER_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus-alertmanager -o=jsonpath='{.spec.ports[0].nodePort}')"
-  GRAFANA_PORT="$(kubectl -n "${NAMESPACE}" get svc grafana -o=jsonpath='{.spec.ports[0].nodePort}')"
+  PROMETHEUS_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus-prometheus -o=jsonpath='{.spec.ports[?(@.port==9090)].nodePort}')"
+  ALERTMANAGER_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus-alertmanager -o=jsonpath='{.spec.ports[?(@.port==9093)].nodePort}')"
+  GRAFANA_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus-grafana -o=jsonpath='{.spec.ports[?(@.port==80)].nodePort}')"
   JAEGER_PORT="$(kubectl -n "${NAMESPACE}" get svc jaeger -o=jsonpath='{.spec.ports[?(@.port==16686)].nodePort}')"
 
   log "Prometheus UI   : http://${SERVER_IP}:${PROMETHEUS_PORT}"
