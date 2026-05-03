@@ -144,13 +144,18 @@ grafana:
       
   sidecar:
     dashboards:
-      enabled: false
+      enabled: true
+      searchNamespace: opentelemetry
+      label: grafana_dashboard
+      labelValue: "1"
+      provider:
+        allowUiUpdates: true
     datasources:
       enabled: false
     alerts:
       enabled: false
     plugins:
-      enabled: false      
+      enabled: false   
 
   additionalDataSources:
     - name: Jaeger
