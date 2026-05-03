@@ -148,14 +148,17 @@ grafana:
       searchNamespace: opentelemetry
       label: grafana_dashboard
       labelValue: "1"
-      provider:
-        allowUiUpdates: true
+      env:
+        SKIP_TLS_VERIFY: "true"
+      extraEnv:
+        - name: SKIP_TLS_VERIFY
+          value: "true"
     datasources:
       enabled: false
     alerts:
       enabled: false
     plugins:
-      enabled: false   
+      enabled: false  
 
   additionalDataSources:
     - name: Jaeger
