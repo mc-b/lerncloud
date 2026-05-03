@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Installiert OpenTelemetry, Prometheus, Grafana und Jaeger
+# Installiert OpenTelemetry, Prometheus, Alertmanager, Grafana und Jaeger
 #
 set -Eeuo pipefail
 
@@ -46,7 +46,7 @@ log " [INFO] Trace-Datei: ${TRACING_FILE}"
 
 run helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 run helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-run helm repo add grafana https://grafana.github.io/helm-charts
+run helm repo add grafana-community https://grafana-community.github.io/helm-charts
 run helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 run helm repo update
 
@@ -113,7 +113,7 @@ subjects:
     namespace: opentelemetry
 EOF
 
-log " [INFO] Prometheus installieren..."
+log " [INFO] Prometheus und Alertmanager installieren..."
 
 helm upgrade --install prometheus prometheus-community/prometheus \
   -n "${NAMESPACE}" \
@@ -168,6 +168,17 @@ server:
         - source_labels: [__meta_kubernetes_pod_name]
           action: replace
           target_label: pod
+
+alertmanager:
+  enabled: true
+
+  service:
+    type: NodePort
+    servicePort: 9093
+
+  persistence:
+    enabled: true
+    size: 2Gi
 EOF
 
 log " [INFO] Jaeger installieren..."
@@ -186,7 +197,7 @@ EOF
 
 log " [INFO] Grafana installieren..."
 
-helm upgrade --install grafana grafana/grafana \
+helm upgrade --install grafana grafana-community/grafana \
   -n "${NAMESPACE}" \
   --wait \
   --timeout 10m \
@@ -331,6 +342,13 @@ kubectl -n opentelemetry rollout status deployment/prometheus --timeout=30s ||
 kubectl -n opentelemetry rollout status deployment/prometheus-server --timeout=30s
 '
 
+log "⏳ [INFO] Warte auf Alertmanager..."
+retry 30 5 bash -c '
+kubectl -n opentelemetry rollout status statefulset/prometheus-alertmanager --timeout=30s ||
+kubectl -n opentelemetry rollout status deployment/prometheus-alertmanager --timeout=30s ||
+kubectl -n opentelemetry wait pod -l app.kubernetes.io/name=alertmanager --for=condition=Ready --timeout=30s
+'
+
 log "⏳ [INFO] Warte auf Grafana..."
 retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/grafana \
   --timeout=30s
@@ -347,12 +365,14 @@ SERVER_IP="$(cat ~/data/server-ip 2>/dev/null || true)"
 
 if [ -n "${SERVER_IP}" ]; then
   PROMETHEUS_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus -o=jsonpath='{.spec.ports[0].nodePort}')"
+  ALERTMANAGER_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus-alertmanager -o=jsonpath='{.spec.ports[0].nodePort}')"
   GRAFANA_PORT="$(kubectl -n "${NAMESPACE}" get svc grafana -o=jsonpath='{.spec.ports[0].nodePort}')"
   JAEGER_PORT="$(kubectl -n "${NAMESPACE}" get svc jaeger -o=jsonpath='{.spec.ports[?(@.port==16686)].nodePort}')"
 
-  log "Prometheus UI : http://${SERVER_IP}:${PROMETHEUS_PORT}"
-  log "Grafana UI    : http://${SERVER_IP}:${GRAFANA_PORT}"
-  log "Jaeger UI     : http://${SERVER_IP}:${JAEGER_PORT}"
+  log "Prometheus UI   : http://${SERVER_IP}:${PROMETHEUS_PORT}"
+  log "Alertmanager UI : http://${SERVER_IP}:${ALERTMANAGER_PORT}"
+  log "Grafana UI      : http://${SERVER_IP}:${GRAFANA_PORT}"
+  log "Jaeger UI       : http://${SERVER_IP}:${JAEGER_PORT}"
 else
   log "⚠️ [WARN] ~/data/server-ip nicht gefunden; NodePort-URLs nicht ausgegeben."
 fi
