@@ -127,14 +127,13 @@ defaultRules:
 grafana:
   enabled: true
   adminPassword: admin
-
+    
   service:
     type: NodePort
     port: 80
 
   persistence:
-    enabled: true
-    size: 5Gi
+    enabled: false
 
   grafana.ini:
     auth:
@@ -164,14 +163,7 @@ alertmanager:
     port: 9093
 
   alertmanagerSpec:
-    storage:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 2Gi
+    storage: {}
 
 prometheus:
   enabled: true
@@ -186,15 +178,8 @@ prometheus:
       - exemplar-storage
 
     retention: 15d
-
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 20Gi
+    
+    storageSpec: null
 
     additionalScrapeConfigs:
       - job_name: otel-collector
