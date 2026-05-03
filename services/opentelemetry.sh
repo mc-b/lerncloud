@@ -141,6 +141,16 @@ grafana:
     auth.anonymous:
       enabled: true
       org_role: Admin
+      
+  sidecar:
+    dashboards:
+      enabled: false
+    datasources:
+      enabled: false
+    alerts:
+      enabled: false
+    plugins:
+      enabled: false      
 
   additionalDataSources:
     - name: Jaeger
