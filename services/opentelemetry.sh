@@ -127,7 +127,7 @@ defaultRules:
 grafana:
   enabled: true
   adminPassword: admin
-    
+
   service:
     type: NodePort
     port: 80
@@ -135,13 +135,17 @@ grafana:
   persistence:
     enabled: false
 
+  defaultDashboardsEnabled: true
+  forceDeployDashboards: true
+  forceDeployDatasources: true
+
   grafana.ini:
     auth:
       disable_login_form: true
     auth.anonymous:
       enabled: true
       org_role: Admin
-      
+
   sidecar:
     dashboards:
       enabled: true
@@ -153,12 +157,23 @@ grafana:
       extraEnv:
         - name: SKIP_TLS_VERIFY
           value: "true"
+
     datasources:
       enabled: false
+      defaultDatasourceEnabled: true
+      uid: prometheus
+      name: Prometheus
+      url: http://prometheus-prometheus.opentelemetry.svc.cluster.local:9090
+      exemplarTraceIdDestinations:
+        datasourceUid: jaeger
+        traceIdLabelName: trace_id
+        urlDisplayLabel: Jaeger
+
     alerts:
       enabled: false
+
     plugins:
-      enabled: false  
+      enabled: false
 
   additionalDataSources:
     - name: Jaeger
@@ -166,7 +181,7 @@ grafana:
       type: jaeger
       access: proxy
       url: http://jaeger.opentelemetry.svc.cluster.local:16686
-
+      
 kube-state-metrics:
   enabled: true
 
