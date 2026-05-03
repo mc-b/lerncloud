@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Installiert OpenTelemetry
+# Installiert OpenTelemetry, Prometheus, Grafana und Jaeger
 #
 set -Eeuo pipefail
 
@@ -74,8 +74,8 @@ retry 30 5 kubectl -n "${NAMESPACE}" wait pod \
 
 log "⏳ [INFO] Warte auf irgendeinen OpenTelemetry-Webhook EndpointSlice..."
 retry 30 5 bash -c '
-kubectl -n "'"${NAMESPACE}"'" get endpointslice \
-  -o jsonpath="{range .items[?(@.metadata.labels.app\.kubernetes\.io/instance==\"'"${RELEASE}"'\")]}{.endpoints[*].addresses[*]}{\"\n\"}{end}" | grep -q .
+kubectl -n opentelemetry get endpointslice \
+  -o jsonpath="{range .items[?(@.metadata.labels.app\.kubernetes\.io/instance==\"opentelemetry-operator\")]}{.endpoints[*].addresses[*]}{\"\n\"}{end}" | grep -q .
 '
 
 log " [INFO] OpenTelemetry Collector ServiceAccount/RBAC einrichten..."
@@ -117,6 +117,8 @@ log " [INFO] Prometheus installieren..."
 
 helm upgrade --install prometheus prometheus-community/prometheus \
   -n "${NAMESPACE}" \
+  --wait \
+  --timeout 10m \
   -f - <<'EOF'
 server:
   fullnameOverride: prometheus
@@ -172,41 +174,22 @@ log " [INFO] Jaeger installieren..."
 
 helm upgrade --install jaeger jaegertracing/jaeger \
   -n "${NAMESPACE}" \
+  --wait \
+  --timeout 10m \
   -f - <<'EOF'
 fullnameOverride: jaeger
 
-provisionDataStore:
-  cassandra: false
-
-storage:
-  type: memory
-
-agent:
-  enabled: false
-
-collector:
-  enabled: true
-  service:
-    type: ClusterIP
-    otlp:
-      grpc:
-        name: otlp-grpc
-        port: 4317
-      http:
-        name: otlp-http
-        port: 4318
-
-query:
-  enabled: true
+jaeger:
   service:
     type: NodePort
-    port: 16686
 EOF
 
 log " [INFO] Grafana installieren..."
 
 helm upgrade --install grafana grafana/grafana \
   -n "${NAMESPACE}" \
+  --wait \
+  --timeout 10m \
   -f - <<'EOF'
 fullnameOverride: grafana
 
@@ -241,11 +224,12 @@ datasources:
           exemplarTraceIdDestinations:
             - name: trace_id
               datasourceUid: jaeger
+
       - name: Jaeger
         uid: jaeger
         type: jaeger
         access: proxy
-        url: http://jaeger-query.opentelemetry.svc.cluster.local:16686
+        url: http://jaeger.opentelemetry.svc.cluster.local:16686
 EOF
 
 log " [INFO] OpenTelemetry Collector aktivieren..."
@@ -303,7 +287,7 @@ spec:
 
     exporters:
       otlp/jaeger:
-        endpoint: jaeger-collector.opentelemetry.svc.cluster.local:4317
+        endpoint: jaeger.opentelemetry.svc.cluster.local:4317
         tls:
           insecure: true
 
@@ -342,12 +326,20 @@ retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-co
   --timeout=30s
 
 log "⏳ [INFO] Warte auf Prometheus..."
-retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/prometheus \
-  --timeout=30s
+retry 30 5 bash -c '
+kubectl -n opentelemetry rollout status deployment/prometheus --timeout=30s ||
+kubectl -n opentelemetry rollout status deployment/prometheus-server --timeout=30s
+'
 
 log "⏳ [INFO] Warte auf Grafana..."
 retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/grafana \
   --timeout=30s
+
+log "⏳ [INFO] Warte auf Jaeger..."
+retry 30 5 bash -c '
+kubectl -n opentelemetry rollout status deployment/jaeger --timeout=30s ||
+kubectl -n opentelemetry wait pod -l app.kubernetes.io/instance=jaeger --for=condition=Ready --timeout=30s
+'
 
 log " [INFO] Zugriff via NodePort:"
 
@@ -356,7 +348,7 @@ SERVER_IP="$(cat ~/data/server-ip 2>/dev/null || true)"
 if [ -n "${SERVER_IP}" ]; then
   PROMETHEUS_PORT="$(kubectl -n "${NAMESPACE}" get svc prometheus -o=jsonpath='{.spec.ports[0].nodePort}')"
   GRAFANA_PORT="$(kubectl -n "${NAMESPACE}" get svc grafana -o=jsonpath='{.spec.ports[0].nodePort}')"
-  JAEGER_PORT="$(kubectl -n "${NAMESPACE}" get svc jaeger-query -o=jsonpath='{.spec.ports[0].nodePort}')"
+  JAEGER_PORT="$(kubectl -n "${NAMESPACE}" get svc jaeger -o=jsonpath='{.spec.ports[?(@.port==16686)].nodePort}')"
 
   log "Prometheus UI : http://${SERVER_IP}:${PROMETHEUS_PORT}"
   log "Grafana UI    : http://${SERVER_IP}:${GRAFANA_PORT}"
