@@ -6,6 +6,19 @@ CDI_NS="cdi"
 
 echo "🚀 [INFO] Starte KubeVirt Installation..."
 
+echo "[INFO] Configure inotify limits for KubeVirt"
+
+sudo tee /etc/sysctl.d/99-kubevirt-inotify.conf >/dev/null <<EOF
+fs.inotify.max_user_instances=1024
+fs.inotify.max_user_watches=1048576
+EOF
+
+sudo sysctl -p /etc/sysctl.d/99-kubevirt-inotify.conf
+
+echo "[INFO] Current inotify limits:"
+sysctl fs.inotify.max_user_instances
+sysctl fs.inotify.max_user_watches
+
 # Kubernetes-Labels für Master/Control-Plane setzen
 echo "- 🔧 [INFO] Kubernetes-Labels für Master/Control-Plane setzen"
 kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/master=
