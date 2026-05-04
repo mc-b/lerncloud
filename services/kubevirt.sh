@@ -15,10 +15,6 @@ EOF
 
 sudo sysctl -p /etc/sysctl.d/99-kubevirt-inotify.conf
 
-echo "[INFO] Current inotify limits:"
-sysctl fs.inotify.max_user_instances
-sysctl fs.inotify.max_user_watches
-
 # Kubernetes-Labels für Master/Control-Plane setzen
 echo "- 🔧 [INFO] Kubernetes-Labels für Master/Control-Plane setzen"
 kubectl label nodes $(kubectl get nodes -o custom-columns=NAME:.metadata.name | awk 'NR==2') node-role.kubernetes.io/master=
