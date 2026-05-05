@@ -7,7 +7,7 @@ set +e  # Fehler ignorieren
 echo "🚀 [INFO] Installing ArgoCD"
 
 kubectl create namespace argocd || echo "Namespace argocd exists"
-kubectl apply --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 echo "- 🔧 [INFO] Patching ArgoCD server service to LoadBalancer"
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
