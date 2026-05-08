@@ -88,23 +88,40 @@ EOF
 
 echo "✅ [INFO] K-native Eventing wurde erfolgreich installiert!"
 
+echo "🔍 [INFO] Architektur erkennen …"
+
+ARCH_RAW=$(uname -m)
+case "$ARCH_RAW" in
+  x86_64)
+    ARCH="amd64"
+    ;;
+  aarch64|arm64)
+    ARCH="arm64"
+    ;;
+  *)
+    echo "❌ [ERROR] Nicht unterstützte Architektur: $ARCH_RAW"
+    exit 1
+    ;;
+esac
+
+echo "✅ [INFO] Erkannte Architektur: $ARCH_RAW → $ARCH"
 
 echo "- 📥 [INFO] K-native CLI's herunterladen"
 # CLI
-sudo curl -o /usr/local/bin/kn -sL https://github.com/knative/client/releases/download/knative-v1.22.0/kn-linux-amd64
+sudo curl -o /usr/local/bin/kn -sL https://github.com/knative/client/releases/download/knative-v1.22.0/kn-linux-${ARCH}
 sudo chmod +x /usr/local/bin/kn 
 
 # Plug-ins
 mkdir -p ~/.config/kn/plugins/
 
-curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-admin/releases/download/knative-v1.22.0/kn-admin-linux-amd64
+curl -o ~/.config/kn/plugins/kn-admin -sL https://github.com/knative-extensions/kn-plugin-admin/releases/download/knative-v1.22.0/kn-admin-linux-${ARCH}
 chmod +x ~/.config/kn/plugins/kn-admin
 
-curl -o ~/.config/kn/plugins/kn-event -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.22.0/kn-event-linux-amd64
+curl -o ~/.config/kn/plugins/kn-event -sL https://github.com/knative-extensions/kn-plugin-event/releases/download/knative-v1.22.0/kn-event-linux-${ARCH}
 chmod +x ~/.config/kn/plugins/kn-event
 
-curl -o ~/.config/kn/plugins/kn-func -sL https://github.com/knative/func/releases/download/knative-v1.22.0/func_linux_amd64
+curl -o ~/.config/kn/plugins/kn-func -sL https://github.com/knative/func/releases/download/knative-v1.22.0/func_linux_${ARCH}
 chmod +x ~/.config/kn/plugins/kn-func
 
-curl -o ~/.config/kn/plugins/kn-kafka -sL https://github.com/knative-extensions/kn-plugin-source-kafka/releases/download/knative-v1.22.0/kn-source-kafka-linux-amd64
+curl -o ~/.config/kn/plugins/kn-kafka -sL https://github.com/knative-extensions/kn-plugin-source-kafka/releases/download/knative-v1.22.0/kn-source-kafka-linux-${ARCH}
 chmod +x ~/.config/kn/plugins/kn-kafka
