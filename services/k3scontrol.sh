@@ -6,13 +6,11 @@
 set +e  # Fehler ignorieren
 echo "🚀 [INFO] Starte k3s Installation..."
 
-# Basis-Parameter (DEINE)
 BASE_ARGS="server --cluster-init --disable servicelb"
 
 WG_IFACE=""
 WG_IP=""
 
-# Alle WireGuard-Interfaces durchgehen und das erste mit IPv4 nehmen
 for iface in $(wg show interfaces 2>/dev/null); do
   ip4="$(ip -4 -o addr show dev "$iface" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)"
 
@@ -29,14 +27,46 @@ if [ -n "$WG_IFACE" ] && [ -n "$WG_IP" ]; then
     --node-ip=$WG_IP \
     --advertise-address=$WG_IP \
     --flannel-iface=$WG_IFACE"
+
+  TRAEFIK_EXTERNAL_IP="$WG_IP"
 else
   echo "🌍 [INFO] Kein WireGuard mit IPv4 gefunden – benutze Default-Netz"
   K3S_ARGS="$BASE_ARGS"
+
+  TRAEFIK_EXTERNAL_IP="$(ip -4 route get 1.1.1.1 | awk '{print $7; exit}')"
 fi
 
 echo "▶️ [INFO] k3s Args: $K3S_ARGS"
+echo "🌐 [INFO] Traefik externalIP: $TRAEFIK_EXTERNAL_IP"
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="$K3S_ARGS" sh -
+
+echo "⏳ [INFO] Warte auf Kubernetes API..."
+until sudo k3s kubectl get nodes >/dev/null 2>&1; do
+  sleep 2
+done
+
+echo "⚙️ [INFO] Setze Traefik externalIP..."
+
+sudo k3s kubectl apply -f - <<EOF
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    service:
+      spec:
+        externalIPs:
+          - ${TRAEFIK_EXTERNAL_IP}
+EOF
+
+echo "⏳ [INFO] Warte auf Traefik Rollout..."
+sudo k3s kubectl -n kube-system rollout status deployment/traefik --timeout=180s || true
+
+echo "🔎 [INFO] Traefik Service:"
+sudo k3s kubectl get svc traefik -n kube-system -o wide
 
 mkdir -p /home/ubuntu/.kube
 sudo chmod +r /etc/rancher/k3s/k3s.yaml
