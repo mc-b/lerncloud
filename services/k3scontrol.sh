@@ -56,10 +56,22 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    additionalArguments:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+
     service:
       spec:
         externalIPs:
           - ${TRAEFIK_EXTERNAL_IP}
+
+    ports:
+      traefik:
+        expose:
+          default: true
+        exposedPort: 9000
+        port: 9000
+        protocol: TCP
 EOF
 
 echo "⏳ [INFO] Warte auf Traefik Rollout..."
