@@ -59,6 +59,7 @@ spec:
     additionalArguments:
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--providers.kubernetesgateway=true"
 
     service:
       spec:
