@@ -7,7 +7,7 @@ set +e  # Fehler ignorieren
 echo "🚀 [INFO] Starte k3s Installation..."
 
 # Basis-Parameter (DEINE)
-BASE_ARGS="server --cluster-init --disable traefik --disable servicelb"
+BASE_ARGS="server --cluster-init --disable servicelb"
 
 WG_IFACE=""
 WG_IP=""
