@@ -61,7 +61,7 @@ spec:
     secretName: root-ca-secret
 EOF
     
-if  [ -f ~/work/server-ip ]
+if  [ -f ~/data/server-ip ]
 then
     echo "- 🔧 [INFO] Richte das eigentliches Zertifikat ein"
     kubectl apply -f - <<EOF    
@@ -74,9 +74,9 @@ spec:
   secretName: root-selfsigned-cert
   duration: 2160h # 90 Tage
   renewBefore: 360h # 15 Tage
-  commonName: $(cat ~/work/server-ip)
+  commonName: $(cat ~/data/server-ip)
   dnsNames:
-    - $(cat ~/work/server-ip)
+    - $(cat ~/data/server-ip)
   issuerRef:
     name: root-ca-issuer
     kind: ClusterIssuer
