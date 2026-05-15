@@ -60,7 +60,7 @@ name="Jupyter Lab"
 description="Jupyter Lab Service"
 
 command="/home/alpine/.jupyter/bin/jupyter"
-command_args="lab --ip=0.0.0.0 --port=32188 --no-browser --ServerApp.default_url=/lab --ServerApp.token=''"
+command_args="lab --ip=0.0.0.0 --port=33188 --no-browser --ServerApp.default_url=/lab --ServerApp.token=''"
 command_user="alpine:alpine"
 directory="/home/alpine"
 
