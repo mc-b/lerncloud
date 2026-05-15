@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 # neue Jupyter Umgebung, lokal auf VM
+
+echo "🚀 [INFO] Starte JupyterLab Installation..."
+
 sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip
 
 # Installiert und aktiviert Juypter Lab
@@ -14,7 +17,7 @@ pip install jupyterlab
 
 if [ "$SKIP_LIBRARIES" = "true" ]
 then
-    echo "Installation Libraries überspringen"
+    echo "- [INFO] Installation Libraries überspringen"
 else
     # OpenAI API als separater Kernel (Chat)
     python3 -m venv ~/.ai
@@ -65,6 +68,44 @@ RestartSec=10
 WantedBy=multi-user.target
 %EOF%
 
+# Titel setzen
+
+get_appname() {
+    local cloud_provider app_name
+
+    cloud_provider="$(cloud-init query v1.cloud_name 2>/dev/null || true)"
+
+    case "$cloud_provider" in
+        "aws" | "azure" | "gcloud")
+            app_name="${APPNAME:-Lab}-$(sudo cloud-init query ds.meta_data.public_hostname)"
+            ;;
+        "maas")
+            app_name="${APPNAME:-Lab}-$(hostname).maas"
+            ;;
+        "multipass")
+            app_name="${APPNAME:-Lab}.mshome.net"
+            ;;
+        *)
+            app_name="$(hostname 2>/dev/null)"
+            ;;
+    esac
+
+    printf '%s\n' "$app_name"
+}
+
+APPNAME="$(get_appname)"
+
+mkdir -p .jupyter/labconfig
+
+cat <<EOF | sudo -u ubuntu tee /home/ubuntu/.jupyter/labconfig/page_config.json
+{
+  "appName": "${APPNAME}",
+  "appNamespace": "${APPNAME}",
+  "appVersion": "${APPNAME}"
+}
+EOF
+
+# Start JuypterLab Services
 sudo systemctl daemon-reload
 sudo systemctl enable jupyterlab.service
 sudo systemctl restart jupyterlab.service
@@ -97,3 +138,4 @@ AI_NAME="${AI_NAME}"
 AI_IP="${AI_IP}"
 EOF
 
+echo "✅ [INFO] JupyterLab wurde erfolgreich installiert!"
