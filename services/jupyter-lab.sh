@@ -99,9 +99,7 @@ mkdir -p .jupyter/labconfig
 
 cat <<EOF | sudo -u ubuntu tee /home/ubuntu/.jupyter/labconfig/page_config.json
 {
-  "appName": "${APPNAME}",
-  "appNamespace": "${APPNAME}",
-  "appVersion": "${APPNAME}"
+  "appName": "${APPNAME}"
 }
 EOF
 
