@@ -4,7 +4,7 @@
 
 echo "🚀 [INFO] Starte JupyterLab Installation..."
 
-sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip python3-dotenv
+sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip
 
 # Installiert und aktiviert Juypter Lab
 
@@ -23,7 +23,7 @@ else
     python3 -m venv ~/.ai
     source ~/.ai/bin/activate
     pip install openai pydantic
-    pip install ipykernel requests
+    pip install ipykernel requests dotenv
     pip install nbconvert
     python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 
