@@ -1,30 +1,23 @@
 #!/bin/bash
-# 
-# Cert Manager
 
 echo "🚀 [INFO] Starte Cert-Manager Installation..."
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.0/cert-manager.yaml
-kubectl wait --namespace cert-manager --for=condition=Ready pods --all --timeout=240s
 
-# Wait for the webhook configuration to exist
-echo "- ⏳ Waiting for cert-manager webhook configuration to appear..."
-until kubectl get mutatingwebhookconfiguration cert-manager-webhook > /dev/null 2>&1; do
-  sleep 2
-done
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.20.0/cert-manager.yaml
 
-echo "- ✅ Webhook configuration exists."
+echo "- ⏳ Warte auf cert-manager CRDs..."
+kubectl wait --for=condition=Established crd/certificates.cert-manager.io --timeout=240s
+kubectl wait --for=condition=Established crd/issuers.cert-manager.io --timeout=240s
+kubectl wait --for=condition=Established crd/clusterissuers.cert-manager.io --timeout=240s
 
-# Wait until caBundle is injected by cainjector
-echo -n "- ⏳ Waiting for CA Bundle to be injected into webhook..."
-until [ "$(kubectl get mutatingwebhookconfiguration cert-manager-webhook -o jsonpath='{.webhooks[0].clientConfig.caBundle}')" != "" ]; do
-  echo "."
-  sleep 5
-done
-echo ""
+echo "- ⏳ Warte auf cert-manager Deployments..."
+kubectl -n cert-manager rollout status deploy/cert-manager --timeout=240s
+kubectl -n cert-manager rollout status deploy/cert-manager-cainjector --timeout=240s
+kubectl -n cert-manager rollout status deploy/cert-manager-webhook --timeout=240s
 
-echo "- ✅ CA Bundle injected successfully!"
+echo "- ⏳ Warte auf cert-manager API..."
+kubectl wait --for=condition=Available apiservice/v1.cert-manager.io --timeout=240s
 
-echo "- 🔧 [INFO] Richte SelfSigned ClusterIssuer (stellt die CA aus) ein"
+echo "- 🔧 [INFO] Richte SelfSigned ClusterIssuer ein"
 kubectl apply -f - <<EOF
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -34,13 +27,15 @@ spec:
   selfSigned: {}
 EOF
 
-echo "- 🔧 [INFO] Richte Certificate für CA ein"
+kubectl wait --for=condition=Ready clusterissuer/selfsigned-cluster-issuer --timeout=120s
+
+echo "- 🔧 [INFO] Erzeuge Root CA"
 kubectl apply -f - <<EOF
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: root-ca
-  namespace: cert-manager  # Wichtig: im cert-manager-namespace!
+  namespace: cert-manager
 spec:
   isCA: true
   commonName: Local CA
@@ -50,7 +45,9 @@ spec:
     kind: ClusterIssuer
 EOF
 
-echo "- 🔧 [INFO] Richte CA Issuer (nutzt die erzeugte CA) ein"
+kubectl -n cert-manager wait --for=condition=Ready certificate/root-ca --timeout=120s
+
+echo "- 🔧 [INFO] Richte CA ClusterIssuer ein"
 kubectl apply -f - <<EOF
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -60,27 +57,53 @@ spec:
   ca:
     secretName: root-ca-secret
 EOF
-    
-if  [ -f ~/data/server-ip ]
-then
-    echo "- 🔧 [INFO] Richte das eigentliches Zertifikat ein"
-    kubectl apply -f - <<EOF    
+
+kubectl wait --for=condition=Ready clusterissuer/root-ca-issuer --timeout=120s
+
+if [ -f /home/ubuntu/data/server-ip ]; then
+  echo "- 🔧 [INFO] Richte Zertifikat für Server-Adresse ein"
+
+  SERVER_NAME="$(cat /home/ubuntu/data/server-ip)"
+
+  if echo "$SERVER_NAME" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+    kubectl apply -f - <<EOF
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: root-selfsigned-cert
-  namespace: default  # oder wo deine App läuft
+  namespace: default
 spec:
   secretName: root-selfsigned-cert
-  duration: 2160h # 90 Tage
-  renewBefore: 360h # 15 Tage
-  commonName: $(cat ~/data/server-ip)
-  dnsNames:
-    - $(cat ~/data/server-ip)
+  duration: 2160h
+  renewBefore: 360h
+  commonName: ${SERVER_NAME}
+  ipAddresses:
+    - ${SERVER_NAME}
   issuerRef:
     name: root-ca-issuer
     kind: ClusterIssuer
 EOF
+  else
+    kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: root-selfsigned-cert
+  namespace: default
+spec:
+  secretName: root-selfsigned-cert
+  duration: 2160h
+  renewBefore: 360h
+  commonName: ${SERVER_NAME}
+  dnsNames:
+    - ${SERVER_NAME}
+  issuerRef:
+    name: root-ca-issuer
+    kind: ClusterIssuer
+EOF
+  fi
+
+  kubectl -n default wait --for=condition=Ready certificate/root-selfsigned-cert --timeout=120s
 fi
 
 echo "✅ [INFO] Cert-Manager wurde erfolgreich installiert!"
