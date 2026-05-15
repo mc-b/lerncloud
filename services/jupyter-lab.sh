@@ -4,7 +4,7 @@
 
 echo "🚀 [INFO] Starte JupyterLab Installation..."
 
-sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip
+sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip python3-dotenv
 
 # Installiert und aktiviert Juypter Lab
 
@@ -103,11 +103,6 @@ cat <<EOF | sudo -u ubuntu tee /home/ubuntu/.jupyter/labconfig/page_config.json
 }
 EOF
 
-# Start JuypterLab Services
-sudo systemctl daemon-reload
-sudo systemctl enable jupyterlab.service
-sudo systemctl restart jupyterlab.service
-
 # lernkube Public Key
 curl https://raw.githubusercontent.com/mc-b/lerncloud/main/ssh/lerncloud >~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
@@ -143,9 +138,11 @@ import os
 import requests
 from IPython.core.magic import register_cell_magic
 from IPython.display import display, Markdown
+from dotenv import load_dotenv
 
 @register_cell_magic
 def ai(line, cell):
+    load_dotenv("/home/ubuntu/data/env.py", override=True)
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         display(Markdown("**Fehler:** `OPENAI_API_KEY` ist nicht gesetzt."))
@@ -198,5 +195,10 @@ def ai(line, cell):
         display(Markdown(f"**Fehler bei der Anfrage:** `{e}`"))
         
 EOF
+
+# Start JuypterLab Services
+sudo systemctl daemon-reload
+sudo systemctl enable jupyterlab.service
+sudo systemctl restart jupyterlab.service
 
 echo "✅ [INFO] JupyterLab wurde erfolgreich installiert!"
