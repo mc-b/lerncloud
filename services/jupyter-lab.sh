@@ -11,7 +11,7 @@ sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip
 python3 -m venv ~/.jupyter
 source .jupyter/bin/activate
 pip install --upgrade pip
-pip install jupyterlab
+pip install jupyterlab dotenv
 
 # Jupyter Libraries fuer AI
 
@@ -31,13 +31,13 @@ else
     # Hugging Face
     python3 -m venv ~/.hf
     source ~/.hf/bin/activate
-    pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
+    pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops dotenv
     python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
     
     # MCP
     python3 -m venv ~/.mcp
     source ~/.mcp/bin/activate
-    pip install ipykernel mcp requests
+    pip install ipykernel mcp requests dotenv
     pip install openai
     python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
     
@@ -45,7 +45,7 @@ else
     python3 -m venv ~/.dapr
     source ~/.dapr/bin/activate
     pip install openai-agents dapr dapr-ext-grpc
-    pip install ipykernel
+    pip install ipykernel dotenv
     python3 -m ipykernel install --user --name=dapr --display-name "Python (dapr)"
 fi
 
