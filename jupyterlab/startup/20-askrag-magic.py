@@ -5,7 +5,7 @@ from IPython.display import display, Markdown
 from dotenv import load_dotenv
 
 @register_cell_magic
-def askvs(line, cell):
+def askrag(line, cell):
     load_dotenv("/home/ubuntu/data/env.py", override=True)
 
     api_key = os.getenv("OPENAI_API_KEY")
@@ -17,7 +17,7 @@ def askvs(line, cell):
     query = cell.strip()
 
     if not vector_store_name:
-        display(Markdown("**Fehler:** Vector-Store-Name fehlt. Beispiel: `%%askvs kursunterlagen`"))
+        display(Markdown("**Fehler:** Vector-Store-Name fehlt. Beispiel: `%%askrag cna`"))
         return
 
     if not query:
