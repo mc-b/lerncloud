@@ -60,7 +60,7 @@ Description=Jupyter Lab
 [Service]
 Type=simple
 PIDFile=/run/jupyter.pid
-ExecStart=/home/ubuntu/.jupyter/bin/jupyter lab --ip=0.0.0.0 --port=33188 --no-browser --ServerApp.default_url=/lab --ServerApp.token=''
+ExecStart=/home/ubuntu/.jupyter/bin/jupyter lab --ip=0.0.0.0 --port=18888 --no-browser --ServerApp.default_url=/lab --ServerApp.token=''
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu
