@@ -126,6 +126,7 @@ echo "UUID=\"$(uuid)\"" >~/data/uuid.py
 # Umgebungsvariablen fuer K8s AI Server, OpenAI und Hugging Face 
 cat <<'EOF' > ~/data/env.py
 OPENAI_API_KEY="${OPENAI_API_KEY}"
+OPENAI_PROJECT_ID="${OPENAI_PROJECT_ID}"
 HF_TOKEN="${HF_TOKEN}"
 AI_MODEL="gpt-5.4"
 AI_BASE_URL="https://api.openai.com/v1"

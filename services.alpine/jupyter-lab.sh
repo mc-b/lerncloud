@@ -93,8 +93,13 @@ chown alpine:alpine /home/alpine/.ssh/config
 # Umgebungsvariablen fuer K8s AI Server, OpenAI und Hugging Face 
 su - alpine -c '
 cat <<EOF > ~/work/env.py
-KUBECONFIG_AI=""
-OPENAI_API_KEY=""
-HF_TOKEN=""
+OPENAI_API_KEY="${OPENAI_API_KEY}"
+OPENAI_PROJECT_ID="${OPENAI_PROJECT_ID}"
+HF_TOKEN="${HF_TOKEN}"
+AI_MODEL="gpt-5.4"
+AI_BASE_URL="https://api.openai.com/v1"
+AI_KUBECONFIG="${AI_KUBECONFIG}"
+AI_NAME="${AI_NAME}"
+AI_IP="${AI_IP}"
 EOF
 '
