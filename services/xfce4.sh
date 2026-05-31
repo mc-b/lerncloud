@@ -24,8 +24,12 @@ apt-get update -y
 echo "- 📦 [INFO] Installing UI-related packages (Xorg, XFCE, XRDP, Browser, Polkit)"
 apt-get install -y \
   xorg \
+  xserver-xorg-core \
+  xserver-xorg-input-all \
+  xorgxrdp \
   xfce4 \
   xfce4-goodies \
+  dbus-x11 \
   xrdp \
   policykit-1 \
   policykit-1-gnome \
@@ -59,7 +63,14 @@ systemctl enable xrdp || echo "⚠️ [WARN] Konnte xrdp nicht aktivieren (enabl
 echo "- 🖥️ [INFO] Setting XFCE as default session for XRDP"
 
 mkdir -p "${HOME_DIR}"
-echo "xfce4-session" > "${HOME_DIR}/.xsession"
+cat > "${HOME_DIR}/.xsession" <<'EOF'
+#!/bin/sh
+unset DBUS_SESSION_BUS_ADDRESS
+unset XDG_RUNTIME_DIR
+exec startxfce4
+EOF
+
+chmod +x "${HOME_DIR}/.xsession"
 chown "${USERNAME}:${USERNAME}" "${HOME_DIR}/.xsession" || echo "⚠️ [WARN] Konnte Besitzer von .xsession nicht setzen"
 
 ###########################################################
