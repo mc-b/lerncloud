@@ -9,6 +9,7 @@ set +e  # Fehler ignorieren
 
 USERNAME="${1:-ubuntu}"
 HOME_DIR=$(eval echo "~$USERNAME")
+DEFAULT_TARGET="${DEFAULT_TARGET:-multi-user}"
 
 echo "🚀 [INFO] Installing Linux UI (XFCE + XRDP) for user: ${USERNAME}"
 
@@ -142,19 +143,30 @@ systemctl start xrdp-sesman
 echo "✅ [OK] Keyboard layout CH applied safely"
 
 # ------------------------------------------------------------
-# GUI-Autostart auf der Console deaktivieren
+# GUI-Autostart 
 # ------------------------------------------------------------
 
-echo "🛑 [INFO] Disable automatic GUI start"
-
-systemctl set-default multi-user.target
-
-# Display Manager stoppen & deaktivieren (falls vorhanden)
-for dm in gdm3 lightdm sddm; do
-    if systemctl list-unit-files | grep -q "^$dm"; then
-        systemctl disable --now "$dm" || true
-    fi
-done
+case "$DEFAULT_TARGET" in
+  graphical)
+    echo "🛑 [INFO] Enable automatic GUI start"
+    systemctl set-default graphical.target
+    ;;
+  multi-user)
+    echo "🛑 [INFO] Disable automatic GUI start"
+    systemctl set-default multi-user.target
+    # Display Manager stoppen & deaktivieren (falls vorhanden)
+    for dm in gdm3 lightdm sddm; do
+        if systemctl list-unit-files | grep -q "^$dm"; then
+            systemctl disable --now "$dm" || true
+        fi
+    done
+    ;;
+  *)
+    echo "FEHLER: Ungueltiger DEFAULT_TARGET: $DEFAULT_TARGET"
+    echo "Erlaubt: graphical, multi-user"
+    exit 1
+    ;;
+esac
 
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
