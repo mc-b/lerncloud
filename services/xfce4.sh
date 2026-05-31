@@ -7,7 +7,7 @@
 #
 set +e  # Fehler ignorieren
 
-USERNAME="${1:-ubuntu}"
+USERNAME="${1:-${USERNAME}}"
 HOME_DIR=$(eval echo "~$USERNAME")
 DEFAULT_TARGET="${DEFAULT_TARGET:-multi-user}"
 
@@ -26,18 +26,16 @@ apt-get install -y \
   xorg \
   xserver-xorg-core \
   xserver-xorg-input-all \
-  xorgxrdp \
   xfce4 \
   xfce4-goodies \
   dbus-x11 \
-  xrdp \
-  policykit-1 \
-  policykit-1-gnome \
+  lightdm \
+  lightdm-gtk-greeter \
   evince \
   chromium || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
 
 ###########################################################
-# XRDP auf Xorg umstellen (wichtig für Ubuntu 24.04)
+# XRDP auf Xorg umstellen (wichtig für ${USERNAME} 24.04)
 ###########################################################
 echo "- ⚙️ [INFO] Configuring XRDP to use Xorg"
 
@@ -72,6 +70,25 @@ EOF
 
 chmod +x "${HOME_DIR}/.xsession"
 chown "${USERNAME}:${USERNAME}" "${HOME_DIR}/.xsession" || echo "⚠️ [WARN] Konnte Besitzer von .xsession nicht setzen"
+
+# Für console -> login -> startx
+cat > /home/${USERNAME}/.xinitrc <<'EOF'
+exec startxfce4
+EOF
+
+# Für GUI login
+chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.xinitrc
+chmod +x /home/${USERNAME}/.xinitrc
+
+mkdir -p /var/lib/AccountsService/users
+
+cat > /var/lib/AccountsService/users/${USERNAME} <<'EOF'
+[User]
+Session=xfce
+XSession=xfce
+SystemAccount=false
+EOF
+
 
 ###########################################################
 # Polkit Agent für XRDP (verhindert Logout-Loop)
@@ -157,20 +174,25 @@ echo "✅ [OK] Keyboard layout CH applied safely"
 # GUI-Autostart 
 # ------------------------------------------------------------
 
+# unnoetige Display Manager (Gnome + KDE) stoppen & deaktivieren (falls vorhanden)
+for dm in gdm3 sddm; do
+    if systemctl list-unit-files | grep -q "^$dm"; then
+        systemctl disable --now "$dm" || true
+    fi
+done
+
+
 case "$DEFAULT_TARGET" in
-  graphical)
-    echo "🛑 [INFO] Enable automatic GUI start"
-    systemctl set-default graphical.target
-    ;;
   multi-user)
-    echo "🛑 [INFO] Disable automatic GUI start"
+    echo "🛑 [INFO] Boot to console, start GUI manually with startx"
     systemctl set-default multi-user.target
-    # Display Manager stoppen & deaktivieren (falls vorhanden)
-    for dm in gdm3 lightdm sddm; do
-        if systemctl list-unit-files | grep -q "^$dm"; then
-            systemctl disable --now "$dm" || true
-        fi
-    done
+    systemctl disable --now lightdm 2>/dev/null || true
+    ;;
+
+  graphical)
+    echo "🖥️ [INFO] Boot to graphical login with LightDM"
+    systemctl set-default graphical.target
+    systemctl enable lightdm
     ;;
   *)
     echo "FEHLER: Ungueltiger DEFAULT_TARGET: $DEFAULT_TARGET"
