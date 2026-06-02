@@ -192,7 +192,10 @@ case "$DEFAULT_TARGET" in
   graphical)
     echo "🖥️ [INFO] Boot to graphical login with LightDM"
     systemctl set-default graphical.target
+    systemctl daemon-reload
     systemctl enable lightdm
+    # sofort starten, ohne Reboot
+    systemctl restart lightdm || systemctl start lightdm
     ;;
   *)
     echo "FEHLER: Ungueltiger DEFAULT_TARGET: $DEFAULT_TARGET"
