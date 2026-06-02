@@ -28,6 +28,7 @@ apt-get install -y \
   xserver-xorg-input-all \
   xfce4 \
   xfce4-goodies \
+  xrdp \
   dbus-x11 \
   lightdm \
   lightdm-gtk-greeter \
