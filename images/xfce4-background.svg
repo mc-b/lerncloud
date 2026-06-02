@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1152" role="img" aria-label="Soft green to turquoise gradient background">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eafad0"/>
+      <stop offset="38%" stop-color="#9eeaa9"/>
+      <stop offset="68%" stop-color="#6ad8a3"/>
+      <stop offset="100%" stop-color="#46aeb9"/>
+    </linearGradient>
+
+    <radialGradient id="topGlow" cx="18%" cy="12%" r="70%">
+      <stop offset="0%" stop-color="#eafad0" stop-opacity="0.95"/>
+      <stop offset="44%" stop-color="#baf0b3" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#baf0b3" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="centerGreen" cx="42%" cy="46%" r="60%">
+      <stop offset="0%" stop-color="#72daa1" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#72daa1" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="rightCyan" cx="96%" cy="58%" r="72%">
+      <stop offset="0%" stop-color="#40b5bd" stop-opacity="0.82"/>
+      <stop offset="100%" stop-color="#40b5bd" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="bottomLeft" cx="2%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#a1ebaa" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#a1ebaa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="2048" height="1152" fill="url(#base)"/>
+  <rect width="2048" height="1152" fill="url(#topGlow)"/>
+  <rect width="2048" height="1152" fill="url(#centerGreen)"/>
+  <rect width="2048" height="1152" fill="url(#rightCyan)"/>
+  <rect width="2048" height="1152" fill="url(#bottomLeft)"/>
+</svg>

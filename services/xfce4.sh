@@ -158,7 +158,7 @@ EOF
 # ------------------------------------------------------------
 # Background setzen
 # ------------------------------------------------------------
-sudo wget -S https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg -O /usr/share/backgrounds/xfce/xfce-shapes.svg
+sudo wget -S https://raw.githubusercontent.com/mc-b/lerncloud/main/images/xfce4-background.svg -O /usr/share/backgrounds/xfce/xfce-shapes.svg
 
 # ------------------------------------------------------------
 # 4. Restart XRDP stack
