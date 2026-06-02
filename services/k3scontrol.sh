@@ -149,9 +149,15 @@ sudo k3s kubectl -n kube-system rollout status deployment/traefik --timeout=180s
 echo "🔎 [INFO] Traefik Service:"
 sudo k3s kubectl get svc traefik -n kube-system -o wide
 
+echo "🔎 [INFO] K3s konfigurieren, dass die Datei /etc/rancher/k3s/config.yaml lesbar bleibt:"
+sudo mkdir -p /etc/rancher/k3s
+sudo tee /etc/rancher/k3s/config.yaml >/dev/null <<EOF
+write-kubeconfig-mode: "0644"
+EOF
+# fuer alle anderen, z.B. helm
 mkdir -p /home/ubuntu/.kube
 sudo chmod +r /etc/rancher/k3s/k3s.yaml
-ln -s /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
+sudo ln -s /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
 
 echo "- 🔧 [INFO] kubectl und helm einrichten"
 sudo ln -sf /usr/local/bin/k3s /usr/local/bin/kubectl
