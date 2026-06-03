@@ -2,7 +2,7 @@
 
 echo "🚀 [INFO] Starte Cert-Manager Installation..."
 
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.20.0/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.yaml
 
 echo "- ⏳ Warte auf cert-manager CRDs..."
 kubectl wait --for=condition=Established crd/certificates.cert-manager.io --timeout=240s
