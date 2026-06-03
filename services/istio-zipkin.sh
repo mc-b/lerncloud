@@ -4,7 +4,7 @@
 #
 set +e  # Fehler ignorieren
 
-export ISTIO_VERSION=1.29.2
+export ISTIO_VERSION=1.30.0
 ISTIO_DIR="istio-${ISTIO_VERSION}"
 TRACING_FILE="/tmp/tracing-$$.yaml"
 
