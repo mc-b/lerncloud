@@ -50,7 +50,7 @@ sudo mv kompose /usr/local/bin/
 # kind
 # ------------------------------------------------------------
 echo "📥 [INFO] K8s in Docker: kind herunterladen"
-curl -Lo kind "https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-${ARCH}"
+curl -Lo kind "https://kind.sigs.k8s.io/dl/v0.32.0/kind-linux-${ARCH}"
 chmod +x kind
 sudo mv kind /usr/local/bin/
 
