@@ -5,9 +5,6 @@
 #
 set +e  # Fehler ignorieren
 
-echo "🚀 [INFO] Starte lokale LLM Installation..."
-
-
 echo "🚀 [INFO] Installiere Ollama..."
 
 curl -fsSL https://ollama.com/install.sh | sh  
@@ -23,3 +20,5 @@ sudo systemctl restart ollama
 
 ollama pull llama3.1:8b-instruct-q4_K_M
 ollama pull qwen2.5:7b-instruct-q4_K_M
+
+echo "✅ [INFO] ollama wurde erfolgreich installiert!"
