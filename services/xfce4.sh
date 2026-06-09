@@ -32,7 +32,7 @@ apt-get install -y \
   dbus-x11 \
   lightdm \
   lightdm-gtk-greeter \
-  evince \
+  okular \
   chromium || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
 
 ###########################################################
