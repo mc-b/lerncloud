@@ -2,12 +2,10 @@
 #
 #   Richtet Linux UI (XFCE + XRDP) ein
 #
-#   Usage:
-#     sudo ./install-linux-ui.sh [USERNAME]
 #
 set +e  # Fehler ignorieren
 
-USERNAME="${1:-${USERNAME}}"
+USERNAME="${1:-ubuntu}"
 HOME_DIR=$(eval echo "~$USERNAME")
 DEFAULT_TARGET="${DEFAULT_TARGET:-multi-user}"
 
@@ -204,6 +202,61 @@ case "$DEFAULT_TARGET" in
     exit 1
     ;;
 esac
+
+# ------------------------------------------------------------
+# Desktop Icons
+# ------------------------------------------------------------
+
+mkdir -p ${HOME_DIR}/Desktop
+cat > ${HOME_DIR}/Desktop/Unterlagen.desktop <<'EOF'
+[Desktop Entry]
+Type=Link
+Name=Unterlagen
+URL=http://localhost:18888/lab/tree/Documents
+Icon=web-browser
+EOF
+
+chmod +x ${HOME_DIR}/Desktop/Unterlagen.desktop
+gio set ${HOME_DIR}/Desktop/Unterlagen.desktop metadata::trusted true
+
+cat > ${HOME_DIR}/Desktop/jupyterlab.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Übungen
+Exec=xdg-open http://localhost:18888/lab/
+Icon=applications-science
+Terminal=false
+Categories=Development;Science;
+EOF
+
+chmod +x ${HOME_DIR}/Desktop/jupyterlab.desktop
+gio set ${HOME_DIR}/Desktop/jupyterlab.desktop metadata::trusted true
+
+cat > ${HOME_DIR}/Desktop/k8s-dashboard.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=K8s Dashboard
+Exec=xdg-open https://localhost:30443
+Icon=utilities-system-monitor
+Terminal=false
+Categories=Development;System;
+EOF
+
+chmod +x ${HOME_DIR}/Desktop/k8s-dashboard.desktop
+gio set ${HOME_DIR}/Desktop/k8s-dashboard.desktop metadata::trusted true
+
+cat > ${HOME_DIR}/Desktop/k8s-headlamp.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=K8s Headlamp
+Exec=xdg-open http://localhost:30444
+Icon=utilities-system-monitor
+Terminal=false
+Categories=Development;System;
+EOF
+
+chmod +x ${HOME_DIR}/Desktop/k8s-headlamp.desktop
+gio set ${HOME_DIR}/Desktop/k8s-headlamp.desktop metadata::trusted true
 
 echo ""
 echo "✅ [INFO] Linux UI Installation & Configuration Complete (XFCE + XRDP)"
