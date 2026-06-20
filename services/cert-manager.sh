@@ -10,8 +10,7 @@ helm install \
     --namespace cert-manager \
     --create-namespace \
     --version "v1.20.2" \
-    --set crds.enabled=true \
-    --wait
+    --set crds.enabled=true
 
 echo "- ⏳ Warte auf cert-manager CRDs..."
 kubectl wait --for=condition=Established crd/certificates.cert-manager.io --timeout=240s
