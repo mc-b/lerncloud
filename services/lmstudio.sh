@@ -20,12 +20,6 @@ LMS_GPU="off"
 
 LMS_CONTEXT_LENGTH="4096"
 
-# Optionales Modell.
-# Wird nur heruntergeladen, nicht automatisch geladen.
-# Falls dieses Modell bei deiner lms-Version nicht gefunden wird,
-# die Zeile leer lassen: LMS_MODEL_GET=""
-LMS_MODEL_GET="text-embedding-qwen3-embedding-4b"
-
 USER_SYSTEMD_DIR="${LMS_HOME}/.config/systemd/user"
 USER_SERVICE_FILE="${USER_SYSTEMD_DIR}/lmstudio.service"
 START_SCRIPT="${LMS_HOME}/.lmstudio-start.sh"
@@ -208,18 +202,6 @@ echo "✅ [INFO] Aktiviere lmstudio.service als User-Service..."
 sudo -u "${LMS_USER}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}" \
   systemctl --user enable lmstudio.service
 
-echo "📦 [INFO] Optionaler Modell-Download..."
-
-if [ -n "${LMS_MODEL_GET}" ]; then
-  sudo -u "${LMS_USER}" env HOME="${LMS_HOME}" PATH="${LMS_ENV_PATH}" \
-    "${LMS_BIN}" daemon up || true
-
-  sleep 5
-
-  sudo -u "${LMS_USER}" env HOME="${LMS_HOME}" PATH="${LMS_ENV_PATH}" \
-    "${LMS_BIN}" get "${LMS_MODEL_GET}" || true
-fi
-
 echo "🚀 [INFO] Starte lmstudio.service als User-Service..."
 
 sudo -u "${LMS_USER}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}" \
@@ -252,6 +234,18 @@ echo "📋 [INFO] Status lmstudio.service:"
 
 sudo -u "${LMS_USER}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}" \
   systemctl --user status lmstudio.service --no-pager || true
+
+echo "📦 [INFO] Optionaler Modell-Download..."
+
+python3 -m venv ${LMS_HOME}/.hf-lmstudio
+source ${LMS_HOME}/.hf-lmstudio/bin/activate
+pip install -U huggingface_hub
+
+hf download Qwen/Qwen3-Embedding-4B-GGUF --include "Qwen3-Embedding-4B-Q4_K_M.gguf" \
+            --local-dir ${LMS_HOME}/.lmstudio/models/Qwen/Qwen3-Embedding-4B-GGUF/qwen3-embedding-4b
+
+hf download Qwen/Qwen3-Embedding-8B-GGUF --include "Qwen3-Embedding-8B-Q4_K_M.gguf" \
+            --local-dir ${LMS_HOME}/.lmstudio/models/Qwen/Qwen3-Embedding-8B-GGUF/qwen3-embedding-8b
 
 echo ""
 echo "✅ [INFO] LM Studio / llmster wurde erfolgreich installiert!"
