@@ -237,15 +237,11 @@ sudo -u "${LMS_USER}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}" \
 
 echo "📦 [INFO] Optionaler Modell-Download..."
 
-python3 -m venv ${LMS_HOME}/.hf-lmstudio
-source ${LMS_HOME}/.hf-lmstudio/bin/activate
-pip install -U huggingface_hub
+lms get -y https://huggingface.co/Qwen/Qwen3-Embedding-4B-GGUF 
+lms load -y text-embedding-qwen3-embedding-4b 
 
-hf download Qwen/Qwen3-Embedding-4B-GGUF --include "Qwen3-Embedding-4B-Q4_K_M.gguf" \
-            --local-dir ${LMS_HOME}/.lmstudio/models/Qwen/Qwen3-Embedding-4B-GGUF/qwen3-embedding-4b
-
-hf download Qwen/Qwen3-Embedding-8B-GGUF --include "Qwen3-Embedding-8B-Q4_K_M.gguf" \
-            --local-dir ${LMS_HOME}/.lmstudio/models/Qwen/Qwen3-Embedding-8B-GGUF/qwen3-embedding-8b
+lms get -y https://huggingface.co/Qwen/Qwen3-Embedding-8B-GGUF 
+lms load -y text-embedding-qwen3-embedding-8b 
 
 echo ""
 echo "✅ [INFO] LM Studio / llmster wurde erfolgreich installiert!"
