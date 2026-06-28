@@ -171,4 +171,18 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 echo "- 🔧 [INFO] Persistente Dateiablage /data einrichten"
 kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/data/DataVolume.yaml
 
+
+echo "⚙️ [INFO] Erhöhung Filehandles..."
+
+sudo sysctl -w fs.inotify.max_user_instances=8192
+sudo sysctl -w fs.inotify.max_user_watches=1048576
+sudo sysctl -w fs.file-max=2097152
+cat <<EOF | sudo tee /etc/sysctl.d/99-k3k-inotify.conf
+fs.inotify.max_user_instances = 8192
+fs.inotify.max_user_watches = 1048576
+fs.file-max = 2097152
+EOF
+
+sudo sysctl --system
+
 echo "✅ [INFO] k3s wurde erfolgreich installiert!"

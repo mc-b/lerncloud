@@ -2,7 +2,15 @@
 
 echo "🚀 [INFO] Starte Cert-Manager Installation..."
 
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.yaml
+# kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.yaml
+
+helm repo add jetstack https://charts.jetstack.io --force-update
+helm install \
+    cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --version "v1.20.2" \
+    --set crds.enabled=true
 
 echo "- ⏳ Warte auf cert-manager CRDs..."
 kubectl wait --for=condition=Established crd/certificates.cert-manager.io --timeout=240s

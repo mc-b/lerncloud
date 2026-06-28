@@ -51,28 +51,26 @@ run helm repo update
 
 run helm upgrade --install "${RELEASE}" open-telemetry/opentelemetry-operator \
   -n "${NAMESPACE}" \
-  --create-namespace \
-  --wait \
-  --timeout 10m
+  --create-namespace 
 
 log "⏳ [INFO] Warte auf OpenTelemetry CRD..."
-retry 30 5 kubectl wait \
+retry 10 5 kubectl wait \
   --for=condition=Established \
   crd/opentelemetrycollectors.opentelemetry.io \
   --timeout=20s
 
 log "⏳ [INFO] Warte auf Kubernetes API-Discovery für OpenTelemetryCollector..."
-retry 30 5 kubectl api-resources \
+retry 10 5 kubectl api-resources \
   --api-group=opentelemetry.io
 
 log "⏳ [INFO] Warte auf Operator-Pods..."
-retry 30 5 kubectl -n "${NAMESPACE}" wait pod \
+retry 10 5 kubectl -n "${NAMESPACE}" wait pod \
   -l app.kubernetes.io/name=opentelemetry-operator \
   --for=condition=Ready \
   --timeout=30s
 
 log "⏳ [INFO] Warte auf irgendeinen OpenTelemetry-Webhook EndpointSlice..."
-retry 30 5 bash -c '
+retry 10 5 bash -c '
 kubectl -n opentelemetry get endpointslice \
   -o jsonpath="{range .items[?(@.metadata.labels.app\.kubernetes\.io/instance==\"opentelemetry-operator\")]}{.endpoints[*].addresses[*]}{\"\n\"}{end}" | grep -q .
 '
@@ -116,8 +114,6 @@ log " [INFO] kube-prometheus-stack installieren..."
 
 helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
   -n "${NAMESPACE}" \
-  --wait \
-  --timeout 15m \
   -f - <<'EOF'
 fullnameOverride: prometheus
 
@@ -264,8 +260,6 @@ log " [INFO] Jaeger installieren..."
 
 helm upgrade --install jaeger jaegertracing/jaeger \
   -n "${NAMESPACE}" \
-  --wait \
-  --timeout 10m \
   -f - <<'EOF'
 fullnameOverride: jaeger
 
@@ -364,27 +358,27 @@ spec:
 EOF
 
 log "⏳ [INFO] Warte auf Collector-Deployment..."
-retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-collector \
+retry 10 5 kubectl -n "${NAMESPACE}" rollout status deployment/otel-collector-collector \
   --timeout=30s
 
 log "⏳ [INFO] Warte auf Prometheus..."
-retry 30 5 bash -c '
+retry 10 5 bash -c '
 kubectl -n opentelemetry rollout status statefulset/prometheus-prometheus --timeout=30s ||
 kubectl -n opentelemetry wait pod -l app.kubernetes.io/name=prometheus --for=condition=Ready --timeout=30s
 '
 
 log "⏳ [INFO] Warte auf Alertmanager..."
-retry 30 5 bash -c '
+retry 10 5 bash -c '
 kubectl -n opentelemetry rollout status statefulset/alertmanager-prometheus-alertmanager --timeout=30s ||
 kubectl -n opentelemetry wait pod -l app.kubernetes.io/name=alertmanager --for=condition=Ready --timeout=30s
 '
 
 log "⏳ [INFO] Warte auf Grafana..."
-retry 30 5 kubectl -n "${NAMESPACE}" rollout status deployment/prometheus-grafana \
+retry 10 5 kubectl -n "${NAMESPACE}" rollout status deployment/prometheus-grafana \
   --timeout=30s
 
 log "⏳ [INFO] Warte auf Jaeger..."
-retry 30 5 bash -c '
+retry 10 5 bash -c '
 kubectl -n opentelemetry rollout status deployment/jaeger --timeout=30s ||
 kubectl -n opentelemetry wait pod -l app.kubernetes.io/instance=jaeger --for=condition=Ready --timeout=30s
 '
