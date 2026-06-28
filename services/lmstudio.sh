@@ -237,11 +237,14 @@ sudo -u "${LMS_USER}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}" \
 
 echo "📦 [INFO] Optionaler Modell-Download..."
 
-${LMS_BIN} get -y https://huggingface.co/Qwen/Qwen3-Embedding-4B-GGUF 
-${LMS_BIN} load -y text-embedding-qwen3-embedding-4b 
+#${LMS_BIN} get -y https://huggingface.co/Qwen/Qwen3-Embedding-4B-GGUF 
+#${LMS_BIN} load -y text-embedding-qwen3-embedding-4b 
 
 #${LMS_BIN} get -y https://huggingface.co/Qwen/Qwen3-Embedding-8B-GGUF 
 #${LMS_BIN} load -y text-embedding-qwen3-embedding-8b 
+
+${LMS_BIN} get -y https://huggingface.co/Qwen/Qwen3-4B-GGUF
+${LMS_BIN} load -y qwen3-4b
 
 echo ""
 echo "✅ [INFO] LM Studio / llmster wurde erfolgreich installiert!"
