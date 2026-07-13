@@ -31,7 +31,7 @@ ln -s /data /home/alpine/data
 
 if  [ "${SERVER_IP}" != "" ]
 then
-    timeout 5 bash -c "</dev/tcp/${SERVER_IP}/2049" || {
+    timeout 15 bash -c "</dev/tcp/${SERVER_IP}/2049" || {
         echo "NFS-Server ${SERVER_IP}:2049 nicht erreichbar"
         exit 0
     }
