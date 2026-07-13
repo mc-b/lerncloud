@@ -31,6 +31,10 @@ ln -s /data /home/alpine/data
 
 if  [ "${SERVER_IP}" != "" ]
 then
+    timeout 5 bash -c "</dev/tcp/${SERVER_IP}/2049" || {
+        echo "NFS-Server ${SERVER_IP}:2049 nicht erreichbar"
+        exit 0
+    }
     mount -t nfs4 ${SERVER_IP}:/data/config /home/alpine/config
     mount -t nfs4 ${SERVER_IP}:/data/templates /home/alpine/templates
     mount -t nfs4 ${SERVER_IP}:/data/storage /home/alpine/data
