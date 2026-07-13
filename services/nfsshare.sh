@@ -7,9 +7,13 @@ sudo apt-get update
 sudo apt-get install -y nfs-kernel-server
 
 # Standard Verzeichnisse
-sudo mkdir -p /data /home/ubuntu/templates /home/ubuntu/config
-sudo chown -R ubuntu:ubuntu /data /home/ubuntu/templates /home/ubuntu/config
+sudo mkdir -p /data /data/storage /data/config /data/templates
+sudo chown -R ubuntu:ubuntu /data
 sudo chmod 777 /data
+
+# User Standard Verzeichnisse
+sudo mkdir -p /home/ubuntu/templates /home/ubuntu/config
+sudo chown -R ubuntu:ubuntu /home/ubuntu/templates /home/ubuntu/config
 
 # Kompatibilitaet storage.sh
 sudo ln -s /data /home/ubuntu/data
