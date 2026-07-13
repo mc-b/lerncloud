@@ -31,6 +31,10 @@ sudo ln -s /data /home/ubuntu/data
 
 if  [ "${SERVER_IP}" != "" ]
 then
+    timeout 5 bash -c "</dev/tcp/${SERVER_IP}/2049" || {
+        echo "NFS-Server ${SERVER_IP}:2049 nicht erreichbar"
+        exit 0
+    }
     sudo mount -t nfs ${SERVER_IP}:/data/config /home/ubuntu/config
     sudo mount -t nfs ${SERVER_IP}:/data/templates /home/ubuntu/templates
     sudo mount -t nfs ${SERVER_IP}:/data/storage /home/ubuntu/data
