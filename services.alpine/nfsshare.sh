@@ -6,14 +6,10 @@ echo "🚀 [INFO] Richte NFS Share /data ein"
 apk update
 apk add nfs-utils
 
-# Globale Standard Verzeichnisse
+# Globale Mount Verzeichnisse - Kompatibilitaet zu lernmaas und lernvirt
 sudo mkdir -p /data /data/storage /data/config /data/templates
 sudo chown -R alpine:alpine /data
-sudo chmod 777 /data/storage
-
-# User Standard Verzeichnisse
-mkdir -p /home/alpine/templates /home/alpine/config
-chown -R alpine:alpine /home/alpine/templates /home/alpine/config
+sudo chmod 777 /data
 
 # Kompatibilitaet storage.sh
 ln -s /data /home/alpine/data
