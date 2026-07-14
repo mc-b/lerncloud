@@ -52,7 +52,6 @@ gitlab_exporter['enable'] = false
 # Nicht benötigte Komponenten deaktivieren
 gitlab_pages['enable'] = false
 registry['enable'] = false
-mattermost['enable'] = false
 gitlab_kas['enable'] = false
 EOF
 
