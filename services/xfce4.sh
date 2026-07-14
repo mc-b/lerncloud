@@ -2,6 +2,16 @@
 #
 #   Richtet Linux UI (XFCE + XRDP) ein
 #
+#   In Cloud-Init wie folgt integrieren (braucht root)
+#   - curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/main/services/xfce4.sh | DEFAULT_TARGET=graphical bash -
+#
+#   Parameter
+#   DEFAULT_TARGET
+#   - multi-user (default) - Multi User Betrieb, GUI muss mittels startx gestartet werden
+#   - graphical - Graphische Oberfläche ist standardmässig aktiv.
+#
+#   Hinweis:
+#   - Remote Desktop ist Standardmässig aktiviert
 #
 set +e  # Fehler ignorieren
 
@@ -31,7 +41,10 @@ apt-get install -y \
   lightdm \
   lightdm-gtk-greeter \
   okular \
-  chromium || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
+  firefox || echo "⚠️ [WARN] Paketinstallation teilweise fehlgeschlagen"
+  
+wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install /tmp/google-chrome-stable_current_amd64.deb  
 
 ###########################################################
 # XRDP auf Xorg umstellen (wichtig für ${USERNAME} 24.04)
