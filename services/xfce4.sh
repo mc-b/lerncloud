@@ -245,19 +245,6 @@ EOF
 chmod +x ${HOME_DIR}/Desktop/jupyterlab.desktop
 gio set ${HOME_DIR}/Desktop/jupyterlab.desktop metadata::trusted true
 
-cat > ${HOME_DIR}/Desktop/k8s-dashboard.desktop <<'EOF'
-[Desktop Entry]
-Type=Application
-Name=K8s Dashboard
-Exec=xdg-open https://localhost:30443
-Icon=utilities-system-monitor
-Terminal=false
-Categories=Development;System;
-EOF
-
-chmod +x ${HOME_DIR}/Desktop/k8s-dashboard.desktop
-gio set ${HOME_DIR}/Desktop/k8s-dashboard.desktop metadata::trusted true
-
 cat > ${HOME_DIR}/Desktop/k8s-headlamp.desktop <<'EOF'
 [Desktop Entry]
 Type=Application
