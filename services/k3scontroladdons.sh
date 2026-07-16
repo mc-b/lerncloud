@@ -6,10 +6,7 @@ set +e  # Fehler ignorieren
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-echo "- 🔧 [INFO] install dashboard"
-kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml 
-kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard-admin.yaml
-
+echo "- 🔧 [INFO] install headlamp"
 # Headlamp als Alternative zum Dashboard
 kubectl apply -f https://raw.githubusercontent.com/headlamp-k8s/headlamp/main/kubernetes-headlamp.yaml
 kubectl -n kube-system create serviceaccount headlamp-admin

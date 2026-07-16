@@ -4,10 +4,9 @@
 #
 set +e  # Fehler ignorieren
 
-echo "- 🔧 [INFO] enable Ingress, Metrics und Dashboard aktivieren"
-sudo microk8s enable ingress metrics-server
-
-sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lerncloud/master/addons/dashboard.yaml   
+echo "- 🔧 [INFO] enable Ingress, Metrics und Headlamp aktivieren"
+sudo microk8s enable ingress
+sudo microk8s enable metrics-server
 
 # Headlamp als Alternative zum Dashboard
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/headlamp-k8s/headlamp/main/kubernetes-headlamp.yaml
