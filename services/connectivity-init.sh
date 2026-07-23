@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PUBLIC_IP_PART="$(curl -s ifconfig.me | cut -d. -f1)"
+PUBLIC_IP_PART="$(curl -s -4 ifconfig.me | cut -d. -f1)"
 
 get_hostname() {
     local cloud_provider public_ip
