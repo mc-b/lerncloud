@@ -28,7 +28,7 @@ get_hostname() {
 TS_HOSTNAME=$(get_hostname)
 
 # tag:lerncloud Network
-TS_AUTHKEY_ENC_B64='s4xrzpLzczXaeGhssHdIcm3vpS2joRW7MrJpFHd50z+vzEG7mK8yP4Cy1fwtM92lJrZLx4q+k9i0L7ujjai/apbB6XI4SpEIPPFaLfNhA6t/qZVWRRYSrjoio6VFXuAM+SZt7MqN/nFLcAqvOiStQ2p6VWY7hJ8FfQmIletJTU53sba4R8XfX4Fy4JyStFOwFVKgIqQHC3UCdMRb/+ofXpq+wirYjNw9o/ucXpq07kagXh5ujaePQYF+2y59B29sxakinfwnRSucqmDhBHj8tZOid5p7F8xQo2IU3H5tP9iBzSj9bIoAcmYBpvacoQM2vqYUzaGhHqyj0/995n4tdA=='
+TS_AUTHKEY_ENC_B64='IiQQQFrMscoBLu9zs4Uxnq56CG1G9pc+YhnAZChUZQhyqa1mXTJLwbIyaADAFr1HbMKmSdw6bV0jf3Odv39GdrAkB3NlN52qD9tr/XKcR3eFVg3KhSg5ccpPxAKS+bfV9UlK6MRbZSljj/8g/BMHeLgxobFKVn40E9Cgv1hsNGzqbImUwx5L44hxzcwSvkpARv3zUhpn7OYUDO50NqJEYjoEli8QZstIr0ZwJqCqveevjSEoTQPjjgELdfjMZL//vUZv+5Y2DkDiz9CoLLzBaL1M8y21Dk98uYo0tcj4tLadlh1yP2QohVXtq8KE5OV7NTeiZkusPTC0Pj7JwDLEjg=='
 SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_rsa}"
 
 [ -r "$SSH_KEY" ] || { echo "Fehler: SSH-Key nicht lesbar: $SSH_KEY" >&2; exit 0; }
