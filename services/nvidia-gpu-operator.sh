@@ -68,7 +68,7 @@ curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-contai
 
 sudo apt-get update
 if ! dpkg -l | grep -q '^ii.*nvidia-driver'; then
-    sudo apt-get install -y nvidia-driver-580 nvidia-utils-580
+    sudo apt-get install -y nvidia-driver-610 nvidia-utils-610
 fi
 
 if ! dpkg -l | grep -q '^ii.*nvidia-container-toolkit'; then
