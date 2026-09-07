@@ -113,6 +113,11 @@ sudo -u ubuntu -H bash -lc "
 #   Container Toolkit wird nicht durch den Operator installiert
 #   (weil es oben bereits via apt installiert wurde)
 # -----------------------------------------------------------------------------
+
+FILE="/var/snap/microk8s/current/args/containerd-template.toml"
+
+if [ -f "$FILE" ]; then
+
 log "Installiere GPU Operator ohne Treiber und ohne Toolkit ..."
 sudo -u ubuntu -H bash -lc "
   set -euo pipefail
@@ -124,6 +129,19 @@ sudo -u ubuntu -H bash -lc "
     --set driver.enabled=false \
     --set toolkit.enabled=false
 "
+else
+log "Installiere GPU Operator ohne Treiber und mit Toolkit ..."
+sudo -u ubuntu -H bash -lc "
+  set -euo pipefail
+  helm upgrade --install gpu-operator ${HELM_REPO_NAME}/gpu-operator \
+    --wait \
+    --version=${GPU_OPERATOR_VERSION} \
+    --namespace ${GPU_OPERATOR_NAMESPACE} \
+    --create-namespace \
+    --set driver.enabled=false \
+    --set toolkit.enabled=true
+"
+fi
 
 # -----------------------------------------------------------------------------
 # 4) ConfigMap für GPU Time-Slicing anlegen/aktualisieren
