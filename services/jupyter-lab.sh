@@ -4,7 +4,7 @@
 
 echo "🚀 [INFO] Starte JupyterLab Installation..."
 
-sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip libarchive-tools
+sudo apt-get install -y --no-install-recommends python3-venv uuid python3-pip libarchive-tools python3-dev
 
 # Installiert und aktiviert Juypter Lab
 
