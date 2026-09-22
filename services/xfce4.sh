@@ -183,18 +183,21 @@ systemctl start xrdp-sesman
 echo "✅ [OK] Keyboard layout CH applied safely"
 
 # ------------------------------------------------------------
-# Zusaetzliche User (gleiches HOME und ID wie ubuntu)
+# Zusaetzlicher User (gleiches HOME und ID wie ubuntu)
 # ------------------------------------------------------------
 
-useradd \
-  --non-unique \
-  --uid "$(id -u ubuntu)" \
-  --gid "$(id -g ubuntu)" \
-  --home-dir /home/ubuntu \
-  --no-create-home \
-  --shell /bin/bash \
-  digicomp
-echo "digicomp:digicomp" | chpasswd  
+if [ -n "${XFCE_USER:-}" ]; then
+    useradd \
+        --non-unique \
+        --uid "$(id -u ubuntu)" \
+        --gid "$(id -g ubuntu)" \
+        --home-dir /home/ubuntu \
+        --no-create-home \
+        --shell /bin/bash \
+        "$XFCE_USER"
+
+    echo "${XFCE_USER}:${XFCE_USER}" | chpasswd
+fi
 
 # ------------------------------------------------------------
 # GUI-Autostart 
