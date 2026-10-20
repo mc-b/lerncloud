@@ -45,15 +45,13 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/backstage.sh
       title: Source Code
       icon: script
 spec:
   type: script
-  lifecycle: experimental
+  lifecycle: deprecated
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -66,8 +64,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/cert-manager.sh
       title: Source Code
@@ -87,8 +84,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/containers.sh
       title: Source Code
@@ -108,8 +103,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/docker.sh
       title: Source Code
@@ -129,8 +122,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/frpc.sh
       title: Source Code
@@ -150,8 +141,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/frps.sh
       title: Source Code
@@ -192,8 +181,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/istio.sh
       title: Source Code
@@ -213,8 +201,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/istio-patch.sh
       title: Source Code
@@ -234,8 +221,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/istio-zipkin.sh
       title: Source Code
@@ -255,15 +241,13 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/jupyter-libraries.sh
       title: Source Code
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -276,15 +260,13 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/jupyter-notebook.sh
       title: Source Code
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -297,90 +279,9 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/k3s.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: lerncloud-k8saddons
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8saddons.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: lerncloud-k8sbase
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8sbase.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: lerncloud-k8sjoin
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8sjoin.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: lerncloud-k8smaster
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8smaster.sh
       title: Source Code
       icon: script
 spec:
@@ -398,8 +299,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/k8stools.sh
       title: Source Code
@@ -413,41 +313,19 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
-  name: lerncloud-k8swebui
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/k8swebui.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
   name: lerncloud-kind-frp
   description: Kind im Zusammenspiel mit frp
   namespace: mc-b
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/kind-frp.sh
       title: Source Code
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: experimental
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -460,8 +338,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/knative.sh
       title: Source Code
@@ -480,8 +357,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-istio.sh
       title: Source Code
@@ -500,8 +376,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-kafka.sh
       title: Source Code
@@ -521,8 +396,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/knative-patch.sh
       title: Source Code
@@ -542,8 +416,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/kubevirt.sh
       title: Source Code
@@ -583,8 +456,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/longhorn.sh
       title: Source Code
@@ -604,8 +476,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/microk8s.sh
       title: Source Code
@@ -625,8 +496,7 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
+  - kubernetes
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/microk8saddons.sh
       title: Source Code
@@ -646,8 +516,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/nfsclient.sh
       title: Source Code
@@ -667,8 +535,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/nfsshare.sh
       title: Source Code
@@ -676,26 +542,6 @@ metadata:
 spec:
   type: script
   lifecycle: production
-  owner: mc-b
-  dependencyOf: component:mc-b/lerncloud
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: lerncloud-podman
-  namespace: mc-b
-  tags:
-  - cloud-init
-  - lerncloud
-  - lerngns3
-  - lernmaas
-  links:
-    - url: https://github.com/mc-b/lerncloud/blob/main/services/podman.sh
-      title: Source Code
-      icon: script
-spec:
-  type: script
-  lifecycle: deprecated
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -716,7 +562,7 @@ metadata:
       icon: script
 spec:
   type: script
-  lifecycle: production
+  lifecycle: deprecated
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
 ---
@@ -769,8 +615,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/storage-patch.sh
       title: Source Code
@@ -790,8 +634,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/vault.sh
       title: Source Code
@@ -811,8 +653,6 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/vpn.sh
       title: Source Code
@@ -832,14 +672,331 @@ metadata:
   tags:
   - cloud-init
   - lerncloud
-  - lerngns3
-  - lernmaas
   links:
     - url: https://github.com/mc-b/lerncloud/blob/main/services/wake-on-lan.sh
       title: Source Code
       icon: script
 spec:
   type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-argocd
+  description: Installiert Argo CD im Kubernetes-Cluster
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - kubernetes
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/argocd.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-cloud-cli
+  description: Installiert AWS CLI, Azure CLI und Google Cloud CLI
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - terra
+  - digicomp
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/cloud-cli.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-connectivity-init
+  description: Konfiguriert Tailscale und den Hostnamen für den Netzwerkzugang
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - tailscale
+  - digicomp
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/connectivity-init.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-gitlab-ce
+  description: Installiert GitLab Community Edition
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/gitlab-ce.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
   lifecycle: experimental
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-gnome
+  description: Installiert Ubuntu GNOME Desktop und Desktop-Anwendungen
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/gnome.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: experimental
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-intel-gpu-operator
+  description: Installiert Intel GPU Tools und das Device Plugin für Kubernetes
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/intel-gpu-operator.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-issue-patch
+  description: Ergänzt die Login-Anzeige um Hostname und IP-Adresse
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/issue-patch.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-jupyter-lab
+  description: Installiert JupyterLab und Python-Umgebungen für KI
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/jupyter-lab.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-k3scontrol
+  description: Installiert einen K3s Control Node
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - kubernetes
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k3scontrol.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-k3scontroladdons
+  description: Installiert K3s Add-ons wie Headlamp
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - kubernetes
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/k3scontroladdons.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-lmstudio
+  description: Installiert LM Studio als lokalen LLM-Dienst
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - llmeng
+  - ai
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/lmstudio.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: experimental
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-local-llm
+  description: Installiert Ollama und lokale Sprachmodelle
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - llmeng
+  - ai
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/local-llm.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: experimental
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-nvidia-gpu-operator
+  description: Installiert den NVIDIA GPU Operator mit Time-Slicing
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - ai
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/nvidia-gpu-operator.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-opentelemetry
+  description: Installiert OpenTelemetry, Prometheus und Jaeger
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - kubernetes
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/opentelemetry.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-vscode
+  description: Installiert Visual Studio Code
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - digicomp
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/vscode.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
+  owner: mc-b
+  dependencyOf: component:mc-b/lerncloud
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lerncloud-xfce4
+  description: Installiert XFCE Desktop und XRDP für Remote-Zugriff
+  namespace: mc-b
+  tags:
+  - cloud-init
+  - lerncloud
+  - digicomp
+  links:
+    - url: https://github.com/mc-b/lerncloud/blob/main/services/xfce4.sh
+      title: Source Code
+      icon: script
+spec:
+  type: script
+  lifecycle: production
   owner: mc-b
   dependencyOf: component:mc-b/lerncloud
