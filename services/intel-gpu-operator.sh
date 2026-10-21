@@ -20,8 +20,7 @@
 #   Namespace: gpu-plugin
 #
 # Verwendung:
-#   ./intel-gpu-operator.sh
-#   GPU_SHARED_DEV_NUM=8 ./intel-gpu-operator.sh
+#   runuser -l ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/refs/heads/main/services/intel-gpu-operator.sh | bash -"
 #
 # Hinweise:
 #   - Kernelmodule i915/xe kommen vom Kernel, nicht aus diesem Script.
