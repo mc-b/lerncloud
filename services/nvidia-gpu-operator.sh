@@ -30,7 +30,7 @@
 #   - Kontrolliert GPU-Ressourcen im Kubernetes-Cluster
 #
 # Verwendung:
-#   curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/refs/heads/main/services/nvidia-gpu-operator.sh | sh -
+#   runuser -l ubuntu -c "curl -sfL https://raw.githubusercontent.com/mc-b/lerncloud/refs/heads/main/services/nvidia-gpu-operator.sh | bash -"
 #
 # =============================================================================
 set -Eeuo pipefail
@@ -141,5 +141,4 @@ if kubectl -n "$NAMESPACE" get \
 fi
 
 log "GPU Operator installiert."
-kubectl get pods -n "$NAMESPACE"
 kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{" GPU="}{.status.allocatable.nvidia\.com/gpu}{"\n"}{end}'
