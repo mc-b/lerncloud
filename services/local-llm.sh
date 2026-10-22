@@ -37,6 +37,6 @@ for i in {1..60}; do
 done
 
 ollama pull llama3.1:8b-instruct-q4_K_M
-ollama pull qwen2.5:7b-instruct-q4_K_M
+ollama pull gemma3:4b
 
 echo "✅ [INFO] ollama wurde erfolgreich installiert!"
