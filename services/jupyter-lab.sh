@@ -24,24 +24,23 @@ else
     python3 -m venv ~/.ai
     source ~/.ai/bin/activate
     pip install ipykernel requests dotenv
-    pip install openai pydantic
+    pip install openai openai-agents pydantic
     pip install nbconvert
     python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
-
 
     # Hugging Face
     python3 -m venv ~/.hf
     source ~/.hf/bin/activate
     pip install ipykernel requests dotenv
-    pip install openai
+    pip install openai openai-agents
     pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
     python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
     
     # MCP
     python3 -m venv ~/.mcp
     source ~/.mcp/bin/activate
-    pip install ipykernel mcp requests dotenv
-    pip install openai
+    pip install ipykernel mcp requests dotenv 
+    pip install openai  openai-agents
     python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
     
     # Dapr (Multi Agent)
