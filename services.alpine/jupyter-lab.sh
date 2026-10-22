@@ -19,8 +19,8 @@ su - alpine -c '
   python3 -m venv /home/alpine/.ai
   source /home/alpine/.ai/bin/activate
   pip install --upgrade pip  
-  pip install openai pydantic
-  pip install ipykernel requests
+  pip install ipykernel mcp requests dotenv
+  pip install openai openai-agents pydantic
   pip install nbconvert
   python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 '
@@ -29,28 +29,11 @@ su - alpine -c '
 su - alpine -c '
   python3 -m venv /home/alpine/.hf
   source /home/alpine/.hf/bin/activate
-  pip install --upgrade pip    
-  pip install -U ipykernel ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
+  pip install ipykernel requests dotenv
+  pip install openai openai-agents
+  pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
   python3 -m ipykernel install --user --name=rag --display-name "Python (hf)" 
 '
-
-# MCP
-su - alpine -c '
-  python3 -m venv /home/alpine/.mcp
-  source /home/alpine/.mcp/bin/activate
-  pip install ipykernel mcp requests
-  pip install openai  
-  python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
-'  
-
-# Dapr (Multi Agent)
-su - alpine -c '
-  python3 -m venv /home/alpine/.dapr
-  source /home/alpine/.dapr/bin/activate
-  pip install openai-agents dapr dapr-ext-grpc
-  pip install ipykernel
-  python3 -m ipykernel install --user --name=dapr --display-name "Python (dapr)"
-'  
 
 # Jupyter Lab as Service
 cat <<'EOF' | tee /etc/init.d/jupyterlab

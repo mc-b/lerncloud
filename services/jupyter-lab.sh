@@ -23,7 +23,7 @@ else
     # OpenAI API als separater Kernel (Chat)
     python3 -m venv ~/.ai
     source ~/.ai/bin/activate
-    pip install ipykernel requests dotenv
+    pip install ipykernel mcp requests dotenv
     pip install openai openai-agents pydantic
     pip install nbconvert
     python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
@@ -35,20 +35,6 @@ else
     pip install openai openai-agents
     pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
     python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
-    
-    # MCP
-    python3 -m venv ~/.mcp
-    source ~/.mcp/bin/activate
-    pip install ipykernel mcp requests dotenv
-    pip install openai openai-agents
-    python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
-    
-    # Dapr (Multi Agent)
-    python3 -m venv ~/.dapr
-    source ~/.dapr/bin/activate
-    pip install ipykernel dotenv
-    pip install openai openai-agents dapr dapr-ext-grpc
-    python3 -m ipykernel install --user --name=dapr --display-name "Python (dapr)"
 fi
 
 # Jupyter Lab as Service
