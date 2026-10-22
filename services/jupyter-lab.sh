@@ -12,7 +12,7 @@ python3 -m venv ~/.jupyter
 source .jupyter/bin/activate
 pip install --upgrade pip
 pip install jupyterlab dotenv
-pip install openai
+pip install openai openai-agents
 
 # Jupyter Libraries fuer AI
 
@@ -39,8 +39,8 @@ else
     # MCP
     python3 -m venv ~/.mcp
     source ~/.mcp/bin/activate
-    pip install ipykernel mcp requests dotenv 
-    pip install openai  openai-agents
+    pip install ipykernel mcp requests dotenv
+    pip install openai openai-agents
     python3 -m ipykernel install --user --name=mcp --display-name "Python (mcp)"
     
     # Dapr (Multi Agent)
