@@ -26,15 +26,8 @@ else
     pip install ipykernel mcp requests dotenv
     pip install openai openai-agents pydantic
     pip install nbconvert
-    python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
-
-    # Hugging Face
-    python3 -m venv ~/.hf
-    source ~/.hf/bin/activate
-    pip install ipykernel requests dotenv
-    pip install openai openai-agents
     pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
-    python3 -m ipykernel install --user --name=rag --display-name "Python (hf)"
+    python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 fi
 
 # Jupyter Lab as Service

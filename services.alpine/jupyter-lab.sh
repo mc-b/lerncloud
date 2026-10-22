@@ -25,16 +25,6 @@ su - alpine -c '
   python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 '
 
-# RAG - onnxruntime nicht verfuegbar auf alpine
-su - alpine -c '
-  python3 -m venv /home/alpine/.hf
-  source /home/alpine/.hf/bin/activate
-  pip install ipykernel requests dotenv
-  pip install openai openai-agents
-  pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
-  python3 -m ipykernel install --user --name=rag --display-name "Python (hf)" 
-'
-
 # Jupyter Lab as Service
 cat <<'EOF' | tee /etc/init.d/jupyterlab
 #!/sbin/openrc-run
