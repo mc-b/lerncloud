@@ -12,7 +12,7 @@ python3 -m venv ~/.jupyter
 source .jupyter/bin/activate
 pip install --upgrade pip
 pip install jupyterlab dotenv
-pip install openai openai-agents
+pip install openai
 
 # Jupyter Libraries fuer AI
 
