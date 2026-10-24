@@ -78,8 +78,15 @@ curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh 
 # ------------------------------------------------------------
 # Apache utils ab
 # ------------------------------------------------------------
-echo "📥 [INFO] Lasttests: ab herunterladen"
+echo "📥 [INFO] Lasttests: herunterladen"
 sudo apt-get install apache2-utils -y
+
+# ------------------------------------------------------------
+# Cloudflared
+# ------------------------------------------------------------
+echo "📥 [INFO] HTTP Tunnel: cloudflared: herunterladen"
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-${ARCH}.deb
+sudo dpkg -i cloudflared-linux-${ARCH}.deb
 
 # ------------------------------------------------------------
 # k9s
