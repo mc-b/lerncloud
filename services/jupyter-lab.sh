@@ -26,7 +26,7 @@ else
     pip install ipykernel mcp requests dotenv
     pip install openai openai-agents pydantic
     pip install nbconvert
-    pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops
+    pip install -U ipywidgets datasets pyarrow huggingface_hub fsspec transformers accelerate sentence-transformers sentencepiece peft pypdf requests tqdm numpy einops pyyaml
     python3 -m ipykernel install --user --name=ai --display-name "Python (ai)"
 fi
 
